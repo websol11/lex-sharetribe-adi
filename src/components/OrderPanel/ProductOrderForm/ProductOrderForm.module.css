@@ -1,0 +1,61 @@
+@import '../../../styles/propertySets.css';
+
+.quantityField {
+  padding: 0 24px;
+
+  @media (--viewportMedium) {
+    padding: 0;
+  }
+}
+
+.deliveryField {
+  padding: 0 24px;
+  margin-top: 24px;
+
+  @media (--viewportMedium) {
+    padding: 0;
+  }
+}
+
+.singleDeliveryMethodSelected {
+  margin: 0;
+
+  @media (--viewportMedium) {
+    margin: 0;
+  }
+}
+
+.breakdownWrapper {
+  padding: 0 24px;
+
+  @media (--viewportMedium) {
+    padding: 0;
+    margin-top: 40px;
+  }
+}
+
+.submitButton {
+  padding: 0 24px;
+  margin-top: 24px;
+
+  @media (--viewportMedium) {
+    padding: 0;
+    margin-top: 72px;
+  }
+}
+
+.finePrint {
+  @apply --marketplaceTinyFontStyles;
+  text-align: center;
+}
+
+.error {
+  @apply --marketplaceH4FontStyles;
+  color: var(--failColor);
+
+  padding: 0 24px;
+
+  @media (--viewportMedium) {
+    padding: 0;
+  }
+}
