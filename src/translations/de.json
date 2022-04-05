@@ -724,6 +724,15 @@
   "TopbarDesktop.profileSettingsLink": "Profileinstellungen",
   "TopbarDesktop.signup": "Registrieren",
   "TopbarDesktop.yourListingsLink": "Deine Einträge",
+
+  "TopbarDesktop.sellItems": "Dinge verkaufen",
+  "TopbarDesktop.shopByCategory": "einkaufen nach Kategorie,",
+  "TopbarDesktop.shoppingCart": "Einkaufswagen",
+  "TopbarDesktop.messages": "Mitteilungen",
+  "TopbarDesktop.orders": "Aufträge",
+  "TopbarDesktop.help": "Hilfe",
+  "TopbarDesktop.contact": "Kontakt",
+
   "TopbarMobileMenu.accountSettingsLink": "Kontoeinstellungen",
   "TopbarMobileMenu.greeting": "Hallo {displayName}",
   "TopbarMobileMenu.inboxLink": "Inbox",
@@ -735,6 +744,16 @@
   "TopbarMobileMenu.signupOrLogin": "{signup} oder {login}",
   "TopbarMobileMenu.unauthorizedGreeting": "Hallo,{lineBreak}möchtest du {signupOrLogin}?",
   "TopbarMobileMenu.yourListingsLink": "Deine Einträge",
+
+
+  "TopbarMobileMenu.sellItems": "Dinge verkaufen",
+  "TopbarMobileMenu.shopByCategory": "einkaufen nach Kategorie,",
+  "TopbarMobileMenu.shoppingCart": "Einkaufswagen",
+  "TopbarMobileMenu.messages": "Mitteilungen",
+  "TopbarMobileMenu.orders": "Aufträge",
+  "TopbarMobileMenu.help": "Hilfe",
+  "TopbarMobileMenu.contact": "Kontakt",
+
   "TopbarSearchForm.placeholder": "Saunas suchen…",
   "TopbarSearchForm.searchHelp": "Tipp: Du kannst auch nach Saunas mit PLZ suchen, zum Beispiel \"00500\" oder Stadtteil \"Sörnäinen\".",
   "TransactionPage.deletedListing": "gelöschter Eintrag",

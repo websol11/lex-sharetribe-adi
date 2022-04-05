@@ -958,6 +958,15 @@
   "TopbarDesktop.profileSettingsLink": "Profile settings",
   "TopbarDesktop.signup": "Sign up",
   "TopbarDesktop.yourListingsLink": "Your listings",
+  
+  "TopbarDesktop.sellItems": "Sell items",
+  "TopbarDesktop.shopByCategory": "Shop by category",
+  "TopbarDesktop.shoppingCart": "Shopping cart",
+  "TopbarDesktop.messages": "Messages",
+  "TopbarDesktop.orders": "Orders",
+  "TopbarDesktop.help": "Help",
+  "TopbarDesktop.contact": "Contact",
+
   "TopbarMobileMenu.accountSettingsLink": "Account settings",
   "TopbarMobileMenu.greeting": "Hello {displayName}",
   "TopbarMobileMenu.inboxLink": "Inbox",
@@ -969,6 +978,17 @@
   "TopbarMobileMenu.signupOrLogin": "{signup} or {login}",
   "TopbarMobileMenu.unauthorizedGreeting": "Hello there,{lineBreak}would you like to {signupOrLogin}?",
   "TopbarMobileMenu.yourListingsLink": "Your listings",
+
+
+  "TopbarMobileMenu.sellItems": "Sell items",
+  "TopbarMobileMenu.shopByCategory": "Shop by category",
+  "TopbarMobileMenu.shoppingCart": "Shopping cart",
+  "TopbarMobileMenu.messages": "Messages",
+  "TopbarMobileMenu.orders": "Orders",
+  "TopbarMobileMenu.help": "Help",
+  "TopbarMobileMenu.contact": "Contact",
+
+
   "TopbarSearchForm.placeholder": "Search sneakers…",
   "TopbarSearchForm.searchHelp": "Tip: You can also search sneakers by brand, for example \"Nike\" or description – \"Black\".",
   "TransactionPage.deletedListing": "deleted listing",

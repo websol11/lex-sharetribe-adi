@@ -849,6 +849,15 @@
   "TopbarDesktop.profileSettingsLink": "Mon profil",
   "TopbarDesktop.signup": "S'inscrire",
   "TopbarDesktop.yourListingsLink": "Mes annonces",
+
+  "TopbarDesktop.sellItems": "Vendre des objets",
+  "TopbarDesktop.shopByCategory": "Acheter par catégorie",
+  "TopbarDesktop.shoppingCart": "Panier",
+  "TopbarDesktop.messages": "messages",
+  "TopbarDesktop.orders": "Orders",
+  "TopbarDesktop.help": "Aider",
+  "TopbarDesktop.contact": "Contact",
+
   "TopbarMobileMenu.accountSettingsLink": "Mon compte",
   "TopbarMobileMenu.greeting": "Bonjour {displayName}",
   "TopbarMobileMenu.inboxLink": "Messagerie",
@@ -860,6 +869,16 @@
   "TopbarMobileMenu.signupOrLogin": "{signup} ou {login}",
   "TopbarMobileMenu.unauthorizedGreeting": "Bonjour !{lineBreak}Il est possible de {signupOrLogin}.",
   "TopbarMobileMenu.yourListingsLink": "Mes annonces",
+
+  "TopbarMobileMenu.sellItems": "Vendre des objets",
+  "TopbarMobileMenu.shopByCategory": "Acheter par catégorie",
+  "TopbarMobileMenu.shoppingCart": "Panier",
+  "TopbarMobileMenu.messages": "messages",
+  "TopbarMobileMenu.orders": "Orders",
+  "TopbarMobileMenu.help": "Aider",
+  "TopbarMobileMenu.contact": "Contact",
+
+
   "TopbarSearchForm.placeholder": "Recherchez un sauna…",
   "TopbarSearchForm.searchHelp": "Un conseil : vous pouvez aussi rechercher des saunas par code postal, par exemple \"00500\" ou par ville \"Sörnäinen\".",
   "TransactionPage.deletedListing": "annonce supprimée",

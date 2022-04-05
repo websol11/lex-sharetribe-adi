@@ -860,6 +860,23 @@
   "TopbarMobileMenu.signupOrLogin": "{signup} o {login}",
   "TopbarMobileMenu.unauthorizedGreeting": "Hola,{lineBreak}¿quieres {signupOrLogin}?",
   "TopbarMobileMenu.yourListingsLink": "Tus anuncios",
+
+  "TopbarMobileMenu.sellItems": "Vender artículos",
+  "TopbarMobileMenu.shopByCategory": "Compra por categoría",
+  "TopbarMobileMenu.shoppingCart": "Carrito de compras",
+  "TopbarMobileMenu.messages": "mensajes",
+  "TopbarMobileMenu.orders": "pedidos",
+  "TopbarMobileMenu.help": "pedidos",
+  "TopbarMobileMenu.contact": "Contacto",
+  
+  "TopbarDesktop.sellItems": "Vender artículos",
+  "TopbarDesktop.shopByCategory": "Compra por categoría",
+  "TopbarDesktop.shoppingCart": "Carrito de compras",
+  "TopbarDesktop.messages": "mensajes",
+  "TopbarDesktop.orders": "pedidos",
+  "TopbarDesktop.help": "pedidos",
+  "TopbarDesktop.contact": "Contacto",
+
   "TopbarSearchForm.placeholder": "Buscar saunas…",
   "TopbarSearchForm.searchHelp": "Consejo: También puedes buscar saunas por código postal, por ejemplo \"00500\" o por barrio \"Sörnainen\".",
   "TransactionPage.deletedListing": "anuncio eliminado",
