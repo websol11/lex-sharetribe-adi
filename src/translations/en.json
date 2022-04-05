@@ -1052,5 +1052,18 @@
   "UserCard.showFullBioLink": "more",
   "UserCard.viewProfileLink": "View profile",
   "UserDisplayName.banned": "Banned user",
-  "UserDisplayName.deleted": "Deleted user"
+  "UserDisplayName.deleted": "Deleted user",
+  "EditListingDetailsForm.asin": "Asin",
+  "EditListingDetailsForm.asinPlaceholder": "Asin",
+  "EditListingDetailsForm.isbn": "Isbn",
+  "EditListingDetailsForm.isbnPlaceholder": "Isbn",
+  "EditListingDetailsForm.mpn": "Mpn",
+  "EditListingDetailsForm.mpnPlaceholder": "Mpn",
+  "EditListingDetailsForm.upc": "Upc",
+  "EditListingDetailsForm.upcPlaceholder": "Upc",
+  "EditListingWizard.Upc": "Asin",
+  "EditListingWizard.tabLabelIsbn": "Isbn",
+  "EditListingWizard.tabLabelMpn": "Mpn",
+  "EditListingWizard.tabLabelUpc": "Upc"
+  
 }

@@ -52,6 +52,14 @@ const tabLabel = (intl, tab) => {
     key = 'EditListingWizard.tabLabelPricing';
   } else if (tab === PHOTOS) {
     key = 'EditListingWizard.tabLabelPhotos';
+  } else if (tab === ASIN) {
+    key = 'EditListingWizard.tabLabelAsin';
+  } else if (tab === ISBN) {
+    key = 'EditListingWizard.tabLabelIsbn';
+  } else if (tab === MPN) {
+    key = 'EditListingWizard.tabLabelMpn';
+  }else if (tab === UPC) {
+    key = 'EditListingWizard.tabLabelUpc';
   }
 
   return intl.formatMessage({ id: key });
@@ -80,6 +88,14 @@ const tabCompleted = (tab, listing) => {
       return !!price;
     case PHOTOS:
       return images && images.length > 0;
+    case ASIN:
+      return !!(publicData && publicData.asin);
+    case ISBN:
+      return !!(publicData && publicData.isbn);
+    case MPN:
+      return !!(publicData && publicData.mpn);
+    case UPC:
+      return !!(publicData && publicData.upc);
     default:
       return false;
   }

@@ -64,6 +64,30 @@ const EditListingDetailsFormComponent = props => (
         id: 'EditListingDetailsForm.descriptionRequired',
       });
 
+      const asinMessage = intl.formatMessage({
+        id: 'EditListingDetailsForm.asin',
+      });
+      const asinPlaceholderMessage = intl.formatMessage({
+        id: 'EditListingDetailsForm.asinPlaceholder',
+      });
+      const isbnMessage = intl.formatMessage({
+        id: 'EditListingDetailsForm.isbn',
+      });
+      const isbnPlaceholderMessage = intl.formatMessage({
+        id: 'EditListingDetailsForm.isbnPlaceholder',
+      });
+      const mpnMessage = intl.formatMessage({
+        id: 'EditListingDetailsForm.mpn',
+      });
+      const mpnPlaceholderMessage = intl.formatMessage({
+        id: 'EditListingDetailsForm.mpnPlaceholder',
+      });
+      const upcMessage = intl.formatMessage({
+        id: 'EditListingDetailsForm.upc',
+      });
+      const upcPlaceholderMessage = intl.formatMessage({
+        id: 'EditListingDetailsForm.upcPlaceholder',
+      });
       const { updateListingError, createListingDraftError, showListingsError } = fetchErrors || {};
       const errorMessageUpdateListing = updateListingError ? (
         <p className={css.error}>
@@ -191,7 +215,38 @@ const EditListingDetailsFormComponent = props => (
             validate={brandRequired}
             schemaType={brandSchemaType}
           />
-
+          <FieldTextInput
+            id="asin"
+            name="asin"
+            className={css.asin}
+            type="textarea"
+            label={asinMessage}
+            placeholder={asinPlaceholderMessage}
+          />
+          <FieldTextInput
+            id="isbn"
+            name="isbn"
+            className={css.isbn}
+            type="textarea"
+            label={isbnMessage}
+            placeholder={isbnPlaceholderMessage}
+          />
+          <FieldTextInput
+            id="mpn"
+            name="mpn"
+            className={css.mpn}
+            type="textarea"
+            label={mpnMessage}
+            placeholder={mpnPlaceholderMessage}
+          />
+          <FieldTextInput
+            id="upc"
+            name="upc"
+            className={css.upc}
+            type="textarea"
+            label={upcMessage}
+            placeholder={upcPlaceholderMessage}
+          />
           <Button
             className={css.submitButton}
             type="submit"

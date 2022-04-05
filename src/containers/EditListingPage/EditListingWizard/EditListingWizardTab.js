@@ -24,9 +24,13 @@ export const DETAILS = 'details';
 export const DELIVERY = 'delivery';
 export const PRICING = 'pricing';
 export const PHOTOS = 'photos';
+export const ASIN = 'asin';
+export const ISBN = 'isbn';
+export const MPN = 'mpn';
+export const UPC = 'upc';
 
 // EditListingWizardTab component supports these tabs
-export const SUPPORTED_TABS = [DETAILS, DELIVERY, PRICING, PHOTOS];
+export const SUPPORTED_TABS = [DETAILS, DELIVERY, PRICING, PHOTOS, ASIN, ISBN, MPN, UPC];
 
 const pathParamsToNextTab = (params, tab, marketplaceTabs) => {
   const nextTabIndex = marketplaceTabs.findIndex(s => s === tab) + 1;

@@ -933,5 +933,13 @@
   "UserCard.showFullBioLink": "plus",
   "UserCard.viewProfileLink": "Voir le profil",
   "UserDisplayName.banned": "Utilisateur banni",
-  "UserDisplayName.deleted": "Utilisateur supprimé"
+  "UserDisplayName.deleted": "Utilisateur supprimé",
+  "EditListingDetailsForm.asin": "Asin",
+  "EditListingDetailsForm.asinPlaceholder": "Asin",
+  "EditListingDetailsForm.isbn": "Isbn",
+  "EditListingDetailsForm.isbnPlaceholder": "Isbn",
+  "EditListingDetailsForm.mpn": "Mpn",
+  "EditListingDetailsForm.mpnPlaceholder": "Mpn",
+  "EditListingDetailsForm.upc": "Upc",
+  "EditListingDetailsForm.upcPlaceholder": "Upc"
 }

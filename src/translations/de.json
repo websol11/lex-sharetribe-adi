@@ -808,5 +808,13 @@
   "UserCard.showFullBioLink": "mehr",
   "UserCard.viewProfileLink": "Profil anzeigen",
   "UserDisplayName.banned": "Gesperrter Benutzer",
-  "UserDisplayName.deleted": "Gelöschter Benutzer"
+  "UserDisplayName.deleted": "Gelöschter Benutzer",
+  "EditListingDetailsForm.asin": "Asin",
+  "EditListingDetailsForm.asinPlaceholder": "Asin",
+  "EditListingDetailsForm.isbn": "Isbn",
+  "EditListingDetailsForm.isbnPlaceholder": "Isbn",
+  "EditListingDetailsForm.mpn": "Mpn",
+  "EditListingDetailsForm.mpnPlaceholder": "Mpn",
+  "EditListingDetailsForm.upc": "Upc",
+  "EditListingDetailsForm.upcPlaceholder": "Upc"
 }

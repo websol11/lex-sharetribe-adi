@@ -145,7 +145,35 @@ export const filters = [
     // You can turn on/off ordering by distance from config.js file.
     config: {},
   },
-
+  {
+    id: 'asin',
+    label: 'Asin',
+    type: 'KeywordFilter',
+    group: 'primary',
+    queryParamNames: ['pub_asin'],
+    config: {},
+  },{
+    id: 'isbn',
+    label: 'isbn',
+    type: 'KeywordFilter',
+    group: 'primary',
+    queryParamNames: ['pub_isbn'],
+    config: {},
+  },{
+    id: 'mpn',
+    label: 'mpn',
+    type: 'KeywordFilter',
+    group: 'primary',
+    queryParamNames: ['pub_mpn'],
+    config: {},
+  },{
+    id: 'upc',
+    label: 'upc',
+    type: 'KeywordFilter',
+    group: 'primary',
+    queryParamNames: ['pub_upc'],
+    config: {},
+  },
   // Here is an example of multi-enum search filter.
   //
   // {
@@ -162,7 +190,7 @@ export const filters = [
   //     schemaType: 'multi-enum',
 
   //     // Optional modes: 'has_all', 'has_any'
-  //     // Note: this is relevant only for schema type 'multi-enum'
+   //     // Note: this is relevant only for schema type 'multi-enum'
   //     // https://www.sharetribe.com/api-reference/marketplace.html#extended-data-filtering
   //     searchMode: 'has_all',
 
