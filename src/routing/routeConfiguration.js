@@ -41,6 +41,12 @@ const TransactionPage = loadable(() => import(/* webpackChunkName: "TransactionP
 const StyleguidePage = loadable(() => import(/* webpackChunkName: "StyleguidePage" */ '../containers/StyleguidePage/StyleguidePage'));
 
 
+const MassagesPage = loadable(() => import(/* webpackChunkName: "MassagesPage" */ '../containers/MassagesPage/MassagesPage'));
+const CartPage = loadable(() => import(/* webpackChunkName: "CartPage" */ '../containers/CartPage/CartPage'));
+const OrdersPage = loadable(() => import(/* webpackChunkName: "OrdersPage" */ '../containers/OrdersPage/OrdersPage'));
+const ShopByCategoryPage = loadable(() => import(/* webpackChunkName: "ShopByCategoryPage" */ '../containers/ShopByCategoryPage/ShopByCategoryPage'));
+
+
 const SearchPage = config.searchPageVariant === 'map' ? SearchPageWithMap : SearchPageWithList;
 const ListingPage = config.listingPageLayout === 'full-image' ? ListingPageFullImage : ListingPageHeroImage;
 
@@ -341,7 +347,7 @@ const routeConfiguration = () => {
     {
       path: '/reset-password',
       name: 'PasswordResetPage',
-      component: PasswordResetPage ,
+      component: PasswordResetPage,
     },
 
     // Do not change this path!
@@ -354,6 +360,26 @@ const routeConfiguration = () => {
       authPage: 'LoginPage',
       component: EmailVerificationPage,
       loadData: pageDataLoadingAPI.EmailVerificationPage.loadData,
+    },
+    {
+      path: '/messages',
+      name: 'MassagesPage',
+      component: MassagesPage
+    },
+    {
+      path: '/orders',
+      name: 'OrdersPage',
+      component: OrdersPage
+    },
+    {
+      path: '/category',
+      name: 'ShopByCategoryPage',
+      component: ShopByCategoryPage
+    },
+    {
+      path: '/cart',
+      name: 'CartPage',
+      component: CartPage
     },
   ];
 };
