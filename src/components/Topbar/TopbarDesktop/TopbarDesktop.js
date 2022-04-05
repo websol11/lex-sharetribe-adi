@@ -136,6 +136,57 @@ const TopbarDesktop = props => {
     </NamedLink>
   );
 
+
+  const shopByCategoryLink = (
+    <NamedLink name="ShopByCategoryPage" className={css.shopByCategoryLink}>
+      <span className={css.shopByCategory}>
+        <FormattedMessage id="TopbarDesktop.shopByCategory" />
+      </span>
+    </NamedLink>
+  );
+
+
+  const shoppingCartLink = (
+    <NamedLink name="CartPage" className={css.shoppingCartLink}>
+      <span className={css.shoppingCart}>
+        <FormattedMessage id="TopbarDesktop.shoppingCart" />
+      </span>
+    </NamedLink>
+  );
+
+
+  const messagesLink = (
+    <NamedLink name="MassagesPage" className={css.messagesLink}>
+      <span className={css.messages}>
+        <FormattedMessage id="TopbarDesktop.messages" />
+      </span>
+    </NamedLink>
+  );
+
+
+  const aboutLink = (
+    <NamedLink name="AboutPage" to={{ hash: '#contact' }} className={css.messagesLink}>
+      <span className={css.messages}>
+        <FormattedMessage id="Footer.toContactPage" />
+      </span>
+    </NamedLink>
+  );
+
+  const helpLink = (
+    <NamedLink name="LandingPage" className={css.messagesLink}>
+      <span className={css.messages}>
+        <FormattedMessage id="Footer.toHelpPage" />
+      </span>
+    </NamedLink>
+  );
+
+  const ordersLink = authenticatedOnClientSide ? (
+    <NamedLink name="OrdersPage" className={css.ordersLink}>
+      <span className={css.orders}>
+        <FormattedMessage id="TopbarDesktop.orders" />
+      </span>
+    </NamedLink>) : null;
+
   return (
     <nav className={classes}>
       <NamedLink className={css.logoLink} name="LandingPage">
@@ -145,16 +196,33 @@ const TopbarDesktop = props => {
           alt={intl.formatMessage({ id: 'TopbarDesktop.logo' })}
         />
       </NamedLink>
-      {search}
-      <NamedLink className={css.createListingLink} name="NewListingPage">
+      {/* {search} */}
+      {/* <NamedLink className={css.createListingLink} name="NewListingPage">
         <span className={css.createListing}>
           <FormattedMessage id="TopbarDesktop.createListing" />
         </span>
+      </NamedLink> */}
+
+      <NamedLink className={css.createListingLink} name="NewListingPage">
+        <span className={css.createListing}>
+          <FormattedMessage id="TopbarDesktop.sellItems" />
+        </span>
       </NamedLink>
+
+      {shopByCategoryLink}
+      {messagesLink}
+      {ordersLink}
+
+      {search}
+      {aboutLink}
+      {helpLink}
+
+      {shoppingCartLink}
       {inboxLink}
       {profileMenu}
       {signupLink}
       {loginLink}
+
     </nav>
   );
 };

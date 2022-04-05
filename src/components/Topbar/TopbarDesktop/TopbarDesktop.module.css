@@ -207,7 +207,12 @@
   }
 }
 
-.loginLink {
+.loginLink,
+.ordersLink,
+.shopByCategoryLink,
+.messagesLink,
+.shoppingCartLink,
+.sellItemsLink {
   @apply --TopbarDesktop_linkHover;
   flex-shrink: 0;
   height: 100%;
@@ -221,7 +226,12 @@
 }
 
 .signup,
-.login {
+.login,
+.orders,
+.messages,
+.shopByCategory,
+.shoppingCart,
+.sellItems {
   @apply --marketplaceH5FontStyles;
   @apply --TopbarDesktop_label;
 }
