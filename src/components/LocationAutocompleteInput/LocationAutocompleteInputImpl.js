@@ -74,6 +74,11 @@ const LocationPredictionsList = props => {
               "predictionPlace": {
                 "address": "Puma"                        
               }
+          },{
+              "id": "vans",
+              "predictionPlace": {
+                "address": "Vans"
+              }
           }
       ]
   console.log("NEFOR", predictions)

@@ -19,7 +19,6 @@ class LocationAutocompleteInputComponent extends Component {
 
     const value = typeof valueFromForm !== 'undefined' ? valueFromForm : input.value;
     const locationAutocompleteProps = { label, meta, ...otherProps, input: { ...input, value } };
-    console.log("INSIDE", ...locationAutocompleteProps);
     const labelInfo = label ? (
       <label className={labelClassName} htmlFor={input.name}>
         {label}

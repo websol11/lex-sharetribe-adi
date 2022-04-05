@@ -336,7 +336,7 @@ export class ListingPageComponent extends Component {
       userAndListingAuthorAvailable && currentListing.author.id.uuid === currentUser.id.uuid;
     const showContactUser = authorAvailable && (!currentUser || (currentUser && !isOwnListing));
 
-    const urrentAuthor = authorAvailable ? currentListing.author : null;
+    const currentAuthor = authorAvailable ? currentListing.author : null;
     const ensuredAuthor = ensureUser(currentAuthor);
 
     // When user is banned or deleted the listing is also deleted.
