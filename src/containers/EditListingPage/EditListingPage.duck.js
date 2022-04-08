@@ -551,6 +551,7 @@ export function requestShowListing(actionPayload) {
     return sdk.ownListings
       .show({ ...actionPayload, ...queryParams })
       .then(response => {
+        console.log("SHOWING LIST REQUEST", response);
         // EditListingPage fetches new listing data, which also needs to be added to global data
         dispatch(addMarketplaceEntities(response));
         // In case of success, we'll clear state.EditListingPage (user will be redirected away)
@@ -607,6 +608,7 @@ export function requestCreateListingDraft(data) {
     const imageProperty = typeof images !== 'undefined' ? { images: imageIds(images) } : {};
     const ownListingValues = { ...imageProperty, ...rest };
 
+    console.log("IN REQUEST CREATE LSITING DATA",data)
     const imageVariantInfo = getImageVariantInfo();
     const queryParams = {
       expand: true,
@@ -615,6 +617,7 @@ export function requestCreateListingDraft(data) {
       ...imageVariantInfo.imageVariants,
     };
 
+    console.log("IN REQUEST CREATE LSITING QUERY",queryParams)
     let createDraftResponse = null;
     return sdk.ownListings
       .createDraft(ownListingValues, queryParams)
@@ -835,6 +838,7 @@ export const loadData = params => (dispatch, getState, sdk) => {
         if (currentUser && currentUser.stripeAccount) {
           dispatch(fetchStripeAccount());
         }
+        console.log("NEW LOAD DATA", response);
         return response;
       })
       .catch(e => {
@@ -849,6 +853,7 @@ export const loadData = params => (dispatch, getState, sdk) => {
       if (currentUser && currentUser.stripeAccount) {
         dispatch(fetchStripeAccount());
       }
+      console.log("IN LOAD DATA", response);
       return response;
     })
     .catch(e => {

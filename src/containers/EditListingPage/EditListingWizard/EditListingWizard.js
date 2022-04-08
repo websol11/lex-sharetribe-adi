@@ -27,14 +27,14 @@ import {
 } from '../../../components';
 
 // Import modules from this directory
-import EditListingWizardTab, { DETAILS, DELIVERY, PRICING, PHOTOS } from './EditListingWizardTab';
+import EditListingWizardTab, { DETAILS, DELIVERY, PRICING, PHOTOS, CAPACITY, ASIN, ISBN, MPN, UPC } from './EditListingWizardTab';
 import css from './EditListingWizard.module.css';
 
 // You can reorder these panels.
 // Note 1: You need to change save button translations for new listing flow
 // Note 2: Ensure that draft listing is created after the first panel
 // and listing publishing happens after last panel.
-export const TABS = [DETAILS, PRICING, DELIVERY, PHOTOS];
+export const TABS = [DETAILS, PRICING, DELIVERY, PHOTOS, CAPACITY, ASIN, ISBN, MPN, UPC ];
 
 // Tabs are horizontal in small screens
 const MAX_HORIZONTAL_NAV_SCREEN_WIDTH = 1023;
@@ -60,6 +60,9 @@ const tabLabel = (intl, tab) => {
     key = 'EditListingWizard.tabLabelMpn';
   }else if (tab === UPC) {
     key = 'EditListingWizard.tabLabelUpc';
+  }
+  else if (tab === CAPACITY) {
+    key = 'EditListingWizard.tabLabelCapacity';    
   }
 
   return intl.formatMessage({ id: key });
@@ -96,6 +99,8 @@ const tabCompleted = (tab, listing) => {
       return !!(publicData && publicData.mpn);
     case UPC:
       return !!(publicData && publicData.upc);
+    case CAPACITY:
+      return !!(publicData && publicData.capacity);
     default:
       return false;
   }
@@ -244,7 +249,7 @@ class EditListingWizard extends Component {
       payoutDetailsSaved,
       onManageDisableScrolling,
       onPayoutDetailsChange,
-      onGetStripeConnectAccountLink,
+      //onGetStripeConnectAccountLink,
       getAccountLinkInProgress,
       createStripeAccountError,
       updateStripeAccountError,
@@ -327,14 +332,14 @@ class EditListingWizard extends Component {
 
     const savedCountry = stripeAccountData ? stripeAccountData.country : null;
 
-    const handleGetStripeConnectAccountLink = handleGetStripeConnectAccountLinkFn(
+    /*const handleGetStripeConnectAccountLink = handleGetStripeConnectAccountLinkFn(
       onGetStripeConnectAccountLink,
       {
         accountId,
         successURL,
         failureURL,
       }
-    );
+    );*/
 
     const returnedNormallyFromStripe = returnURLType === STRIPE_ONBOARDING_RETURN_URL_SUCCESS;
     const returnedAbnormallyFromStripe = returnURLType === STRIPE_ONBOARDING_RETURN_URL_FAILURE;
@@ -469,7 +474,7 @@ EditListingWizard.propTypes = {
   payoutDetailsSaved: bool.isRequired,
   onPayoutDetailsChange: func.isRequired,
   onPayoutDetailsSubmit: func.isRequired,
-  onGetStripeConnectAccountLink: func.isRequired,
+  //onGetStripeConnectAccountLink: func.isRequired,
   onManageDisableScrolling: func.isRequired,
 
   // from withViewport

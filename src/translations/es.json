@@ -939,5 +939,10 @@
   "EditListingDetailsForm.mpn": "Mpn",
   "EditListingDetailsForm.mpnPlaceholder": "Mpn",
   "EditListingDetailsForm.upc": "Upc",
-  "EditListingDetailsForm.upcPlaceholder": "Upc"
+  "EditListingDetailsForm.upcPlaceholder": "Upc",
+  "EditListingWizard.tabLabelCapacity": "Capacity",
+  "EditListingWizard.tabLabelAsin": "Asin",
+  "EditListingWizard.tabLabelIsbn": "Isbn",
+  "EditListingWizard.tabLabelMpn": "Mpn",
+  "EditListingWizard.tabLabelUpc": "Upc",
 }

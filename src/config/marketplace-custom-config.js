@@ -149,30 +149,47 @@ export const filters = [
     id: 'asin',
     label: 'Asin',
     type: 'KeywordFilter',
-    group: 'primary',
+    group: 'secondary',
     queryParamNames: ['pub_asin'],
     config: {},
   },{
     id: 'isbn',
     label: 'isbn',
     type: 'KeywordFilter',
-    group: 'primary',
+    group: 'secondary',
     queryParamNames: ['pub_isbn'],
     config: {},
   },{
     id: 'mpn',
     label: 'mpn',
     type: 'KeywordFilter',
-    group: 'primary',
+    group: 'secondary',
     queryParamNames: ['pub_mpn'],
     config: {},
   },{
     id: 'upc',
     label: 'upc',
     type: 'KeywordFilter',
-    group: 'primary',
+    group: 'secondary',
     queryParamNames: ['pub_upc'],
     config: {},
+  },
+   {
+    id: 'capacity',
+    label: 'Capacity',
+    type: 'SelectSingleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_capacity'],
+    config: {
+      // Schema type is enum for SelectSingleFilter
+      schemaType: 'enum',
+      options: [
+        { key: '1to3', label: '1 to 3' },
+        { key: '4to6', label: '4 to 6' },
+        { key: '7to9', label: '7 to 9' },
+        { key: '10plus', label: '10 plus' },
+      ],
+    },
   },
   // Here is an example of multi-enum search filter.
   //
@@ -244,5 +261,5 @@ export const sortConfig = {
 export const listing = {
   // These should be listing details from public data with schema type: enum
   // SectionDetailsMaybe component shows these on listing page.
-  enumFieldDetails: ['size', 'brand', 'category'],
+  enumFieldDetails: ['size', 'brand', 'category', 'asin'],
 };
