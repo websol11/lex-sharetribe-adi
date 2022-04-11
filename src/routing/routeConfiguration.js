@@ -45,6 +45,7 @@ const MassagesPage = loadable(() => import(/* webpackChunkName: "MassagesPage" *
 const CartPage = loadable(() => import(/* webpackChunkName: "CartPage" */ '../containers/CartPage/CartPage'));
 const OrdersPage = loadable(() => import(/* webpackChunkName: "OrdersPage" */ '../containers/OrdersPage/OrdersPage'));
 const ShopByCategoryPage = loadable(() => import(/* webpackChunkName: "ShopByCategoryPage" */ '../containers/ShopByCategoryPage/ShopByCategoryPage'));
+const ContactUsPage = loadable(() => import(/* webpackChunkName: "ContactUsPage" */ '../containers/ContactUsPage/ContactUsPage'));
 
 
 const SearchPage = config.searchPageVariant === 'map' ? SearchPageWithMap : SearchPageWithList;
@@ -380,6 +381,11 @@ const routeConfiguration = () => {
       path: '/cart',
       name: 'CartPage',
       component: CartPage
+    },
+    {
+      path: '/contact',
+      name: 'ContactUsPage',
+      component: ContactUsPage
     },
   ];
 };
