@@ -23,4 +23,15 @@
       margin-bottom: 54px;
     }
   }
+
+  & ul {
+    list-style: initial;
+  }
+
+  & .descp > p {
+    margin-left: 25px;
+  }
+  & .descp ul {
+    margin-left: 25px;
+  }
 }

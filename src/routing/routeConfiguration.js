@@ -46,6 +46,7 @@ const CartPage = loadable(() => import(/* webpackChunkName: "CartPage" */ '../co
 const OrdersPage = loadable(() => import(/* webpackChunkName: "OrdersPage" */ '../containers/OrdersPage/OrdersPage'));
 const ShopByCategoryPage = loadable(() => import(/* webpackChunkName: "ShopByCategoryPage" */ '../containers/ShopByCategoryPage/ShopByCategoryPage'));
 const ContactUsPage = loadable(() => import(/* webpackChunkName: "ContactUsPage" */ '../containers/ContactUsPage/ContactUsPage'));
+const FaqPage = loadable(() => import(/* webpackChunkName: "FaqPage" */ '../containers/FaqPage/FaqPage'));
 
 
 const SearchPage = config.searchPageVariant === 'map' ? SearchPageWithMap : SearchPageWithList;
@@ -386,6 +387,11 @@ const routeConfiguration = () => {
       path: '/contact',
       name: 'ContactUsPage',
       component: ContactUsPage
+    },
+    {
+      path: '/faq',
+      name: 'FaqPage',
+      component: FaqPage,
     },
   ];
 };
