@@ -1,10 +1,4 @@
 @import '../../styles/customMediaQueries.css';
-@import '../../styles/propertySets.css';
-
-.pageTitle {
-  text-align: center;
-}
-
 .staticPageWrapper {
   width: calc(100% - 48px);
   max-width: 1056px;
@@ -15,49 +9,27 @@
     margin: 72px auto;
   }
 }
-
-.coverImage {
-  width: 100%;
-  height: 528px;
-  border-radius: 4px;
-  object-fit: cover;
-  margin: 32px 0 40px;
-}
-
-.contentWrapper {
-  display: flex;
-  flex-wrap: wrap;
-
+.content {
   @media (--viewportMedium) {
-    flex-wrap: nowrap;
+    margin: 32px auto 0 auto;
+    max-width: 564px;
   }
-}
 
-.contentSide {
-  font-style: italic;
-
-  @media (--viewportMedium) {
-    width: 193px;
-    margin-right: 103px;
-    margin-top: 8px;
+  @media (--viewportLarge) {
+    margin: 0;
   }
-}
-
-.contentMain {
-  width: 90%;
-
-  @media (--viewportMedium) {
-    max-width: 650px;
-  }
-}
-
-.subtitle {
-  @apply --marketplaceH3FontStyles;
-  margin-top: 32px;
-  margin-bottom: 16px;
 }
 
 .desktopTopbar,
 .mobileTopbar {
   box-shadow: none;
+}
+
+.title {
+  margin-top: 8px;
+  margin-bottom: 19px;
+
+  @media (--viewportMedium) {
+    margin-bottom: 36px;
+  }
 }

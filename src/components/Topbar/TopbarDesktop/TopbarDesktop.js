@@ -165,7 +165,7 @@ const TopbarDesktop = props => {
 
 
   const aboutLink = (
-    <NamedLink name="AboutPage" to={{ hash: '#contact' }} className={css.messagesLink}>
+    <NamedLink name="ContactUsPage" className={css.messagesLink}>
       <span className={css.messages}>
         <FormattedMessage id="Footer.toContactPage" />
       </span>
@@ -173,7 +173,7 @@ const TopbarDesktop = props => {
   );
 
   const helpLink = (
-    <NamedLink name="LandingPage" className={css.messagesLink}>
+    <NamedLink name="FaqPage" className={css.messagesLink}>
       <span className={css.messages}>
         <FormattedMessage id="Footer.toHelpPage" />
       </span>

@@ -1065,6 +1065,14 @@
   "EditListingWizard.tabLabelIsbn": "Isbn",
   "EditListingWizard.tabLabelMpn": "Mpn",
   "EditListingWizard.tabLabelUpc": "Upc",
-  "EditListingWizard.tabLabelCapacity": "Capacity"
-  
+  "EditListingWizard.tabLabelCapacity": "Capacity",
+  "ContactUsPage.title": "ContactUs",
+  "ContactUsPage.heading": "ContactUs",
+  "ContactUsForm.nameLabel": "Name",
+  "ContactUsForm.emailLabel": "Email",
+  "ContactUsForm.messageLabel": "Message",
+  "ContactUsForm.saveChanges": "Save",
+  "ContactUsForm.emailRequired": "You need to add an email.",
+  "ContactUsForm.emailInvalid": "A valid email address is required",
+  "ContactUsForm.messageRequired": "You need to add your message."
 }
