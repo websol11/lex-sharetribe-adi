@@ -1,4 +1,4 @@
-/*
+ /*
  * Marketplace specific configuration.
  *
  * Every filter needs to have following keys:
@@ -49,13 +49,50 @@ export const filters = [
       // Note: label is not added through the translation files
       // to make filter customizations a bit easier.
       options: [
-        { key: 'men', label: 'Men' },
-        { key: 'women', label: 'Women' },
-        { key: 'kids', label: 'Kids' },
+        { key: 'Electronics', label: 'Electronics' },
+        { key: 'Computers & Tablets', label: 'Computers & Tablets' },
+        { key: 'Music, Movies & TV', label: 'Music, Movies & TV' },
+        { key: 'Home & Garden', label: 'Home & Garden' },
+        { key: 'Pet Supplies', label: 'Pet Supplies' },
+        { key: 'Health & Beauty', label: 'Health & Beauty' },
+        { key: 'Sports', label: 'Sports' },
+        { key: 'Outdoors', label: 'Outdoors' },
+        { key: 'Toys & Games', label: 'Toys & Games' },
+        { key: 'Kids & Babies', label: 'Kids & Babies' },
+        { key: 'Automotive', label: 'Automotive' },
+        { key: 'Business', label: 'Business' },
+        { key: 'Industrial', label: 'Industrial' },
+        { key: 'Books & Magazines', label: 'Books & Magazines' },
+        { key: 'Artwork', label: 'Artwork' },
+        { key: 'Antiques', label: 'Antiques' },
+        { key: 'Crafts', label: 'Crafts' },
+        { key: 'Travel', label: 'Travel' },
+        { key: 'Collectibles', label: 'Collectibles' },
       ],
     },
   },
-  {
+  /*{
+    id: 'gender',
+    label: 'Gender',
+    type: 'SelectSingleFilter',
+    group: 'primary',
+    queryParamNames: ['pub_gender'],
+    config: {
+      // Schema type is enum for SelectSingleFilter
+      schemaType: 'enum',
+
+      // "key" is the option you see in Flex Console.
+      // "label" is set here for the UI only.
+      // Note: label is not added through the translation files
+      // to make filter customizations a bit easier.
+      options: [
+        { key: 'men', label: 'Men' },
+        { key: 'Computers & Tablets', label: 'Women' },
+        { key: 'kids', label: 'Kids' },
+      ],
+    },
+  },*/
+  /*{
     id: 'size',
     label: 'Size (US)',
     type: 'SelectMultipleFilter',
@@ -84,7 +121,7 @@ export const filters = [
         { key: '12', label: '12' },
       ],
     },
-  },
+  },*/
   {
     id: 'brand',
     label: 'Brand',
@@ -174,7 +211,7 @@ export const filters = [
     queryParamNames: ['pub_upc'],
     config: {},
   },
-   {
+   /*{
     id: 'capacity',
     label: 'Capacity',
     type: 'SelectSingleFilter',
@@ -190,7 +227,7 @@ export const filters = [
         { key: '10plus', label: '10 plus' },
       ],
     },
-  },
+  },*/
   // Here is an example of multi-enum search filter.
   //
   // {

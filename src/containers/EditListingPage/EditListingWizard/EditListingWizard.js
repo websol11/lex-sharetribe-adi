@@ -27,14 +27,14 @@ import {
 } from '../../../components';
 
 // Import modules from this directory
-import EditListingWizardTab, { DETAILS, DELIVERY, PRICING, PHOTOS, CAPACITY, ASIN, ISBN, MPN, UPC } from './EditListingWizardTab';
+import EditListingWizardTab, { DETAILS, DELIVERY, PRICING, PHOTOS/*, ASIN, ISBN, MPN, UPC*/ } from './EditListingWizardTab';
 import css from './EditListingWizard.module.css';
 
 // You can reorder these panels.
 // Note 1: You need to change save button translations for new listing flow
 // Note 2: Ensure that draft listing is created after the first panel
 // and listing publishing happens after last panel.
-export const TABS = [DETAILS, PRICING, DELIVERY, PHOTOS, CAPACITY, ASIN, ISBN, MPN, UPC ];
+export const TABS = [DETAILS, PRICING, DELIVERY, PHOTOS/*, ASIN, ISBN, MPN, UPC */];
 
 // Tabs are horizontal in small screens
 const MAX_HORIZONTAL_NAV_SCREEN_WIDTH = 1023;
@@ -52,7 +52,7 @@ const tabLabel = (intl, tab) => {
     key = 'EditListingWizard.tabLabelPricing';
   } else if (tab === PHOTOS) {
     key = 'EditListingWizard.tabLabelPhotos';
-  } else if (tab === ASIN) {
+  }/* else if (tab === ASIN) {
     key = 'EditListingWizard.tabLabelAsin';
   } else if (tab === ISBN) {
     key = 'EditListingWizard.tabLabelIsbn';
@@ -63,7 +63,7 @@ const tabLabel = (intl, tab) => {
   }
   else if (tab === CAPACITY) {
     key = 'EditListingWizard.tabLabelCapacity';    
-  }
+  }*/
 
   return intl.formatMessage({ id: key });
 };
@@ -91,6 +91,7 @@ const tabCompleted = (tab, listing) => {
       return !!price;
     case PHOTOS:
       return images && images.length > 0;
+    /*
     case ASIN:
       return !!(publicData && publicData.asin);
     case ISBN:
@@ -100,7 +101,7 @@ const tabCompleted = (tab, listing) => {
     case UPC:
       return !!(publicData && publicData.upc);
     case CAPACITY:
-      return !!(publicData && publicData.capacity);
+      return !!(publicData && publicData.capacity);*/
     default:
       return false;
   }
