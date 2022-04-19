@@ -52,17 +52,22 @@ const EditListingDetailsPanel = props => {
           title,
           description,
           category: publicData.category,
-          size: publicData.size,
           brand: publicData.brand,
+          asin: publicData.asin,
+          isbn: publicData.isbn,
+          mpn: publicData.mpn,
+          upc: publicData.upc,
+          handlingTime: publicData.handlingTime,
+          location: publicData.location,
         }}
         saveActionMsg={submitButtonText}
         onSubmit={values => {
           console.log("EDIT LISTING",values);
-          const { title, description, category, size, brand, asin, isbn, mpn, upc } = values;
+          const { title, description, category, brand, asin, isbn, mpn, upc, handlingTime, location } = values;
           const updateValues = {
             title: title.trim(),
-            description,
-            publicData: { category, size, brand, asin, isbn, mpn, upc },
+            description: description.trim(),
+            publicData: { category, brand, asin, isbn, mpn, upc, handlingTime, location },
            
           };
 

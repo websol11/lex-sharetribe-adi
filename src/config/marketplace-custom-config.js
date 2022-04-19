@@ -211,6 +211,20 @@ export const filters = [
     queryParamNames: ['pub_upc'],
     config: {},
   },
+  {
+    id: 'handlingTime',
+    label: 'handlingTime',
+    type: 'KeywordFilter',
+    group: 'secondary',
+    config: {},
+  },
+  {
+    id: 'zipcode',
+    label: 'zipcode',
+    type: 'KeywordFilter',
+    group: 'secondary',
+    config: {},
+  }
    /*{
     id: 'capacity',
     label: 'Capacity',
@@ -298,5 +312,5 @@ export const sortConfig = {
 export const listing = {
   // These should be listing details from public data with schema type: enum
   // SectionDetailsMaybe component shows these on listing page.
-  enumFieldDetails: ['size', 'brand', 'category', 'asin'],
+  enumFieldDetails: ['size', 'brand', 'category'],
 };

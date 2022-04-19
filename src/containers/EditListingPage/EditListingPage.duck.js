@@ -625,10 +625,12 @@ export function requestCreateListingDraft(data) {
         createDraftResponse = response;
         const listingId = response.data.data.id;
         // If stockUpdate info is passed through, update stock
+        console.log("IN UPDATE DRAFT", listingId)
         return updateStockOfListingMaybe(listingId, stockUpdate, dispatch);
       })
       .then(() => {
         // Modify store to understand that we have created listing and can redirect away
+        console.log("IN CREATE STOCK DRAFT")
         dispatch(createListingDraftSuccess(createDraftResponse));
         return createDraftResponse;
       })

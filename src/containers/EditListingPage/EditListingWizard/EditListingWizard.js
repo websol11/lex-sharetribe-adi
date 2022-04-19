@@ -78,13 +78,14 @@ const tabLabel = (intl, tab) => {
  */
 const tabCompleted = (tab, listing) => {
   const { availabilityPlan, description, price, title, publicData } = listing.attributes;
+  console.log("TAB COMPLE", listing)
   const images = listing.images;
   const deliveryOptionPicked =
     publicData && (publicData.shippingEnabled || publicData.pickupEnabled);
 
   switch (tab) {
     case DETAILS:
-      return !!(description && title && publicData.size && publicData.brand);
+      return !!(description && title && publicData.brand);
     case DELIVERY:
       return !!deliveryOptionPicked;
     case PRICING:

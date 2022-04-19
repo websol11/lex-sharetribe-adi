@@ -37,13 +37,18 @@ class EditListingDeliveryPanel extends Component {
     // Only render current search if full place object is available in the URL params
     // TODO bounds are missing - those need to be queried directly from Google Places
     const locationFieldsPresent = publicData?.location?.address && geolocation;
+    console.log("ADD 1", locationFieldsPresent)
     const location = publicData?.location ? publicData.location : {};
+    console.log("ADD 2", location)
+    const handlingTime = publicData?.handlingTime ? publicData.handlingTime : {};
+    const zipcode = publicData?.zipcode ? publicData.zipcode : {};
     const { address, building } = location;
+    console.log("ADD3", address)
     const {
       shippingEnabled,
       pickupEnabled,
       shippingPriceInSubunitsOneItem,
-      shippingPriceInSubunitsAdditionalItems,
+      shippingPriceInSubunitsAdditionalItems
     } = publicData;
     const deliveryOptions = [];
 
@@ -72,6 +77,8 @@ class EditListingDeliveryPanel extends Component {
       deliveryOptions,
       shippingPriceInSubunitsOneItem: shippingOneItemAsMoney,
       shippingPriceInSubunitsAdditionalItems: shippingAdditionalItemsAsMoney,
+      handlingTime: handlingTime,
+      zipcode: zipcode
     };
   }
 
@@ -117,6 +124,8 @@ class EditListingDeliveryPanel extends Component {
               shippingPriceInSubunitsOneItem,
               shippingPriceInSubunitsAdditionalItems,
               deliveryOptions,
+              handlingTime,
+              zipcode,
             } = values;
 
             const shippingEnabled = deliveryOptions.includes('shipping');
@@ -145,6 +154,8 @@ class EditListingDeliveryPanel extends Component {
                 ...pickupDataMaybe,
                 shippingEnabled,
                 ...shippingDataMaybe,
+                handlingTime,
+                zipcode,
               },
             };
             this.setState({
@@ -154,6 +165,8 @@ class EditListingDeliveryPanel extends Component {
                 shippingPriceInSubunitsOneItem,
                 shippingPriceInSubunitsAdditionalItems,
                 deliveryOptions,
+                handlingTime,
+                zipcode,
               },
             });
             onSubmit(updateValues);
