@@ -224,7 +224,21 @@ export const filters = [
     type: 'KeywordFilter',
     group: 'secondary',
     config: {},
-  }
+  },
+  {
+    id: 'condition',
+    label: 'Condition',
+    type: 'SelectSingleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_condition'],
+    config: {
+      schemaType: 'enum',
+      options: [
+        { key: 'new', label: 'New' },
+        { key: 'old', label: 'Old' },
+      ],
+    },
+  },
    /*{
     id: 'capacity',
     label: 'Capacity',
@@ -312,5 +326,5 @@ export const sortConfig = {
 export const listing = {
   // These should be listing details from public data with schema type: enum
   // SectionDetailsMaybe component shows these on listing page.
-  enumFieldDetails: ['size', 'brand', 'category'],
+  enumFieldDetails: ['size', 'brand', 'category', 'condition'],
 };

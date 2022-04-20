@@ -129,19 +129,19 @@ const EditListingDetailsFormComponent = props => (
         })
       );
 
-      const sizeConfig = findConfigForSelectFilter('size', filterConfig);
-      const sizeSchemaType = sizeConfig ? sizeConfig.schemaType : null;
-      const sizes = sizeConfig && sizeConfig.options ? sizeConfig.options : [];
-      const sizeLabel = intl.formatMessage({
-        id: 'EditListingDetailsForm.sizeLabel',
+      const conditionConfig = findConfigForSelectFilter('condition', filterConfig);
+      const conditionSchemaType = conditionConfig ? conditionConfig.schemaType : null;
+      const conditions = conditionConfig && conditionConfig.options ? conditionConfig.options : [];
+      const conditionLabel = intl.formatMessage({
+        id: 'EditListingDetailsForm.conditionLabel',
       });
-      const sizePlaceholder = intl.formatMessage({
-        id: 'EditListingDetailsForm.sizePlaceholder',
+      const conditionPlaceholder = intl.formatMessage({
+        id: 'EditListingDetailsForm.conditionPlaceholder',
       });
 
-      const sizeRequired = required(
+      const conditionRequired = required(
         intl.formatMessage({
-          id: 'EditListingDetailsForm.sizeRequired',
+          id: 'EditListingDetailsForm.conditionRequired',
         })
       );
 
@@ -187,6 +187,16 @@ const EditListingDetailsFormComponent = props => (
             validate={composeValidators(required(descriptionRequiredMessage))}
           />
           <CustomFieldEnum
+            id="condition"
+            name="condition"
+            options={conditions}
+            label={conditionLabel}
+            placeholder={conditionPlaceholder}
+            validate={conditionRequired}
+            schemaType={conditionSchemaType}
+          />
+
+          <CustomFieldEnum
             id="category"
             name="category"
             options={categories}
@@ -196,15 +206,6 @@ const EditListingDetailsFormComponent = props => (
             schemaType={categorySchemaType}
           />
 
-          <CustomFieldEnum
-            id="size"
-            name="size"
-            options={sizes}
-            label={sizeLabel}
-            placeholder={sizePlaceholder}
-            validate={sizeRequired}
-            schemaType={sizeSchemaType}
-          />
 
           <CustomFieldEnum
             id="brand"

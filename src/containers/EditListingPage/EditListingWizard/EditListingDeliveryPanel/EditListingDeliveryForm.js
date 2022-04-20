@@ -71,6 +71,7 @@ export const EditListingDeliveryFormComponent = props => (
 
       const titleRequiredMessage = intl.formatMessage({ id: 'EditListingDeliveryForm.address' });
       const handlingTimeRequiredMessage = intl.formatMessage({ id: 'EditListingDeliveryForm.handlingTime' });
+      const returnPolicyMessage = intl.formatMessage({ id: 'EditListingDeliveryForm.handlingTime' });
       
       const addressPlaceholderMessage = intl.formatMessage({
         id: 'EditListingDeliveryForm.locationPlaceholder',
@@ -192,28 +193,20 @@ export const EditListingDeliveryFormComponent = props => (
               key={'oneItemValidation'}
             />
 
-            <FieldCurrencyInput
-              id="shippingPriceInSubunitsAdditionalItems"
-              name="shippingPriceInSubunitsAdditionalItems"
+            <FieldTextInput
+              id="return_policy"
+              name="return_policy"
               className={css.input}
+              type="textarea"
               label={intl.formatMessage({
-                id: 'EditListingDeliveryForm.shippingAdditionalItemsLabel',
+                id: 'EditListingDeliveryForm.returnPolicyMessage',
               })}
               placeholder={intl.formatMessage({
-                id: 'EditListingDeliveryForm.shippingAdditionalItemsPlaceholder',
+                id: 'EditListingDeliveryForm.returnPolicyPlaceholderMessage',
               })}
-              currencyConfig={config.currencyConfig}
-              validate={
-                  required(
-                    intl.formatMessage({
-                      id: 'EditListingDeliveryForm.shippingAdditionalItemsRequired',
-                    })
-                  )
-              }
-              hideErrorMessage={!shippingEnabled}
-              key={'additionalItemsValidation'}
             />
           </div>
+
 
           <Button
             className={css.submitButton}

@@ -165,9 +165,9 @@
   "EditListingDeliveryForm.shippingAdditionalItemsPlaceholder": "Set the fee for additional items",
   "EditListingDeliveryForm.shippingAdditionalItemsRequired": "Shipping fee for additional items required",
   "EditListingDeliveryForm.shippingLabel": "Shipping",
-  "EditListingDeliveryForm.shippingOneItemLabel": "Shipping fee for one item",
-  "EditListingDeliveryForm.shippingOneItemPlaceholder": "Set the fee for shipping",
-  "EditListingDeliveryForm.shippingOneItemRequired": "Shipping fee for one item required",
+  "EditListingDeliveryForm.shippingOneItemLabel": "Shipping cost(for one item)",
+  "EditListingDeliveryForm.shippingOneItemPlaceholder": "Set the cost for shipping (for one item)",
+  "EditListingDeliveryForm.shippingOneItemRequired": "Shipping cost required",
   "EditListingDeliveryForm.showListingFailed": "Fetching listing data failed",
   "EditListingDeliveryForm.updateFailed": "Failed to update listing. Please try again.",
   "EditListingDeliveryPanel.createListingTitle": "Delivery options",
@@ -1079,5 +1079,10 @@
   "EditListingDeliveryForm.locationPlaceholder":"Enter item zipcode.",
   "EditListingDeliveryForm.handlingTime":"Handling Time",
   "EditListingDeliveryForm.handlingTimeIsRequired":"Handling Time is required.",
-  "EditListingDeliveryForm.handlingTimePlaceholder":"Enter product handling time"
+  "EditListingDeliveryForm.handlingTimePlaceholder":"Enter product handling time",
+  "EditListingDeliveryForm.returnPolicyMessage":"Product returns/settlement policy",
+  "EditListingDeliveryForm.returnPolicyPlaceholderMessage":"Enter product returns/settlement policy",
+  "EditListingDetailsForm.conditionLabel": "Product Condition",
+  "EditListingDetailsForm.conditionPlaceholder": "Choose…",
+  "EditListingDetailsForm.conditionRequired": "You need to select product condition."
 }
