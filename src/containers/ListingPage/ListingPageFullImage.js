@@ -56,6 +56,7 @@ import SectionAuthorMaybe from './SectionAuthorMaybe';
 import SectionRulesMaybe from './SectionRulesMaybe';
 import SectionMapMaybe from './SectionMapMaybe';
 import SectionGallery from './SectionGallery';
+import SectionReturnPolicy from './SectionReturnPolicy';
 
 import css from './ListingPage.module.css';
 
@@ -471,6 +472,7 @@ export class ListingPageComponent extends Component {
                   />
                 </div>
                 <SectionDescriptionMaybe description={description} listingTitle={richTitle} />
+                <SectionReturnPolicy publicData={publicData} customConfig={customConfig} />
                 <SectionDetailsMaybe publicData={publicData} customConfig={customConfig} />
                 <SectionFeaturesMaybe
                   extendedDataKey="amenities"

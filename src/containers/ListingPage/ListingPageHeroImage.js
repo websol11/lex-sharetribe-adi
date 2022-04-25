@@ -56,6 +56,7 @@ import SectionAuthorMaybe from './SectionAuthorMaybe';
 import SectionRulesMaybe from './SectionRulesMaybe';
 import SectionMapMaybe from './SectionMapMaybe';
 import css from './ListingPage.module.css';
+import SectionReturnPolicy from './SectionReturnPolicy';
 
 const MIN_LENGTH_FOR_LONG_WORDS_IN_TITLE = 16;
 
@@ -469,6 +470,7 @@ export class ListingPageComponent extends Component {
                     onContactUser={this.onContactUser}
                   />
                   <SectionDescriptionMaybe description={description} listingTitle={richTitle} />
+                  <SectionReturnPolicy publicData={publicData} customConfig={customConfig} />
                   <SectionDetailsMaybe publicData={publicData} customConfig={customConfig} />
                   <SectionFeaturesMaybe
                     extendedDataKey="amenities"

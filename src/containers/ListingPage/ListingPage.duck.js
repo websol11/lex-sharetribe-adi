@@ -198,6 +198,7 @@ export const showListing = (listingId, isOwn = false) => (dispatch, getState, sd
   return show
     .then(data => {
       dispatch(addMarketplaceEntities(data));
+      console.log("IN DATA", data)
       return data;
     })
     .catch(e => {

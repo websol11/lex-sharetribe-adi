@@ -394,6 +394,7 @@
   "ListingPage.contactUser": "Contact",
   "ListingPage.descriptionTitle": "About {listingTitle}",
   "ListingPage.detailsTitle": "Details",
+  "ListingPage.returnTitle": "Return Policy",
   "ListingPage.editListing": "Edit listing",
   "ListingPage.editProfileLink": "Edit profile",
   "ListingPage.errorLoadingListingMessage": "Could not load listing. Please try again.",
