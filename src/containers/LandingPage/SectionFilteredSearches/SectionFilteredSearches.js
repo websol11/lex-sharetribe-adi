@@ -30,7 +30,7 @@ const FilterLink = props => {
   const { name, image, link } = props;
   const url = typeof window !== 'undefined' ? new window.URL(link) : new global.URL(link);
   const searchQuery = url.search;
-  const productUrl = url.origin + url.pathname
+  const productUrl = url.pathname
   const nameText = <span className={css.searchName}>{name}</span>;
   console.log("LIN", link, url, url.search, productUrl)
   return (
@@ -71,9 +71,8 @@ const SectionFilteredSearches = props => {
         {landingPageListings.map(each_listing =>
           <FilterLink
             name={ each_listing.attributes.title }
-            image={imageForFilter1}
+            image={each_listing.images[0].attributes.variants['listing-card'].url}
             link={"http://localhost:3000/l/"+each_listing.attributes.title+"/"+each_listing.id.uuid}
-
           />
         )}
         
