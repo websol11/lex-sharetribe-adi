@@ -346,7 +346,7 @@
   "InboxPage.fetchFailed": "Could not load all messages. Please try again.",
   "InboxPage.noOrdersFound": "You haven't made any purchase.",
   "InboxPage.noSalesFound": "Nobody has purchased anything from you yet.",
-  "InboxPage.ordersTabTitle": "My purchases",
+  "InboxPage.ordersTabTitle": "My orders",
   "InboxPage.ordersTitle": "Inbox: Purchases",
   "InboxPage.quantity": "Quantity: {quantity}",
   "InboxPage.salesTabTitle": "My sales",

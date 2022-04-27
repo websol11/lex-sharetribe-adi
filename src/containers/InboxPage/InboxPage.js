@@ -316,9 +316,11 @@ export const InboxPageComponent = props => {
           />
         </LayoutWrapperTopbar>
         <LayoutWrapperSideNav className={css.navigation}>
-          <h1 className={css.title}>
-            <FormattedMessage id="InboxPage.title" />
-          </h1>
+          {/*
+            <h1 className={css.title}>
+              <FormattedMessage id="InboxPage.title" />
+            </h1>
+          */}
           {nav}
         </LayoutWrapperSideNav>
         <LayoutWrapperMain>

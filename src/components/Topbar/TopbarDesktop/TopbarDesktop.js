@@ -62,10 +62,10 @@ const TopbarDesktop = props => {
     <NamedLink
       className={css.inboxLink}
       name="InboxPage"
-      params={{ tab: currentUserHasListings ? 'sales' : 'orders' }}
+      params={{ tab: currentUserHasListings ? 'orders' : 'orders' }} /*'sales' : 'orders'*/
     >
       <span className={css.inbox}>
-        <FormattedMessage id="TopbarDesktop.inbox" />
+        <FormattedMessage id="TopbarDesktop.orders" />
         {notificationDot}
       </span>
     </NamedLink>
@@ -138,7 +138,7 @@ const TopbarDesktop = props => {
 
 
   const shopByCategoryLink = (
-    <NamedLink name="ShopByCategoryPage" className={css.shopByCategoryLink}>
+    <NamedLink name="DepartmentPage" className={css.shopByCategoryLink}>
       <span className={css.shopByCategory}>
         <FormattedMessage id="TopbarDesktop.shopByCategory" />
       </span>
@@ -211,7 +211,7 @@ const TopbarDesktop = props => {
 
       {shopByCategoryLink}
       {messagesLink}
-      {ordersLink}
+      {/* {ordersLink} */}
 
       {search}
       {aboutLink}

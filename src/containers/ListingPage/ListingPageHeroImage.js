@@ -44,7 +44,7 @@ import {
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer';
 import NotFoundPage from '../../containers/NotFoundPage/NotFoundPage';
 
-import { sendEnquiry, fetchTransactionLineItems, setInitialValues } from './ListingPage.duck';
+import { sendEnquiry, fetchTransactionLineItems, setInitialValues, updateLikes } from './ListingPage.duck';
 import SectionImages from './SectionImages';
 import SectionAvatar from './SectionAvatar';
 import SectionHeading from './SectionHeading';
@@ -208,6 +208,8 @@ export class ListingPageComponent extends Component {
       lineItems,
       fetchLineItemsInProgress,
       fetchLineItemsError,
+      onUpdateLikes,
+      updateLikesInProgress,
     } = this.props;
 
     const listingId = new UUID(rawParams.id);
@@ -468,6 +470,11 @@ export class ListingPageComponent extends Component {
                     authorLink={authorLink}
                     showContactUser={showContactUser}
                     onContactUser={this.onContactUser}
+                    publicData={publicData}
+                    onUpdateLikes={onUpdateLikes}
+                    listingId={listingId.uuid}
+                    currentUser={currentUser}
+                    updateLikesInProgress={updateLikesInProgress} 
                   />
                   <SectionDescriptionMaybe description={description} listingTitle={richTitle} />
                   <SectionReturnPolicy publicData={publicData} customConfig={customConfig} />
@@ -586,6 +593,8 @@ ListingPageComponent.propTypes = {
   lineItems: array,
   fetchLineItemsInProgress: bool.isRequired,
   fetchLineItemsError: propTypes.error,
+  updateLikesInProgress: bool.isRequired,
+
 };
 
 const mapStateToProps = state => {
@@ -640,6 +649,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
   onManageDisableScrolling: (componentId, disableScrolling) =>
     dispatch(manageDisableScrolling(componentId, disableScrolling)),
+    onUpdateLikes: (listingId) => dispatch(updateLikes(listingId)),
   callSetInitialValues: (setInitialValues, values, saveToSessionStorage) =>
     dispatch(setInitialValues(values, saveToSessionStorage)),
   onFetchTransactionLineItems: (orderData, listingId, isOwnListing) =>

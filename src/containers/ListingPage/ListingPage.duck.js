@@ -13,7 +13,7 @@ import {
   LISTING_PAGE_DRAFT_VARIANT,
   LISTING_PAGE_PENDING_APPROVAL_VARIANT,
 } from '../../util/urlHelpers';
-import { fetchCurrentUser, fetchCurrentUserHasOrdersSuccess } from '../../ducks/user.duck';
+import { fetchCurrentUser, fetchCurrentUserHasOrdersSuccess, currentUserShowSuccess } from '../../ducks/user.duck';
 
 const { UUID } = sdkTypes;
 
@@ -40,6 +40,10 @@ export const SEND_ENQUIRY_REQUEST = 'app/ListingPage/SEND_ENQUIRY_REQUEST';
 export const SEND_ENQUIRY_SUCCESS = 'app/ListingPage/SEND_ENQUIRY_SUCCESS';
 export const SEND_ENQUIRY_ERROR = 'app/ListingPage/SEND_ENQUIRY_ERROR';
 
+// FOR LIKES/WISHLIST
+export const UPDATE_LIKES_REQUEST ='app/ListingPage/UPDATE_LIKES_REQUEST';
+export const UPDATE_LIKES_SUCCESS ='app/ListingPage/UPDATE_LIKES_SUCCESS';
+export const UPDATE_LIKES_ERROR = 'app/ListingPage/UPDATE_LIKES_ERROR';
 // ================ Reducer ================ //
 
 const initialState = {
@@ -55,6 +59,8 @@ const initialState = {
   sendEnquiryInProgress: false,
   sendEnquiryError: null,
   enquiryModalOpenForListingId: null,
+  updateLikesError: null,
+  updateLikesInProgress: false,
 };
 
 const listingPageReducer = (state = initialState, action = {}) => {
@@ -95,6 +101,13 @@ const listingPageReducer = (state = initialState, action = {}) => {
       return { ...state, sendEnquiryInProgress: false };
     case SEND_ENQUIRY_ERROR:
       return { ...state, sendEnquiryInProgress: false, sendEnquiryError: payload };
+
+    case UPDATE_LIKES_REQUEST:
+      return { ...state, updateLikesInProgress: true, updateLikesError: null };
+    case UPDATE_LIKES_SUCCESS:
+      return { ...state, updateLikesInProgress: false };
+    case UPDATE_LIKES_ERROR:
+      return { ...state, updateLikesInProgress: false, updateLikesError: payload };
 
     default:
       return state;
@@ -149,6 +162,20 @@ export const fetchLineItemsError = error => ({
   type: FETCH_LINE_ITEMS_ERROR,
   error: true,
   payload: error,
+});
+
+export const updateLikesRequest = params => ({
+  type: UPDATE_LIKES_REQUEST,
+  payload: { params },
+});
+export const updateLikesSuccess = result => ({
+  type: UPDATE_LIKES_SUCCESS,
+  payload: result.data,
+});
+export const updateLikesError = error => ({
+  type: UPDATE_LIKES_ERROR,
+  payload: error,
+  error: true,
 });
 
 export const sendEnquiryRequest = () => ({ type: SEND_ENQUIRY_REQUEST });
@@ -334,4 +361,52 @@ export const loadData = (params, search) => dispatch => {
   } else {
     return Promise.all([dispatch(showListing(listingId)), dispatch(fetchReviews(listingId))]);
   }
+};
+
+export const updateLikes = listingId => (dispatch, getState, sdk) => {
+  dispatch(updateLikesRequest());
+
+  return dispatch(fetchCurrentUser()).then(() => {
+    const currentUser = getState().user.currentUser;
+    const currentLikes =
+      currentUser?.attributes?.profile?.privateData?.likedListings;
+
+    const queryParams = {
+      expand: true,
+      include: ['profileImage'],
+      'fields.image': [
+        'variants.square-small',
+        'variants.square-small2x',
+      ],
+    };
+
+    // if listingId already exists in currentLikes, it should be removed from currentLikes
+    // if user has current likes, merge listingId into current likes
+    const ifDislike = !!currentLikes?.includes(listingId);
+    const likedListings = ifDislike
+      ? currentLikes.filter(id => id !== listingId)
+      : currentLikes
+      ? [...currentLikes, listingId]
+      : [listingId];
+
+    return sdk.currentUser
+      .updateProfile({ privateData: { likedListings } }, queryParams)
+      .then(response => {
+        dispatch(updateLikesSuccess(response));
+
+        const entities = denormalisedResponseEntities(response);
+        if (entities.length !== 1) {
+          throw new Error(
+            'Expected a resource in the sdk.currentUser.updateProfile response'
+          );
+        }
+        const currentUser = entities[0];
+
+        // Update current user in state.user.currentUser through user.duck.js
+        dispatch(currentUserShowSuccess(currentUser));
+      })
+      .catch(e => {
+        dispatch(updateLikesError(storableError(e)));
+      });
+  });
 };

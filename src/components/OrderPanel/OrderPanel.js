@@ -22,6 +22,7 @@ import { ModalInMobile, Button, AvatarSmall } from '../../components';
 import BookingDatesForm from './BookingDatesForm/BookingDatesForm';
 import ProductOrderForm from './ProductOrderForm/ProductOrderForm';
 import css from './OrderPanel.module.css';
+import SectionLikes from '../../containers/ListingPage/SectionLikes';
 
 // This defines when ModalInMobile shows content as Modal
 const MODAL_BREAKPOINT = 1023;
@@ -78,6 +79,7 @@ const OrderPanel = props => {
     lineItems,
     fetchLineItemsInProgress,
     fetchLineItemsError,
+    ...rest
   } = props;
 
   const isNightly = unitType === LINE_ITEM_NIGHT;
@@ -133,11 +135,13 @@ const OrderPanel = props => {
         <div className={css.modalHeading}>
           <h1 className={css.title}>{title}</h1>
         </div>
-
+        
         <div className={css.orderHeading}>
           <h2 className={titleClasses}>{title}</h2>
           {subTitleText ? <div className={css.orderHelp}>{subTitleText}</div> : null}
         </div>
+        <span className={css.separator}>•</span>
+        <SectionLikes {...rest} />
         <p className={css.price}>{formatMoney(intl, price)}</p>
         <div className={css.author}>
           <AvatarSmall user={author} className={css.providerAvatar} />
