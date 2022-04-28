@@ -739,6 +739,13 @@
   fill: #817d7d;
   transition: all 0.2s;
 }
+.wishlistIcon > svg {
+  fill: red;
+  transition: all 0.2s;
+}
+.hideHeartIcon {
+  display: none;
+}
 .heartSelectedIcon > svg {
   fill: #fdb7b0;
   transition: all 0.2s;

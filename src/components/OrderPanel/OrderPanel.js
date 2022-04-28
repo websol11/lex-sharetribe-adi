@@ -79,9 +79,10 @@ const OrderPanel = props => {
     lineItems,
     fetchLineItemsInProgress,
     fetchLineItemsError,
+    updateLikesInProgress,
     ...rest
   } = props;
-
+  console.log("OP", {...rest}, updateLikesInProgress);
   const isNightly = unitType === LINE_ITEM_NIGHT;
   const isDaily = unitType === LINE_ITEM_DAY;
   const isUnits = unitType === LINE_ITEM_UNITS;
@@ -140,8 +141,7 @@ const OrderPanel = props => {
           <h2 className={titleClasses}>{title}</h2>
           {subTitleText ? <div className={css.orderHelp}>{subTitleText}</div> : null}
         </div>
-        <span className={css.separator}>•</span>
-        <SectionLikes {...rest} />
+        <SectionLikes {...rest}/>
         <p className={css.price}>{formatMoney(intl, price)}</p>
         <div className={css.author}>
           <AvatarSmall user={author} className={css.providerAvatar} />

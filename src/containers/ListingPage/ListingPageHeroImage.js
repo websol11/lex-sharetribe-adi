@@ -523,6 +523,11 @@ export class ListingPageComponent extends Component {
                     lineItems={lineItems}
                     fetchLineItemsInProgress={fetchLineItemsInProgress}
                     fetchLineItemsError={fetchLineItemsError}
+                    publicData={publicData}
+                    onUpdateLikes={onUpdateLikes}
+                    listingId={listingId.uuid}
+                    currentUser={currentUser}
+                    updateLikesInProgress={updateLikesInProgress}
                   />
                 </div>
               </div>
