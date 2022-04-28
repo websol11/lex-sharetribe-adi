@@ -598,7 +598,7 @@ ListingPageComponent.propTypes = {
   lineItems: array,
   fetchLineItemsInProgress: bool.isRequired,
   fetchLineItemsError: propTypes.error,
-  updateLikesInProgress: bool.isRequired,
+  updateLikesInProgress: bool,
 
 };
 

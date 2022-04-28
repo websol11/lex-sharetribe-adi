@@ -82,7 +82,7 @@ const OrderPanel = props => {
     updateLikesInProgress,
     ...rest
   } = props;
-  console.log("OP", {...rest}, updateLikesInProgress);
+  
   const isNightly = unitType === LINE_ITEM_NIGHT;
   const isDaily = unitType === LINE_ITEM_DAY;
   const isUnits = unitType === LINE_ITEM_UNITS;
