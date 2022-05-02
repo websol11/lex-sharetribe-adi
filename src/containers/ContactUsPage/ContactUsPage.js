@@ -19,6 +19,7 @@ import {
   Footer,
   Page,
   UserNav,
+  NamedLink
 } from '../../components';
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer';
 
@@ -53,6 +54,11 @@ export const ContactUsPageComponent = props => {
   const currentEmail = user.attributes.email || '';
   const protectedData = user.attributes.profile.protectedData || {};
   const currentName = user.attributes.profile.firstName || '';
+  const loginLink = (
+    <NamedLink name="LoginPage" className={css.LoginPage}>
+      {"Log in"}
+    </NamedLink>
+  );
   const contactInfoForm = user.id ? (
     <ContactUsForm
       className={css.form}
@@ -68,7 +74,14 @@ export const ContactUsPageComponent = props => {
       resetPasswordInProgress={resetPasswordInProgress}
       resetPasswordError={resetPasswordError}
     />
-  ) : (<h2>Log in to get in touch with the Block Lunch team.</h2>);
+  ) : (
+    <h2>
+    <FormattedMessage
+      id="ContactUsPage.normalLabel"
+      values={{ loginLink }}
+    />
+    </h2>
+  );
 
   const title = intl.formatMessage({ id: 'ContactUsPage.title' });
 

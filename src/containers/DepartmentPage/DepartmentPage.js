@@ -52,6 +52,7 @@ const DepartmentPageComponent = props => {
         description: 'Department Block Lunch',
         name: 'Department page',
       }}
+      className="department_page"
     >
       <LayoutSingleColumn>
         <LayoutWrapperTopbar>

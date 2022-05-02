@@ -207,7 +207,7 @@ class TopbarComponent extends Component {
       };
     };
     const initialSearchFormValues = topbarSearcInitialValues();
-    console.log("initialSearchFormValues", initialSearchFormValues);
+    //console.log("initialSearchFormValues", initialSearchFormValues);
     const classes = classNames(rootClassName || css.root, className);
 
     return (

@@ -14,6 +14,9 @@ import css from './SectionFilteredSearches.module.css';
 import imageForFilter1 from './images/imageForFilter1_648x448.jpg';
 import imageForFilter2 from './images/imageForFilter2_648x448.jpg';
 import imageForFilter3 from './images/imageForFilter3_648x448.jpg';
+import electronics from './images/electronics.jpg';
+import pet_supplies from './images/pet_supplies.jpg';
+import outdoors from './images/outdoors.jpg';
 
 // Thumbnail image for the search "card"
 class ThumbnailImage extends Component {
@@ -32,9 +35,9 @@ const FilterLink = props => {
   const searchQuery = url.search;
   const productUrl = url.pathname
   const nameText = <span className={css.searchName}>{name}</span>;
-  console.log("LIN", link, url, url.search, productUrl)
+  //console.log("LIN", link, url, url.search, productUrl)
   return (
-    <NamedLink name="SearchPage" to={{ search: productUrl }} className={css.searchLink}>
+    <NamedLink name="SearchPage" to={{ search: "?pub_category="+name }} className={css.searchLink}>
       <div className={css.imageWrapper}>
         <div className={css.aspectWrapper}>
           <LazyImage src={image} alt={name} className={css.searchImage} />
@@ -55,7 +58,8 @@ const FilterLink = props => {
 const SectionFilteredSearches = props => {
   const { rootClassName, className, landingPageListings} = props;
   const classes = classNames(rootClassName || css.root, className);
-  console.log("AA:-",props);
+  //console.log("AA:-",props);
+  let landingCategoryListings = [{"title":"Electronics", "image":electronics},{"title":"Pet Supplies", "image":pet_supplies }, {"title":"Outdoors", "image":outdoors}]
   // FilterLink props:
   // - "name" is a string that defines what kind of search the link is going to make
   // - "image" is imported from images directory and you can update it by changing the file
@@ -68,11 +72,11 @@ const SectionFilteredSearches = props => {
       </div>
       <div className={css.filteredSearches}>
       
-        {landingPageListings.map(each_listing =>
+        {landingCategoryListings.map(each_listing =>
           <FilterLink
-            name={ each_listing.attributes.title }
-            image={each_listing.images[0].attributes.variants['listing-card'].url}
-            link={"http://localhost:3000/l/"+each_listing.attributes.title+"/"+each_listing.id.uuid}
+            name={ each_listing.title }
+            image={ each_listing.image }
+            link={"http://localhost:3000/s?pub_category="+each_listing.title}
           />
         )}
         

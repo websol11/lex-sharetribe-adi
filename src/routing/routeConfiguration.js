@@ -48,6 +48,7 @@ const ShopByCategoryPage = loadable(() => import(/* webpackChunkName: "ShopByCat
 const ContactUsPage = loadable(() => import(/* webpackChunkName: "ContactUsPage" */ '../containers/ContactUsPage/ContactUsPage'));
 const FaqPage = loadable(() => import(/* webpackChunkName: "FaqPage" */ '../containers/FaqPage/FaqPage'));
 const DepartmentPage = loadable(() => import(/* webpackChunkName: "DepartmentPage" */ '../containers/DepartmentPage/DepartmentPage'));
+const WishlistPage = loadable(() => import(/* webpackChunkName: "WishlistPage" */ '../containers/WishlistPage/WishlistPage'));
 
 
 const SearchPage = config.searchPageVariant === 'map' ? SearchPageWithMap : SearchPageWithList;
@@ -367,6 +368,7 @@ const routeConfiguration = () => {
     {
       path: '/messages',
       name: 'MassagesPage',
+      auth: true,
       component: MassagesPage
     },
     {
@@ -398,6 +400,13 @@ const routeConfiguration = () => {
       path: '/department',
       name: 'DepartmentPage',
       component: DepartmentPage,
+    },
+    {
+      path: '/wishlist',
+      name: 'WishlistPage',
+      auth: true,
+      component: WishlistPage,
+      loadData: pageDataLoadingAPI.ListingPage.loadData,
     },
   ];
 };

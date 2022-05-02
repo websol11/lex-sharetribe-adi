@@ -213,7 +213,6 @@ const EditListingDetailsFormComponent = props => (
             options={brands}
             label={brandLabel}
             placeholder={brandPlaceholder}
-            validate={brandRequired}
             schemaType={brandSchemaType}
           />
           <FieldTextInput

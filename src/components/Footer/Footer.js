@@ -87,6 +87,11 @@ const Footer = props => {
                   </NamedLink>
                 </li>
                 <li className={css.listItem}>
+                  <NamedLink name="DepartmentPage" className={css.link}>
+                    <FormattedMessage id="Footer.toDepartmentPage" />
+                  </NamedLink>
+                </li>
+                <li className={css.listItem}>
                   <NamedLink name="AboutPage" className={css.link}>
                     <FormattedMessage id="Footer.toAboutPage" />
                   </NamedLink>
@@ -96,14 +101,13 @@ const Footer = props => {
                     <FormattedMessage id="Footer.toFAQPage" />
                   </NamedLink>
                 </li>
+              </ul>
+            </div>
+            <div className={css.infoLinks}>
+              <ul className={css.list}>
                 <li className={css.listItem}>
                   <NamedLink name="LandingPage" className={css.link}>
                     <FormattedMessage id="Footer.toHelpPage" />
-                  </NamedLink>
-                </li>
-                <li className={css.listItem}>
-                  <NamedLink name="DepartmentPage" className={css.link}>
-                    <FormattedMessage id="Footer.toDepartmentPage" />
                   </NamedLink>
                 </li>
                 <li className={css.listItem}>
@@ -113,7 +117,7 @@ const Footer = props => {
                 </li>
               </ul>
             </div>
-            <div className={css.searches}>
+           { /*<div className={css.searches}>
               <ul className={css.list}>
                 <li className={css.listItem}>
                   <NamedLink
@@ -230,7 +234,8 @@ const Footer = props => {
                   </NamedLink>
                 </li>
               </ul>
-            </div>
+            </div>*/
+          }
             <div className={css.extraLinks}>
               <div className={css.someLinks}>{socialMediaLinks}</div>
               <div className={css.legalMatters}>

@@ -155,30 +155,30 @@ const TopbarDesktop = props => {
   );
 
 
-  const messagesLink = (
+  const messagesLink = authenticatedOnClientSide ? (
     <NamedLink name="MassagesPage" className={css.messagesLink}>
       <span className={css.messages}>
         <FormattedMessage id="TopbarDesktop.messages" />
       </span>
     </NamedLink>
-  );
+  ):null;
 
 
-  const aboutLink = (
+  const aboutLink = authenticatedOnClientSide ? (
     <NamedLink name="ContactUsPage" className={css.messagesLink}>
       <span className={css.messages}>
         <FormattedMessage id="Footer.toContactPage" />
       </span>
     </NamedLink>
-  );
+  ):null;
 
-  const helpLink = (
+  const helpLink = authenticatedOnClientSide ? (
     <NamedLink name="FaqPage" className={css.messagesLink}>
       <span className={css.messages}>
         <FormattedMessage id="Footer.toHelpPage" />
       </span>
     </NamedLink>
-  );
+  ):null;
 
   const ordersLink = authenticatedOnClientSide ? (
     <NamedLink name="OrdersPage" className={css.ordersLink}>

@@ -106,6 +106,7 @@ export class ListingPageComponent extends Component {
       onInitializeCardPaymentData,
     } = this.props;
     const listingId = new UUID(params.id);
+    console.log("PARP", params.id, listingId);
     const listing = getListing(listingId);
 
     const { bookingDates, quantity: quantityRaw, deliveryMethod, ...otherOrderData } = values;
