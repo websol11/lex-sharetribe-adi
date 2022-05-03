@@ -24,6 +24,8 @@ import { ListingCard, NamedLink } from '../../components';
 import { lazyLoadWithDimensions } from '../../util/contextHelpers';
 import { propTypes } from '../../util/types';
 import { getMarketplaceEntities, getListingsById } from '../../ducks/marketplaceData.duck';
+import { fetchCurrentUserWishlistedProducts } from '../../ducks/user.duck';
+import { loadData } from './WishlistPage.duck';
 
 import { types as sdkTypes } from '../../util/sdkLoader';
 import { ensureOwnListing } from '../../util/data';
@@ -48,24 +50,26 @@ export const WishlistPageComponent = props => {
     scrollingDisabled,
     listings,
     intl,
-    getListing,
-    getOwnListing
+    lineItems,
+    currentListing,
+    wishlistedProducts
   } = props;
   const siteTitle = config.siteTitle;
-  console.log("EED", currentUser,getListing('625f73f1-2ba6-44e4-9831-9aed015e66e9'),getOwnListing('625f73f1-2ba6-44e4-9831-9aed015e66e9'))
+  //console.log("EED", currentUser,getListing('625f73f1-2ba6-44e4-9831-9aed015e66e9'),getOwnListing('625f73f1-2ba6-44e4-9831-9aed015e66e9'))
   const { UUID } = sdkTypes;
-
+  console.log("WPINFO",props);
   const customConfig = config.custom;
   const categoryOptions = findOptionsForSelectFilter('category', customConfig.filters);
   const allLikedProductIds = currentUser?.attributes?.profile?.privateData?.likedListings;
   let likedProducts = [];
 
   if (allLikedProductIds != undefined){
+    //console.log("DATA", data);
     allLikedProductIds.map((each_id, i)=>{
-      let listing = getListing(each_id);
-      let currentListing = ensureOwnListing(getListing(each_id));
-      //console.log("RE", new UUID(each_id), currentListing)
-      console.log("LIST:->\n",each_id, listing, "\n\n");
+      //let listing = getListing(each_id);
+      //let currentListing = ensureOwnListing(getListing(each_id));
+      console.log("RE", new UUID(each_id), currentListing)
+      //console.log("LIST:->\n",each_id, listing, "\n\n");
     });
   }
   //console.log("EED 2:->", allLikedProductIds)
@@ -122,138 +126,49 @@ export const WishlistPageComponent = props => {
 WishlistPageComponent.defaultProps = {
   unitType: config.lineItemUnitType,
   currentUser: null,
-  enquiryModalOpenForListingId: null,
-  showListingError: null,
-  reviews: [],
-  fetchReviewsError: null,
-  timeSlots: null,
-  fetchTimeSlotsError: null,
-  sendEnquiryError: null,
   customConfig: config.custom,
   lineItems: null,
   fetchLineItemsError: null,
 };
 
-/*const { bool, func } = PropTypes;*/
 
 WishlistPageComponent.propTypes = {
   currentUser: propTypes.currentUser,
-  getListing: func.isRequired,
-  getOwnListing: func.isRequired,
   onManageDisableScrolling: func.isRequired,
   scrollingDisabled: bool.isRequired,
-  enquiryModalOpenForListingId: string,
-  showListingError: propTypes.error,
-  callSetInitialValues: func.isRequired,
-  reviews: arrayOf(propTypes.review),
-  fetchReviewsError: propTypes.error,
-  timeSlots: arrayOf(propTypes.timeSlot),
-  fetchTimeSlotsError: propTypes.error,
-  sendEnquiryInProgress: bool.isRequired,
-  sendEnquiryError: propTypes.error,
-  onSendEnquiry: func.isRequired,
-  onInitializeCardPaymentData: func,
-  customConfig: object,
-  onFetchTransactionLineItems: func,
-  lineItems: array,
-  fetchLineItemsInProgress: bool.isRequired,
-  fetchLineItemsError: propTypes.error,
   updateLikesInProgress:  bool,
+  fetchCurrentUserWishlistedProductsProgress: bool
 };
 
-/*const mapStateToProps = state => {
-  const { isAuthenticated } = state.Auth;
-  const {
-    lineItems,
-    fetchLineItemsInProgress,
-    fetchLineItemsError,
-    enquiryModalOpenForListingId,
-  } = state.ListingPage;
-  const { currentUser } = state.user;
-  // Topbar needs user info.
-  const getListing = id => {
-    const ref = { id, type: 'listing' };
-
-    const listings = getMarketplaceEntities(state, [ref]);
-    console.log("RE2", listings)
-    return listings.length === 1 ? listings[0] : null;
-  };
-  const getOwnListing = id => {
-    const listings = getMarketplaceEntities(state, [{ id, type: 'ownListing' }]);
-    console.log("RE OWN 2", listings)
-
-    return listings.length === 1 ? listings[0] : null;
-  };
-  return {
-    currentUser,
-    getListing,
-    getOwnListing,
-    scrollingDisabled: isScrollingDisabled(state),
-  };
-};*/
 
 const mapStateToProps = state => {
   const { isAuthenticated } = state.Auth;
   const {
     showListingError,
-    reviews,
-    fetchReviewsError,
-    timeSlots,
-    fetchTimeSlotsError,
-    sendEnquiryInProgress,
-    sendEnquiryError,
-    lineItems,
-    fetchLineItemsInProgress,
-    fetchLineItemsError,
-    enquiryModalOpenForListingId,
+    fetchCurrentUserWishlistedProductsRequest,
+    fetchCurrentUserWishlistedProductsSuccess,
+    fetchCurrentUserWishlistedProductsError
   } = state.ListingPage;
   const { currentUser } = state.user;
+  const productIds = currentUser?.attributes?.profile?.privateData?.likedListings;
+  console.log("PIDS",productIds);
+  const wishlistedProducts = loadData(productIds);
+  console.log("WPIDS",wishlistedProducts);
 
-  const getListing = id => {
-    const ref = { id, type: 'listing' };
-    const listings = getMarketplaceEntities(state, [ref]);
-    return listings.length === 1 ? listings[0] : null;
-  };
 
-  const getOwnListing = id => {
-    const ref = { id, type: 'ownListing' };
-    const listings = getMarketplaceEntities(state, [ref]);
-    return listings.length === 1 ? listings[0] : null;
-  };
 
   return {
     isAuthenticated,
     currentUser,
-    getListing,
-    getOwnListing,
-    scrollingDisabled: isScrollingDisabled(state),
-    enquiryModalOpenForListingId,
-    showListingError,
-    reviews,
-    fetchReviewsError,
-    timeSlots,
-    fetchTimeSlotsError,
-    lineItems,
-    fetchLineItemsInProgress,
-    fetchLineItemsError,
-    sendEnquiryInProgress,
-    sendEnquiryError,
+    wishlistedProducts,
+    
   };
 };
-
-const mapDispatchToProps = dispatch => ({
-  onManageDisableScrolling: (componentId, disableScrolling) =>
-    dispatch(manageDisableScrolling(componentId, disableScrolling)),
-  callSetInitialValues: (setInitialValues, values, saveToSessionStorage) =>
-    dispatch(setInitialValues(values, saveToSessionStorage)),
-  onSendEnquiry: (listingId, message) => dispatch(sendEnquiry(listingId, message)),
-});
 
 const WishlistPage = compose(
   withRouter,
   connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps
   ),
   injectIntl
 )(WishlistPageComponent);

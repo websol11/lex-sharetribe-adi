@@ -35,6 +35,10 @@ export const FETCH_CURRENT_USER_HAS_ORDERS_SUCCESS =
   'app/user/FETCH_CURRENT_USER_HAS_ORDERS_SUCCESS';
 export const FETCH_CURRENT_USER_HAS_ORDERS_ERROR = 'app/user/FETCH_CURRENT_USER_HAS_ORDERS_ERROR';
 
+export const FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_REQUEST = 'app/user/FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_REQUEST';
+export const FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_SUCCESS = 'app/user/FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_SUCCESS';
+export const FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_ERROR   = 'app/user/FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_ERROR';
+
 export const SEND_VERIFICATION_EMAIL_REQUEST = 'app/user/SEND_VERIFICATION_EMAIL_REQUEST';
 export const SEND_VERIFICATION_EMAIL_SUCCESS = 'app/user/SEND_VERIFICATION_EMAIL_SUCCESS';
 export const SEND_VERIFICATION_EMAIL_ERROR = 'app/user/SEND_VERIFICATION_EMAIL_ERROR';
@@ -89,6 +93,7 @@ export default function reducer(state = initialState, action = {}) {
         currentUserHasListingsError: null,
         currentUserNotificationCount: 0,
         currentUserNotificationCountError: null,
+        currentUserWishlistedProducts: null
       };
 
     case FETCH_CURRENT_USER_HAS_LISTINGS_REQUEST:
@@ -114,6 +119,15 @@ export default function reducer(state = initialState, action = {}) {
     case FETCH_CURRENT_USER_HAS_ORDERS_ERROR:
       console.error(payload); // eslint-disable-line
       return { ...state, currentUserHasOrdersError: payload };
+    
+    case FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_REQUEST:
+      return { ...state, currentUserWishlistedProductsError: null };
+    case FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_SUCCESS:
+      console.info("FETCH_CURRENT_USER_WISHLISTED_PRODUCTS:",payload); // eslint-disable-line
+      return { ...state, currentUserWishlistedProducts: payload };
+    case FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_ERROR:
+      console.error("FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_ERROR:-",payload); // eslint-disable-line
+      return { ...state, currentUserWishlistedProductsError: payload };
 
     case SEND_VERIFICATION_EMAIL_REQUEST:
       return {
@@ -174,11 +188,25 @@ export const clearCurrentUser = () => ({ type: CLEAR_CURRENT_USER });
 const fetchCurrentUserHasListingsRequest = () => ({
   type: FETCH_CURRENT_USER_HAS_LISTINGS_REQUEST,
 });
-
 export const fetchCurrentUserHasListingsSuccess = hasListings => ({
   type: FETCH_CURRENT_USER_HAS_LISTINGS_SUCCESS,
   payload: { hasListings },
 });
+
+
+const fetchCurrentUserWishlistedProductsRequest = () => ({
+  type: FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_REQUEST ,
+});
+export const fetchCurrentUserWishlistedProductsSuccess = products => ({
+  type: FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_SUCCESS,
+  payload: { products },
+});
+const fetchCurrentUserWishlistedProductsError = e => ({
+  type: FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_ERROR,
+  error: true,
+  payload: e,
+});
+
 
 const fetchCurrentUserHasListingsError = e => ({
   type: FETCH_CURRENT_USER_HAS_LISTINGS_ERROR,
@@ -382,4 +410,36 @@ export const sendVerificationEmail = () => (dispatch, getState, sdk) => {
     .sendVerificationEmail()
     .then(() => dispatch(sendVerificationEmailSuccess()))
     .catch(e => dispatch(sendVerificationEmailError(storableError(e))));
+};
+
+
+// Wishlisted page size is max (100 items on page)
+const WISHLISTED_PAGE_SIZE = 100;
+
+export const fetchCurrentUserWishlistedProducts = (params = null) => (dispatch, getState, sdk) => {
+  dispatch(fetchCurrentUserWishlistedProductsRequest());
+
+  const { currentUser } = getState().user;
+
+  if (!currentUser) {
+    dispatch(fetchCurrentUserHasListingsSuccess(false));
+    return Promise.resolve(null);
+  }
+
+  const apiQueryParams = {
+    page: 1,
+    per_page: WISHLISTED_PAGE_SIZE,
+    ids:params
+  };
+
+  console.log('PARA', apiQueryParams)
+  sdk.listings
+    .query(apiQueryParams)
+    .then(response => {
+      console.log("I AM HERE", response)
+      dispatch(addMarketplaceEntities(response));
+      dispatch(fetchCurrentUserWishlistedProductsSuccess(response));
+      return response;
+    })
+    .catch(e => dispatch(fetchCurrentUserWishlistedProductsError(storableError(e))));
 };

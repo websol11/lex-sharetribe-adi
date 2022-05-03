@@ -247,6 +247,7 @@
 }
 
 .profileSettingsLink,
+.wishlistPageLink,
 .yourListingsLink {
   @apply --marketplaceH4FontStyles;
   position: relative;

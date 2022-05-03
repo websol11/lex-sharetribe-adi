@@ -406,7 +406,7 @@ const routeConfiguration = () => {
       name: 'WishlistPage',
       auth: true,
       component: WishlistPage,
-      loadData: pageDataLoadingAPI.ListingPage.loadData,
+      loadData: pageDataLoadingAPI.WishlistPage.loadData,
     },
   ];
 };
