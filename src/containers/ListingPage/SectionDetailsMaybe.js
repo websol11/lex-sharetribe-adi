@@ -26,7 +26,6 @@ const SectionDetailsMaybe = props => {
   };
 
   const existingExtendedData = listing?.enumFieldDetails.reduce(pickExtendedData(filters), []);
-  console.log("EED", existingExtendedData)
   return existingExtendedData ? (
     <div className={css.sectionDetails}>
       <h2 className={css.detailsTitle}>

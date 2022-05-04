@@ -99,7 +99,7 @@
   display: flex;
   flex-direction: column;
   margin-top: 0px;
-  width: 420px;
+  width: 100%;
     height: 420px;
     float: left;
   @media (--viewportMedium) {
@@ -133,7 +133,7 @@
 /* A wrapper for a responsive image that holds it's aspect ratio */
 .imageWrapper {
   position: relative;
-  width: 100%;
+  width: 30%;
   border-radius: 4px;
   transition: var(--transitionStyleButton);
 
@@ -178,4 +178,9 @@
 
 .searchName {
   color: var(--marketplaceColor);
+}
+
+.eachWishlistProduct{
+  color: grey;
+  margin-bottom: 10px;
 }

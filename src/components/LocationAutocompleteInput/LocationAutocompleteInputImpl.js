@@ -164,7 +164,7 @@ LocationPredictionsList.propTypes = {
 // LocationAutocompleteInput props.
 const currentValue = props => {
   const value = props.input.value || {};
-  console.log("INI VALES", value)
+  //console.log("INI VALES", value)
   const { search = '', predictions = [], selectedPlace = null } = value;
   return { search, predictions, selectedPlace };
 };
@@ -526,7 +526,7 @@ class LocationAutocompleteInputImpl extends Component {
     // might want to hardcode this to `true`. Otherwise the dropdown
     // list will disappear.
     const renderPredictions = this.state.inputHasFocus;
-    console.log("SEARC", search)
+    //console.log("SEARC", search)
     return (
       <div className={rootClass}>
         <div className={iconClass}>

@@ -97,7 +97,7 @@ const ListingSearchField = props => {
           onChange(value);
           onInputChange(value);
           restInput.value = value.search;
-          console.log("INI", restInput, value);
+          //console.log("INI", restInput, value);
         };
 
         return (
@@ -173,7 +173,7 @@ class TopbarSearchFormComponent extends Component {
   render() {
     const { onSubmit, appConfig, ...restOfProps } = this.props;
     let isKeywordsSearch = isMainSearchTypeKeywords(appConfig);
-    console.log("iks",isKeywordsSearch);
+    //console.log("iks",isKeywordsSearch);
     isKeywordsSearch = false;
     const submit = isKeywordsSearch ? this.onSubmit : onSubmit;
     return (

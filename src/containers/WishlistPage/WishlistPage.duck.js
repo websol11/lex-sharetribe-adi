@@ -19,8 +19,6 @@ const { UUID } = sdkTypes;
 
 // ================ Action types ================ //
 
-export const SET_INITIAL_VALUES = 'app/ListingPage/SET_INITIAL_VALUES';
-
 export const SHOW_LISTING_REQUEST = 'app/ListingPage/SHOW_LISTING_REQUEST';
 export const SHOW_LISTING_ERROR = 'app/ListingPage/SHOW_LISTING_ERROR';
 
@@ -43,13 +41,12 @@ const initialState = {
   updateLikesInProgress: false,
   fetchCurrentUserWishlistedProductsError: null,
   fetchCurrentUserWishlistedProductsProgress: false,
+  wishlistProducts: [],
 };
 
-const listingPageReducer = (state = initialState, action = {}) => {
+const wishlistPageReducer = (state = initialState, action = {}) => {
   const { type, payload } = action;
   switch (type) {
-    case SET_INITIAL_VALUES:
-      return { ...initialState, ...payload };
 
     case SHOW_LISTING_REQUEST:
       return { ...state, id: payload.id, showListingError: null };
@@ -59,11 +56,9 @@ const listingPageReducer = (state = initialState, action = {}) => {
     case FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_REQUEST:
       return { ...state, currentUserWishlistedProductsError: null, fetchCurrentUserWishlistedProductsProgress:true };
     case FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_SUCCESS:
-      console.info("FETCH_CURRENT_USER_WISHLISTED_PRODUCTS:",payload); // eslint-disable-line
-      return { ...state, currentUserWishlistedProducts: payload, fetchCurrentUserWishlistedProductsProgress:false };
+      return { ...state, wishlistProducts: payload, currentUserWishlistedProducts: payload, fetchCurrentUserWishlistedProductsProgress:false };
     case FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_ERROR:
-      console.error("FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_ERROR:-",payload); // eslint-disable-line
-      return { ...state, currentUserWishlistedProductsError: payload, fetchCurrentUserWishlistedProductsProgress: false };
+      return { ...state, wishlistProducts: [], currentUserWishlistedProductsError: payload, fetchCurrentUserWishlistedProductsProgress: false };
 
 
     case UPDATE_LIKES_REQUEST:
@@ -78,14 +73,10 @@ const listingPageReducer = (state = initialState, action = {}) => {
   }
 };
 
-export default listingPageReducer;
+export default wishlistPageReducer;
 
 // ================ Action creators ================ //
 
-export const setInitialValues = initialValues => ({
-  type: SET_INITIAL_VALUES,
-  payload: pick(initialValues, Object.keys(initialState)),
-});
 
 export const showListingRequest = id => ({
   type: SHOW_LISTING_REQUEST,
@@ -101,9 +92,9 @@ const fetchCurrentUserWishlistedProductsRequest = params => ({
   type: FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_REQUEST ,
   payload: {params}
 });
-export const fetchCurrentUserWishlistedProductsSuccess = result => ({
+export const fetchCurrentUserWishlistedProductsSuccess = wishlistProducts => ({
   type: FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_SUCCESS,
-  payload: result.data,
+  payload: wishlistProducts,
 });
 const fetchCurrentUserWishlistedProductsError = error => ({
   type: FETCH_CURRENT_USER_WISHLISTED_PRODUCTS_ERROR,
@@ -132,8 +123,7 @@ export const sendEnquiryError = e => ({ type: SEND_ENQUIRY_ERROR, error: true, p
 
 // ================ Thunks ================ //
 
-export const loadData = (params, search) => (dispatch, getState, sdk)  => {
-  console.log("I AM IN loadData of wishlist");
+export const loadData = () => (dispatch, getState, sdk)  => {
   dispatch(fetchCurrentUserWishlistedProductsRequest());
   return dispatch(fetchCurrentUser()).then(() => {
     const currentUser = getState().user.currentUser;
@@ -143,22 +133,21 @@ export const loadData = (params, search) => (dispatch, getState, sdk)  => {
       const apiQueryParams = {
         page: 1,
         per_page: 100,
-        ids:currentLikes
+        ids:currentLikes,
+        include: [ 'images' ],
       };
-      console.log("APOI AOAS", apiQueryParams);
       return sdk.listings
         .query(apiQueryParams)
         .then(response => {
-          console.log("I MA GHERE", response);
+          const wishlistProducts = denormalisedResponseEntities(response);
+
           dispatch(addMarketplaceEntities(response));
-          dispatch(fetchCurrentUserWishlistedProductsSuccess(response));
+          dispatch(fetchCurrentUserWishlistedProductsSuccess(wishlistProducts));
 
           return response;     
         })
         .catch(e => {
-          console.log("ERR", e)
-          dispatch(fetchCurrentUserWishlistedProductsError(storableError(e)));
-          
+          dispatch(fetchCurrentUserWishlistedProductsError(storableError(e)));          
         });
   });
 };
@@ -188,7 +177,6 @@ export const updateLikes = listingId => (dispatch, getState, sdk) => {
       : currentLikes
       ? [...currentLikes, listingId]
       : [listingId];
-
     return sdk.currentUser
       .updateProfile({ privateData: { likedListings } }, queryParams)
       .then(response => {
@@ -201,9 +189,26 @@ export const updateLikes = listingId => (dispatch, getState, sdk) => {
           );
         }
         const currentUser = entities[0];
-
         // Update current user in state.user.currentUser through user.duck.js
         dispatch(currentUserShowSuccess(currentUser));
+        // get latest wishlisted items
+        const apiQueryParams = {
+          page: 1,
+          per_page: 100,
+          ids:currentUser?.attributes?.profile?.privateData?.likedListings,
+          include: [ 'images' ],
+        };
+        return sdk.listings
+          .query(apiQueryParams)
+          .then(response => {
+            const wishlistProducts = denormalisedResponseEntities(response);
+            dispatch(addMarketplaceEntities(response));
+            dispatch(fetchCurrentUserWishlistedProductsSuccess(wishlistProducts));
+            return response;     
+          })
+          .catch(e => {
+            dispatch(fetchCurrentUserWishlistedProductsError(storableError(e))); 
+        });
       })
       .catch(e => {
         dispatch(updateLikesError(storableError(e)));
