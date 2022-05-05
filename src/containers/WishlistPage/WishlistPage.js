@@ -75,35 +75,39 @@ export const WishlistPageComponent = props => {
               wishlistProducts?(
               <div className={css.filteredSearches}>
                 {wishlistProducts.map((detail, i) => (
-                  <div  key={i} className={css.eachWishlistProduct}>
-                    <NamedLink name="SearchPage" to={{ search: "/l/"+detail.attributes.title+"/"+detail.id.uuid }} className={css.searchLink}>
-                      <div className={css.imageWrapper}>
-                        <div className={css.aspectWrapper}>
-                          <LazyImage src={detail.images[0].attributes.variants.default.url} alt={detail.attributes.label} className={css.searchImage} />
+                  <div key={i} className={css.wishRow}>
+                    <div className={css.wishCol}>
+                      <NamedLink name="SearchPage" to={{ search: "/l/"+detail.attributes.title+"/"+detail.id.uuid }} className={css.searchLink}>
+                        <div className={css.imageWrapper}>
+                          <div className={css.aspectWrapper}>
+                            <LazyImage src={detail.images[0].attributes.variants.default.url} alt={detail.attributes.label} className={css.wishImage} />
+                          </div>
                         </div>
-                      </div>
+                        
+                      </NamedLink>
+                    </div>
+                    <div className={css.wishCol}>
                       <div className={css.linkText}>
-                        <FormattedMessage
-                          id="SectionFilteredSearches.filteredSearch"
-                          values={{ filter: detail.attributes.title }}
-                        />
+                          <FormattedMessage
+                            id="SectionFilteredSearches.filteredSearch"
+                            values={{ filter: detail.attributes.title }}
+                          />
                       </div>
-                    </NamedLink>
-                      <p>{ detail.attributes.description }</p>
                       <FormattedMessage
                         id="SectionFilteredSearches.filteredSearch"
                         values={{ filter: "$" + (detail.attributes.price.amount/100) }}
                       />
-                      <p>{ detail.attributes.publicData.category }</p>
-                      <p>{ detail.attributes.publicData.condition }</p>
-                    <span className="update_like_container"
-                      onClick={() => {
-                      if (currentUser) {
-                        onUpdateLikes(detail.id.uuid);
-                      }
-                     }}>
-                     Remove
-                    </span>
+                    </div>
+                    <div className={css.wishCol}>
+                      <span className="update_like_container"
+                        onClick={() => {
+                        if (currentUser) {
+                          onUpdateLikes(detail.id.uuid);
+                        }
+                       }}>
+                       Remove
+                      </span>
+                    </div>
                   </div>
                 ))}
               </div>

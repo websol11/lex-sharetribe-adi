@@ -23,6 +23,7 @@ import BookingDatesForm from './BookingDatesForm/BookingDatesForm';
 import ProductOrderForm from './ProductOrderForm/ProductOrderForm';
 import css from './OrderPanel.module.css';
 import SectionLikes from '../../containers/ListingPage/SectionLikes';
+import SectionAddToCart from '../../containers/ListingPage/SectionAddToCart';
 
 // This defines when ModalInMobile shows content as Modal
 const MODAL_BREAKPOINT = 1023;
@@ -80,6 +81,7 @@ const OrderPanel = props => {
     fetchLineItemsInProgress,
     fetchLineItemsError,
     updateLikesInProgress,
+    updateCartInProgress,
     ...rest
   } = props;
   
@@ -142,6 +144,7 @@ const OrderPanel = props => {
           {subTitleText ? <div className={css.orderHelp}>{subTitleText}</div> : null}
         </div>
         <SectionLikes {...rest}/>
+        <SectionAddToCart {...rest}/>
         <p className={css.price}>{formatMoney(intl, price)}</p>
         <div className={css.author}>
           <AvatarSmall user={author} className={css.providerAvatar} />

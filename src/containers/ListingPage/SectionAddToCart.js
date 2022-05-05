@@ -1,0 +1,47 @@
+import React from 'react';
+import { FormattedMessage } from '../../util/reactIntl';
+import classNames from 'classnames';
+
+import css from './ListingPage.module.css';
+
+const AddToCartIcon = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="18"
+      height="18"
+      viewBox="0 0 24 28 "
+      fill="#817d7d"
+    >
+      <path d="M11 4.248c-3.148-5.402-12-3.825-12 2.944 0 4.661 5.571 9.427 12 15.808 6.43-6.381 12-11.147 12-15.808 0-6.792-8.875-8.306-12-2.944z" />
+    </svg>
+  );
+};
+
+const SectionAddToCart = props => {
+  const { publicData,
+  onUpdateCart,
+	listingId,
+	currentUser,
+	updateCartInProgress, 
+  } = props;
+
+  const currentCartProducts = currentUser?.attributes?.profile?.privateData?.cartProducts;
+  const iconClassName = currentUser?(currentCartProducts != undefined?(currentCartProducts.indexOf(listingId) > -1?css.wishlistIcon:css.heartIcon):css.heartIcon):css.hideHeartIcon;
+  
+  return (
+    <span className={iconClassName}
+    	onClick={() => {
+			if (!updateCartInProgress && currentUser) {
+				onUpdateCart(listingId);
+			}
+	   }}>
+      <AddToCartIcon/>
+      {
+        iconClassName.includes("heartIcon")?(<span>Add to cart</span>):(<span>Remove from cart</span>)
+      }
+    </span>     
+  );
+};
+
+export default SectionAddToCart;
