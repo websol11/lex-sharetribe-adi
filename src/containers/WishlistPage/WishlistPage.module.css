@@ -66,11 +66,6 @@
 
 .linkText {
   @apply --marketplaceH2FontStyles;
-  color: var(--matterColor);
-
-  @media (--viewportMedium) {
-    
-  }
 }
 
 .wishRow{
