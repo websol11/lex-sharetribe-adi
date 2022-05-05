@@ -68,7 +68,7 @@ export const WishlistPageComponent = props => {
         <LayoutWrapperMain className={css.staticPageWrapper}>
 
           <div className={css.sectionDetails}>
-            <h2 className={css.detailsTitle}>
+            <h2 className={css.details}>
               <FormattedMessage id="WishlistPage.detailsTitle" />
             </h2>
             {
