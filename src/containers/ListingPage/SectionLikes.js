@@ -26,6 +26,7 @@ const SectionLikes = props => {
 	updateLikesInProgress, 
   } = props;
 
+
   const currentLikes = currentUser?.attributes?.profile?.privateData?.likedListings;
   const iconClassName = currentUser?(currentLikes != undefined?(currentLikes.indexOf(listingId) > -1?css.wishlistIcon:css.heartIcon):css.heartIcon):css.hideHeartIcon;
   

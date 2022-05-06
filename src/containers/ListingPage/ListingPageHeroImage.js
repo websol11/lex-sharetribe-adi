@@ -44,7 +44,7 @@ import {
 import TopbarContainer from '../../containers/TopbarContainer/TopbarContainer';
 import NotFoundPage from '../../containers/NotFoundPage/NotFoundPage';
 
-import { sendEnquiry, fetchTransactionLineItems, setInitialValues, updateLikes } from './ListingPage.duck';
+import { sendEnquiry, fetchTransactionLineItems, setInitialValues, updateLikes, updateCart } from './ListingPage.duck';
 import SectionImages from './SectionImages';
 import SectionAvatar from './SectionAvatar';
 import SectionHeading from './SectionHeading';
@@ -211,6 +211,8 @@ export class ListingPageComponent extends Component {
       fetchLineItemsError,
       onUpdateLikes,
       updateLikesInProgress,
+      onUpdateCart,
+      updateCartInProgress,
     } = this.props;
 
     const listingId = new UUID(rawParams.id);
@@ -473,9 +475,11 @@ export class ListingPageComponent extends Component {
                     onContactUser={this.onContactUser}
                     publicData={publicData}
                     onUpdateLikes={onUpdateLikes}
+                    updateLikesInProgress={updateLikesInProgress} 
                     listingId={listingId.uuid}
                     currentUser={currentUser}
-                    updateLikesInProgress={updateLikesInProgress} 
+                    onUpdateCart={onUpdateCart}
+                    updateCartInProgress={updateCartInProgress}
                   />
                   <SectionDescriptionMaybe description={description} listingTitle={richTitle} />
                   <SectionReturnPolicy publicData={publicData} customConfig={customConfig} />
@@ -526,9 +530,11 @@ export class ListingPageComponent extends Component {
                     fetchLineItemsError={fetchLineItemsError}
                     publicData={publicData}
                     onUpdateLikes={onUpdateLikes}
+                    updateLikesInProgress={updateLikesInProgress}
                     listingId={listingId.uuid}
                     currentUser={currentUser}
-                    updateLikesInProgress={updateLikesInProgress}
+                    onUpdateCart={onUpdateCart}
+                    updateCartInProgress={updateCartInProgress}
                   />
                 </div>
               </div>
@@ -600,6 +606,7 @@ ListingPageComponent.propTypes = {
   fetchLineItemsInProgress: bool.isRequired,
   fetchLineItemsError: propTypes.error,
   updateLikesInProgress: bool,
+  updateCartInProgress: bool,
 
 };
 
@@ -656,6 +663,7 @@ const mapDispatchToProps = dispatch => ({
   onManageDisableScrolling: (componentId, disableScrolling) =>
     dispatch(manageDisableScrolling(componentId, disableScrolling)),
     onUpdateLikes: (listingId) => dispatch(updateLikes(listingId)),
+    onUpdateCart: (listingId) => dispatch(updateCart(listingId)),
   callSetInitialValues: (setInitialValues, values, saveToSessionStorage) =>
     dispatch(setInitialValues(values, saveToSessionStorage)),
   onFetchTransactionLineItems: (orderData, listingId, isOwnListing) =>

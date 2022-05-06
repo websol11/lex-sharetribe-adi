@@ -18,6 +18,7 @@ import {
 import EstimatedCustomerBreakdownMaybe from '../EstimatedCustomerBreakdownMaybe';
 
 import css from './ProductOrderForm.module.css';
+import SectionAddToCart from '../../../containers/ListingPage/SectionAddToCart';
 
 const renderForm = formRenderProps => {
   const {
@@ -38,8 +39,17 @@ const renderForm = formRenderProps => {
     fetchLineItemsInProgress,
     fetchLineItemsError,
     values,
+    updateCartInProgress,
+    currentUser,
+    onUpdateCart,
+    ...rest
   } = formRenderProps;
-
+  /*console.log("POFORM",listingId);
+  console.log("REST:", rest);
+  console.log("CUSER:", currentUser);
+  console.log("updateCartInProgress:", updateCartInProgress);
+  console.log("onUpdateCart:", onUpdateCart);
+*/
   const handleOnChange = formValues => {
     const { quantity: quantityRaw, deliveryMethod } = formValues.values;
     const quantity = Number.parseInt(quantityRaw, 10);
@@ -177,7 +187,13 @@ const renderForm = formRenderProps => {
         </div>
       )}
       {breakdown}
+
       <div className={css.submitButton}>
+        { /*<SectionAddToCart {...rest}/> */}
+        <SectionAddToCart onUpdateCart={onUpdateCart} listingId={listingId} currentUser={currentUser} />
+      </div>
+      <div className={css.submitButton}>
+
         <PrimaryButton type="submit" inProgress={submitInProgress} disabled={submitDisabled}>
           {hasStock ? (
             <FormattedMessage id="ProductOrderForm.ctaButton" />

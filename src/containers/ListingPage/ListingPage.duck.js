@@ -44,6 +44,12 @@ export const SEND_ENQUIRY_ERROR = 'app/ListingPage/SEND_ENQUIRY_ERROR';
 export const UPDATE_LIKES_REQUEST ='app/ListingPage/UPDATE_LIKES_REQUEST';
 export const UPDATE_LIKES_SUCCESS ='app/ListingPage/UPDATE_LIKES_SUCCESS';
 export const UPDATE_LIKES_ERROR = 'app/ListingPage/UPDATE_LIKES_ERROR';
+
+// FOR ADDTOCART
+export const UPDATE_ADD_TO_CART_REQUEST ='app/ListingPage/UPDATE_ADDTOCART_REQUEST';
+export const UPDATE_ADD_TO_CART_SUCCESS ='app/ListingPage/UPDATE_ADDTOCART_SUCCESS';
+export const UPDATE_ADD_TO_CART_ERROR = 'app/ListingPage/UPDATE_ADDTOCART_ERROR';
+
 // ================ Reducer ================ //
 
 const initialState = {
@@ -61,6 +67,8 @@ const initialState = {
   enquiryModalOpenForListingId: null,
   updateLikesError: null,
   updateLikesInProgress: false,
+  updateCartInProgress: false,
+  updateLikesError: null,
 };
 
 const listingPageReducer = (state = initialState, action = {}) => {
@@ -109,6 +117,13 @@ const listingPageReducer = (state = initialState, action = {}) => {
     case UPDATE_LIKES_ERROR:
       return { ...state, updateLikesInProgress: false, updateLikesError: payload };
 
+    case UPDATE_ADD_TO_CART_REQUEST:
+      return { ...state, updateCartInProgress: true, updateLikesError: null };
+    case UPDATE_ADD_TO_CART_SUCCESS:
+      return { ...state, updateCartInProgress: false };
+    case UPDATE_ADD_TO_CART_ERROR:
+      return { ...state, updateCartInProgress: false, updateLikesError: payload };
+    
     default:
       return state;
   }
@@ -177,6 +192,22 @@ export const updateLikesError = error => ({
   payload: error,
   error: true,
 });
+
+export const updateAddToCartRequest = params => ({
+  type: UPDATE_ADD_TO_CART_REQUEST,
+  payload: { params },
+});
+export const updateAddToCartSuccess = result => ({
+  type: UPDATE_ADD_TO_CART_SUCCESS,
+  payload: result.data,
+});
+export const updateAddToCartError = error => ({
+  type: UPDATE_ADD_TO_CART_ERROR,
+  payload: error,
+  error: true,
+});
+
+
 
 export const sendEnquiryRequest = () => ({ type: SEND_ENQUIRY_REQUEST });
 export const sendEnquirySuccess = () => ({ type: SEND_ENQUIRY_SUCCESS });
@@ -407,6 +438,58 @@ export const updateLikes = listingId => (dispatch, getState, sdk) => {
       })
       .catch(e => {
         dispatch(updateLikesError(storableError(e)));
+      });
+  });
+};
+
+export const updateCart = listingId => (dispatch, getState, sdk) => {
+  dispatch(updateAddToCartRequest());
+
+  return dispatch(fetchCurrentUser()).then(() => {
+    const currentUser = getState().user.currentUser;
+    console.log("IN UPD", currentUser);
+    const cartProducts =
+      currentUser?.attributes?.profile?.protectedData?.cartLikedProducts;
+
+    console.log("IN UPD", cartProducts);
+
+    const queryParams = {
+      expand: true,
+      include: ['profileImage'],
+      'fields.image': [
+        'variants.square-small',
+        'variants.square-small2x',
+      ],
+    };
+
+    console.log(listingId, queryParams);
+    // if listingId already exists in cartProducts, it should be removed from cartProducts
+    // if user has current likes, merge listingId into current likes
+    const ifDislike = !!cartProducts?.includes(listingId);
+    const cartLikedProducts = ifDislike
+      ? cartProducts.filter(id => id !== listingId)
+      : cartProducts
+      ? [...cartProducts, listingId]
+      : [listingId];
+
+    return sdk.currentUser
+      .updateProfile({ protectedData: { cartLikedProducts } }, queryParams)
+      .then(response => {
+        dispatch(updateAddToCartSuccess(response));
+
+        const entities = denormalisedResponseEntities(response);
+        if (entities.length !== 1) {
+          throw new Error(
+            'Expected a resource in the sdk.currentUser.updateProfile response'
+          );
+        }
+        const currentUser = entities[0];
+
+        // Update current user in state.user.currentUser through user.duck.js
+        dispatch(currentUserShowSuccess(currentUser));
+      })
+      .catch(e => {
+        dispatch(updateAddToCartError(storableError(e)));
       });
   });
 };

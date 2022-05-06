@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { arrayOf, array, bool, func, node, oneOfType, shape, string } from 'prop-types';
 import classNames from 'classnames';
 import omit from 'lodash/omit';
+import { connect } from 'react-redux';
 
 import config from '../../config';
 import { intlShape, injectIntl, FormattedMessage } from '../../util/reactIntl';
@@ -24,6 +25,7 @@ import ProductOrderForm from './ProductOrderForm/ProductOrderForm';
 import css from './OrderPanel.module.css';
 import SectionLikes from '../../containers/ListingPage/SectionLikes';
 import SectionAddToCart from '../../containers/ListingPage/SectionAddToCart';
+import { updateCart } from '../../containers/ListingPage/ListingPage.duck';
 
 // This defines when ModalInMobile shows content as Modal
 const MODAL_BREAKPOINT = 1023;
@@ -81,10 +83,13 @@ const OrderPanel = props => {
     fetchLineItemsInProgress,
     fetchLineItemsError,
     updateLikesInProgress,
+    onUpdateOrderCart,
     updateCartInProgress,
+    currentUser,
+    listingId,
     ...rest
   } = props;
-  
+  console.info("RES ProductOrderFormO", rest);
   const isNightly = unitType === LINE_ITEM_NIGHT;
   const isDaily = unitType === LINE_ITEM_DAY;
   const isUnits = unitType === LINE_ITEM_UNITS;
@@ -151,6 +156,8 @@ const OrderPanel = props => {
           <FormattedMessage id="OrderPanel.soldBy" values={{ name: authorDisplayName }} />
         </div>
 
+        {/*<SectionAddToCart {...rest}/>*/}
+
         {showBookingDatesForm ? (
           <BookingDatesForm
             className={css.bookingForm}
@@ -159,7 +166,7 @@ const OrderPanel = props => {
             unitType={unitType}
             onSubmit={onSubmit}
             price={price}
-            listingId={listing.id}
+            listingId={listing.id.uuid}
             isOwnListing={isOwnListing}
             timeSlots={timeSlots}
             fetchTimeSlotsError={fetchTimeSlotsError}
@@ -176,13 +183,16 @@ const OrderPanel = props => {
             currentStock={currentStock}
             pickupEnabled={pickupEnabled}
             shippingEnabled={shippingEnabled}
-            listingId={listing.id}
+            listingId={listing.id.uuid}
             isOwnListing={isOwnListing}
             onFetchTransactionLineItems={onFetchTransactionLineItems}
             onContactUser={onContactUser}
             lineItems={lineItems}
             fetchLineItemsInProgress={fetchLineItemsInProgress}
             fetchLineItemsError={fetchLineItemsError}
+            currentUser={currentUser}            
+            onUpdateCart={onUpdateOrderCart}
+            updateCartInProgress={updateCartInProgress}
           />
         ) : null}
       </ModalInMobile>
@@ -201,6 +211,7 @@ const OrderPanel = props => {
             <FormattedMessage id="OrderPanel.closedListingButtonText" />
           </div>
         ) : (
+
           <Button
             rootClassName={css.orderButton}
             onClick={() => openOrderModal(isOwnListing, isClosed, history, location)}
@@ -229,6 +240,8 @@ OrderPanel.defaultProps = {
   fetchTimeSlotsError: null,
   lineItems: null,
   fetchLineItemsError: null,
+  currentUser: null,
+
 };
 
 OrderPanel.propTypes = {
@@ -249,6 +262,11 @@ OrderPanel.propTypes = {
   lineItems: array,
   fetchLineItemsInProgress: bool.isRequired,
   fetchLineItemsError: propTypes.error,
+  updateCartInProgress: bool,
+  currentUser: propTypes.currentUser,
+  listingId: string,
+
+
 
   // from withRouter
   history: shape({
@@ -262,7 +280,23 @@ OrderPanel.propTypes = {
   intl: intlShape.isRequired,
 };
 
+const mapStateToProps = state => {
+  const { isAuthenticated } = state.Auth;
+  const { currentUser } = state.user;
+
+  return {
+    isAuthenticated,
+    currentUser,
+  };
+};
+const mapDispatchToProps = dispatch => ({
+   onUpdateOrderCart: (listingId) => dispatch(updateCart(listingId)),
+});
 export default compose(
   withRouter,
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   injectIntl
 )(OrderPanel);
