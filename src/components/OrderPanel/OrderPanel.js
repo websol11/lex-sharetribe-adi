@@ -89,7 +89,7 @@ const OrderPanel = props => {
     listingId,
     ...rest
   } = props;
-  console.info("RES ProductOrderFormO", rest);
+  //console.info("RES ProductOrderFormO", rest);
   const isNightly = unitType === LINE_ITEM_NIGHT;
   const isDaily = unitType === LINE_ITEM_DAY;
   const isUnits = unitType === LINE_ITEM_UNITS;
@@ -149,7 +149,6 @@ const OrderPanel = props => {
           {subTitleText ? <div className={css.orderHelp}>{subTitleText}</div> : null}
         </div>
         <SectionLikes {...rest}/>
-        <SectionAddToCart {...rest}/>
         <p className={css.price}>{formatMoney(intl, price)}</p>
         <div className={css.author}>
           <AvatarSmall user={author} className={css.providerAvatar} />

@@ -15,26 +15,37 @@ const SectionAddToCart = props => {
   onUpdateCart,
 	listingId,
 	currentUser,
+  quantity,
 	updateCartInProgress, 
   } = props;
-  console.log("HERE IN SATC", currentUser);
 
-  const currentCartProducts = currentUser?.attributes?.profile?.protectedData?.likedProducts;
-  
-  /*console.log("SATC", updateCartInProgress, listingId,currentUser, "\n");
-  console.log("CCP", currentCartProducts, "\n");*/
-  
-  const iconClassName = currentUser?(currentCartProducts != undefined?(currentCartProducts.indexOf(listingId) > -1?css.wishlistIcon:css.heartIcon):css.heartIcon):css.hideHeartIcon;
-  
+  let action="add";
+  console.log("HERE IN SATC", currentUser,quantity, listingId);
+
+  const cartProducts = currentUser?.attributes?.profile?.protectedData?.cartLikedProducts;
+  if (cartProducts != undefined){
+    if (cartProducts.length){
+      cartProducts.map((each, i)=>{
+        if ((each["id"] == listingId)){
+          if (each["quantity"] == quantity)
+            action = "remove";
+          else
+            action = "update";
+        }
+      });
+    }    
+  }
+  console.log("COS", cartProducts, action);
+
   return (
     <span className="cartIcon"
     	onClick={() => {
-			if (!updateCartInProgress && currentUser) {
-				onUpdateCart(listingId);
+			if (listingId && currentUser && quantity) {
+				onUpdateCart({"id":listingId, "quantity":quantity, "action":action});
 			}
 	   }}>
       <AddToCartIcon/>
-      <span>Add to cart</span>
+      <span>{action == "add"?"Add to cart":(action == "remove")?"Remove from cart":"Update cart"}</span>
       
     </span>     
   );

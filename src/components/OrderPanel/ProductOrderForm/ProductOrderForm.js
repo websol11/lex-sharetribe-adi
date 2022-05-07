@@ -44,6 +44,7 @@ const renderForm = formRenderProps => {
     onUpdateCart,
     ...rest
   } = formRenderProps;
+  //console.log("QUANT:", values['quantity'], intl);
   /*console.log("POFORM",listingId);
   console.log("REST:", rest);
   console.log("CUSER:", currentUser);
@@ -121,6 +122,7 @@ const renderForm = formRenderProps => {
   const submitDisabled = !hasStock;
 
   return (
+    <div>
     <Form onSubmit={handleFormSubmit}>
       <FormSpy subscription={{ values: true }} onChange={handleOnChange} />
       {hasNoStockLeft ? null : hasOneItemLeft ? (
@@ -189,10 +191,6 @@ const renderForm = formRenderProps => {
       {breakdown}
 
       <div className={css.submitButton}>
-        { /*<SectionAddToCart {...rest}/> */}
-        <SectionAddToCart onUpdateCart={onUpdateCart} listingId={listingId} currentUser={currentUser} />
-      </div>
-      <div className={css.submitButton}>
 
         <PrimaryButton type="submit" inProgress={submitInProgress} disabled={submitDisabled}>
           {hasStock ? (
@@ -210,6 +208,14 @@ const renderForm = formRenderProps => {
         ) : null}
       </p>
     </Form>
+    {
+      values['quantity']?(
+      <div className={css.submitButton}>
+            <SectionAddToCart onUpdateCart={onUpdateCart} listingId={listingId} currentUser={currentUser} quantity={values['quantity']} />
+      </div>
+      ):null
+    }
+    </div>
   );
 };
 
