@@ -59,3 +59,16 @@
     padding: 0;
   }
 }
+
+.cartButtonContainer{
+    background: #7040d0;
+    color: #fff;
+    text-align: center;
+    padding: 17px 0 16px;
+    margin-top: 20px;
+}
+
+
+.submitButton{
+  margin-top: 10px;
+}

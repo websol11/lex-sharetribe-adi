@@ -1090,5 +1090,10 @@
   "EditListingDeliveryForm.returnPolicyPlaceholderMessage":"Enter product returns/settlement policy",
   "EditListingDetailsForm.conditionLabel": "Product Condition",
   "EditListingDetailsForm.conditionPlaceholder": "Choose…",
-  "EditListingDetailsForm.conditionRequired": "You need to select product condition."
+  "EditListingDetailsForm.conditionRequired": "You need to select product condition.",
+  "CartPage.detailsTitle":"Your cart",
+  "CartPage.itemBasePrice": "{filter}",
+  "CartPage.itemShippingPrice": "{filter}",
+  "CartPage.itemTotalPrice": "{filter}",
+  "CartPage.itemTitle": "{filter}"
 }

@@ -384,7 +384,9 @@ const routeConfiguration = () => {
     {
       path: '/cart',
       name: 'CartPage',
-      component: CartPage
+      auth: true,
+      component: CartPage,
+      loadData: pageDataLoadingAPI.CartPage.loadData,
     },
     {
       path: '/contact',

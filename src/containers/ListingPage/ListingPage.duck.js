@@ -450,9 +450,8 @@ export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
     const currentUser = getState().user.currentUser;
     const cartProducts =
       currentUser?.attributes?.profile?.protectedData?.cartLikedProducts;
-
-    console.log("IN UPD", cartProducts);
-
+    console.log("IN LISTING UPD", cartProducts);
+    
     const queryParams = {
       expand: true,
       include: ['profileImage'],
@@ -465,29 +464,34 @@ export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
     // if listingId already exists in cartProducts, it should be removed from cartProducts
     // if user has current likes, merge listingId into current likes
     let cartLikedProducts = [];
+
     if (cartProducts.length){
+      if (cartProducts.length == 10){
+        throw new Error(
+          'You cannot add products more than 10'
+        );
+      }
+
+      if (paramsObj["action"] == "add"){
+        console.log("HERE", paramsObj)
+        if (paramsObj["quantity"])
+          cartLikedProducts.push({"id":paramsObj["id"], "quantity":paramsObj["quantity"]})
+      }
+
       cartProducts.map((each, i)=>{
         if (paramsObj["action"] == "remove"){
           if (each["id"] != paramsObj["id"])
             cartLikedProducts.push(each)
         }
-        else if (paramsObj["action"] == "add"){
-          console.log("ELSE",each["id"], paramsObj["id"], paramsObj["quantity"]);
-          if (each["id"] == paramsObj["id"]){
-            cartLikedProducts.push(each)
-          }
-          else{
-            console.log("IN ELSE",paramsObj["quantity"]);
-            cartLikedProducts.push({"id":paramsObj["id"], "quantity":paramsObj["quantity"]})
-          }
-        }
         else if (paramsObj["action"] == "update"){
-          cartLikedProducts.push({"id":paramsObj["id"], "quantity":paramsObj["quantity"]})
+          if (each["id"] == paramsObj["id"])
+            cartLikedProducts.push({"id":paramsObj["id"], "quantity":paramsObj["quantity"]})
+          else
+            cartLikedProducts.push(each);
         }else{
-          cartLikedProducts.push(each)
-
+          cartLikedProducts.push(each);
         }
-      });      
+      });
     }else{
       if (paramsObj["quantity"])
         cartLikedProducts.push({"id":paramsObj["id"], "quantity":paramsObj["quantity"]});
@@ -499,7 +503,7 @@ export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
       ? [...cartProducts, listingId]
       : [listingId];*/
     
-    console.log("AFTER UPD", cartLikedProducts, [...cartProducts, cartLikedProducts]);
+    console.log("AFTER UPD", cartLikedProducts);
     return sdk.currentUser
       .updateProfile({ protectedData: { cartLikedProducts } }, queryParams)
       .then(response => {

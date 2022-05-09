@@ -3,81 +3,114 @@
 
 
 .sectionDetails {
-  
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1128px;
+  padding: 0 36px;
+  @media (--viewportMaxMedium) {
+    font-size: 12px;
+    padding: 0 10px;
+  }
 }
-
-.details {
-  
-}
-
 
 .staticPageWrapper {
-  
-}
-
-.filteredSearches {
-
+  background: #F7F7F7;
 }
 
 .searchLink {
-
-  /* Remove link's hover effect */
   &:hover {
     text-decoration: none;  
   }
 }
 
-@media (--viewportMedium) {
-  .searchLink {
-    margin-top: 0;
-    margin-right: 40px;
-    margin-bottom: 0;
-
-    &:last-of-type {
-      margin-right: 0;
-    }
-  }
-}
 
 /* A wrapper for a responsive image that holds it's aspect ratio */
 .imageWrapper {
-  
-  transition: var(--transitionStyleButton);
+  transform: none;
+  box-shadow: none;
 
-  &:hover {
-    transform: scale(1.02);
-    box-shadow: var(--boxShadowSectionLocationHover);
-  }
 }
 
 /* An image wrapper that defines the images aspect ratio */
-.aspectWrapper {
-  /*padding-bottom: calc(6 / 13 * 100%);*/ /* 13:6 Aspect Ratio */
 
-  @media (--viewportMedium) {
-    padding-bottom: calc(2 / 3 * 100%); /* 3:2 Aspect Ratio */
-  }
-}
 
-.wishImage {
-  /* Layout - image will take space defined by aspect ratio wrapper */
+/*.aspectWrapper div {
+  position: static !important;
+}*/
 
-}
+
 
 .linkText {
-  @apply --marketplaceH2FontStyles;
+  margin: 0;
+  line-height: normal;
+  color: #5D2BC0;
+  font-size: 16px;
+  @media (--viewportMaxMedium) {
+    font-size: 13px;
+  }
 }
 
 .wishRow{
+  border: 1px solid #E8E8E8;
+  padding: 10px 20px;
+  margin: 0 0 15px 0;
+  align-items: flex-start;
   display: flex;
+  background-color: #ffffff;
+  border-radius: 8px;
   @media (--viewportMaxMedium) {
-    flex-direction: column;
+    padding: 5px 10px;
+    margin: 0 0 10px 0;
   }
 }
 .wishCol{
+  font-size: 14px;
   width: 33.33%;
 
   @media (--viewportMaxMedium) {
-    width: 100%;
+    font-size: 12px;
   }
 }
+.wishCol img {
+    height: 70px;
+    width: 70px;
+    object-fit: cover;
+  @media (--viewportMaxMedium) {
+    height: 35px;
+  }
+}
+
+.wishCol:first-child{
+  align-self: center;
+}
+.wishCol:last-child{
+  text-align: right;
+  align-self: center;
+}
+
+.buttonRemove {
+  background: #2ECC71;
+  color: #fff;
+  padding: 5px 10px;
+  cursor: pointer;
+
+  &:hover {
+    background: #239954;
+  }
+}
+
+/*
+@media (--viewportMaxMedium) {
+  .wishRow{
+    padding: 5px 10px;
+    margin: 0 0 10px 0;
+  }
+  .wishCol{
+    font-size: 12px;
+  }
+  .linkText{
+    font-size: 13px;
+  }
+  .sectionDetails{padding: 0 10px;}
+}
+*/

@@ -1,58 +1,118 @@
 @import '../../styles/customMediaQueries.css';
 @import '../../styles/propertySets.css';
+@import '../../styles/customMediaQueries.css';
+@import '../../styles/propertySets.css';
 
-.pageTitle {
-  text-align: center;
+
+.sectionDetails {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1128px;
+  padding: 0 36px;
+  @media (--viewportMaxMedium) {
+    font-size: 12px;
+    padding: 0 10px;
+  }
 }
 
 .staticPageWrapper {
-  width: calc(100% - 48px);
-  max-width: 1056px;
-  margin: 24px auto;
+  background: #F7F7F7;
+}
 
-  @media (--viewportMedium) {
-    width: calc(100% - 72px);
-    margin: 72px auto;
+.searchLink {
+  &:hover {
+    text-decoration: none;  
   }
 }
 
-.coverImage {
-  width: 100%;
-  height: 528px;
-  border-radius: 4px;
-  object-fit: cover;
-  margin: 32px 0 40px;
+
+/* A wrapper for a responsive image that holds it's aspect ratio */
+.imageWrapper {
+  transform: none;
+  box-shadow: none;
+
 }
 
-.contentWrapper {
+/* An image wrapper that defines the images aspect ratio */
+
+
+/*.aspectWrapper div {
+  position: static !important;
+}*/
+
+
+
+.linkText {
+  margin: 0;
+  line-height: normal;
+  color: #5D2BC0;
+  font-size: 16px;
+  @media (--viewportMaxMedium) {
+    font-size: 13px;
+  }
+}
+
+.wishRow{
+  border: 1px solid #E8E8E8;
+  padding: 10px 20px;
+  margin: 0 0 15px 0;
+  align-items: flex-start;
   display: flex;
-  flex-wrap: wrap;
+  background-color: #ffffff;
+  border-radius: 8px;
+  @media (--viewportMaxMedium) {
+    padding: 5px 10px;
+    margin: 0 0 10px 0;
+  }
+}
+.wishCol{
+  font-size: 14px;
+  width: 33.33%;
 
-  @media (--viewportMedium) {
-    flex-wrap: nowrap;
+  @media (--viewportMaxMedium) {
+    font-size: 12px;
+  }
+}
+.wishCol img {
+    height: 70px;
+    width: 70px;
+    object-fit: cover;
+  @media (--viewportMaxMedium) {
+    height: 35px;
   }
 }
 
-.contentSide {
-  font-style: italic;
+.wishCol:first-child{
+  align-self: center;
+}
+.wishCol:last-child{
+  text-align: right;
+  align-self: center;
+}
 
-  @media (--viewportMedium) {
-    width: 193px;
-    margin-right: 103px;
-    margin-top: 8px;
+.buttonRemove {
+  background: #2ECC71;
+  color: #fff;
+  padding: 5px 10px;
+  cursor: pointer;
+
+  &:hover {
+    background: #239954;
   }
 }
 
-.contentMain {
-  width: 90%;
-
-  @media (--viewportMedium) {
-    max-width: 650px;
+/*
+@media (--viewportMaxMedium) {
+  .wishRow{
+    padding: 5px 10px;
+    margin: 0 0 10px 0;
   }
+  .wishCol{
+    font-size: 12px;
+  }
+  .linkText{
+    font-size: 13px;
+  }
+  .sectionDetails{padding: 0 10px;}
 }
-
-.subtitle {
-  @apply --marketplaceH3FontStyles;
-  margin-top: 32px;
-  margin-bottom: 16px;
-}
+*/

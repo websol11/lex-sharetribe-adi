@@ -189,7 +189,13 @@ const renderForm = formRenderProps => {
         </div>
       )}
       {breakdown}
-
+      {
+      values['quantity']?(
+      <div className={css.cartButtonContainer}>
+        <SectionAddToCart onUpdateCart={onUpdateCart} listingId={listingId} currentUser={currentUser} quantity={values['quantity']} />
+      </div>
+      ):null
+      }
       <div className={css.submitButton}>
 
         <PrimaryButton type="submit" inProgress={submitInProgress} disabled={submitDisabled}>
@@ -208,13 +214,7 @@ const renderForm = formRenderProps => {
         ) : null}
       </p>
     </Form>
-    {
-      values['quantity']?(
-      <div className={css.submitButton}>
-            <SectionAddToCart onUpdateCart={onUpdateCart} listingId={listingId} currentUser={currentUser} quantity={values['quantity']} />
-      </div>
-      ):null
-    }
+    
     </div>
   );
 };
@@ -289,7 +289,7 @@ ProductOrderForm.propTypes = {
   onSubmit: func.isRequired,
 
   // listing
-  listingId: propTypes.uuid,
+  listingId: string,
   price: propTypes.money,
   currentStock: number,
   isOwnListing: bool,

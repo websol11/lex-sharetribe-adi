@@ -19,6 +19,7 @@ import SearchPage from './SearchPage/SearchPage.duck';
 import StripePayoutPage from './StripePayoutPage/StripePayoutPage.duck';
 import TransactionPage from './TransactionPage/TransactionPage.duck';
 import WishlistPage from './WishlistPage/WishlistPage.duck';
+import CartPage from './CartPage/CartPage.duck';
 
 export {
   CheckoutPage,
@@ -37,4 +38,5 @@ export {
   StripePayoutPage,
   TransactionPage,
   WishlistPage,
+  CartPage,
 };

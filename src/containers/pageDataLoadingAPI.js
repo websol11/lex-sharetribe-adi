@@ -17,6 +17,7 @@ import {
   setInitialValues as TransactionPageInitialValues,
 } from './TransactionPage/TransactionPage.duck';
 import { loadData as WishlistPageLoader } from './WishlistPage/WishlistPage.duck';
+import { loadData as CartPageLoader } from './CartPage/CartPage.duck';
 
 const getPageDataLoadingAPI = () => {
   return {
@@ -59,6 +60,9 @@ const getPageDataLoadingAPI = () => {
     },
     WishlistPage: {
       loadData: WishlistPageLoader,
+    },
+    CartPage: {
+      loadData: CartPageLoader,
     },
   };
 };

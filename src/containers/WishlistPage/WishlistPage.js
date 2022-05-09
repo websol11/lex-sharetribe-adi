@@ -79,9 +79,7 @@ export const WishlistPageComponent = props => {
                     <div className={css.wishCol}>
                       <NamedLink name="SearchPage" to={{ search: "/l/"+detail.attributes.title+"/"+detail.id.uuid }} className={css.searchLink}>
                         <div className={css.imageWrapper}>
-                          <div className={css.aspectWrapper}>
-                            <LazyImage src={detail.images[0].attributes.variants.default.url} alt={detail.attributes.label} className={css.wishImage} />
-                          </div>
+                          <img src={detail.images[0].attributes.variants.default.url} alt={detail.attributes.label}/>                          
                         </div>
                         
                       </NamedLink>
@@ -99,7 +97,7 @@ export const WishlistPageComponent = props => {
                       />
                     </div>
                     <div className={css.wishCol}>
-                      <span className="update_like_container"
+                      <span className={css.buttonRemove}
                         onClick={() => {
                         if (currentUser) {
                           onUpdateLikes(detail.id.uuid);
