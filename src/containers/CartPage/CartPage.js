@@ -53,6 +53,7 @@ export const CartPageComponent = props => {
     updateCartInProgress,
   } = props;
   console.log("CPC:-",cartProducts);
+
   const quantityRequiredMsg = intl.formatMessage({ id: 'ProductOrderForm.quantityRequired' });
   return (
     <StaticPage
@@ -95,18 +96,21 @@ export const CartPageComponent = props => {
                           <FormattedMessage
                             id="CartPage.itemTitle"
                             values={{ filter: detail.attributes.title }}
+                            className={css.productTitle}
                           />
                       </div>
-                      <FormattedMessage
-                        id="CartPage.itemBasePrice"
-                        values={{ filter: "$" + (detail.attributes.price.amount/100) + "/Item"}}
-                      />
-                      +
-                      <FormattedMessage
-                        id="CartPage.itemShippingPrice"
-                        values={{ filter: "$" + (detail.attributes.publicData.shippingPriceInSubunitsOneItem/100) + " Shipping"}}
-                      />
-                      <div>
+                      <div className={css.shippingPrice}>
+                          <FormattedMessage
+                            id="CartPage.itemBasePrice"
+                            values={{ filter: "$" + (detail.attributes.price.amount/100) + "/Item"}}
+                          />
+                          +
+                          <FormattedMessage
+                            id="CartPage.itemShippingPrice"
+                            values={{ filter: "$" + (detail.attributes.publicData.shippingPriceInSubunitsOneItem/100) + " Shipping"}}
+                          />
+                      </div>
+                      <div className={css.totalPrice}>
                         {detail.attributes.publicData.shippingPriceInSubunitsAdditionalItems?(
                           <FormattedMessage
                             id="CartPage.itemTotalPrice"
@@ -120,7 +124,7 @@ export const CartPageComponent = props => {
                          )
                         }
                       </div>
-                      <div>
+                      <div className={css.cartBottom} >
                         <select 
                             className={css.quantityField}
                             value={detail.quantity}
@@ -134,24 +138,25 @@ export const CartPageComponent = props => {
                             </option>
                           ))}
                         </select>
-
-                          <span 
-                            onClick={() => {
-                            if (currentUser) {
-                              onUpdateLikes(detail.id.uuid);
-                            }
-                           }}>
-                           Delete
-                          </span>
-                          |
-                          <span
-                            onClick={() => {
-                            if (currentUser) {
-                              onUpdateLikes(detail.id.uuid);
-                            }
-                           }}>
-                           Save for later
-                          </span>
+                        <div className={css.extraButton}>
+                              <span 
+                                onClick={() => {
+                                if (currentUser) {
+                                  onUpdateLikes(detail.id.uuid);
+                                }
+                               }}>
+                               Delete
+                              </span>
+                              |
+                              <span
+                                onClick={() => {
+                                if (currentUser) {
+                                  onUpdateLikes(detail.id.uuid);
+                                }
+                               }}>
+                               Save for later
+                              </span>
+                        </div>
                       </div>
                     </div>
                     <div className={css.wishCol}>
