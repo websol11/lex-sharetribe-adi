@@ -102,8 +102,9 @@ export const CartPageComponent = props => {
                       <div className={css.shippingPrice}>
                           <FormattedMessage
                             id="CartPage.itemBasePrice"
-                            values={{ filter: "$" + (detail.attributes.price.amount/100) + "/Item"}}
+                            values={{ filter: "$" + (detail.attributes.price.amount/100)}}
                           />
+                          /Item
                           +
                           <FormattedMessage
                             id="CartPage.itemShippingPrice"
