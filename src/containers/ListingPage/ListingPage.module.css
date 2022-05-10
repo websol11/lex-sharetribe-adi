@@ -743,9 +743,9 @@
   fill: red;
   transition: all 0.2s;
 }
-.hideHeartIcon {
+/*.hideHeartIcon {
   display: none;
-}
+}*/
 .heartSelectedIcon > svg {
   fill: #fdb7b0;
   transition: all 0.2s;

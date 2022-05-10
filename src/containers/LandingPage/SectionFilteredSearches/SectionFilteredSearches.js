@@ -58,8 +58,8 @@ const FilterLink = props => {
 const SectionFilteredSearches = props => {
   const { rootClassName, className, landingPageListings} = props;
   const classes = classNames(rootClassName || css.root, className);
-  //console.log("AA:-",props);
   let landingCategoryListings = [{"title":"Electronics", "image":electronics},{"title":"Pet Supplies", "image":pet_supplies }, {"title":"Outdoors", "image":outdoors}]
+  console.log("AA:-",landingCategoryListings);
   // FilterLink props:
   // - "name" is a string that defines what kind of search the link is going to make
   // - "image" is imported from images directory and you can update it by changing the file

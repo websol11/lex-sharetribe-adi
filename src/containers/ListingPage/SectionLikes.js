@@ -27,8 +27,11 @@ const SectionLikes = props => {
   } = props;
 
 
+  console.log("CR", currentUser)
   const currentLikes = currentUser?.attributes?.profile?.privateData?.likedListings;
+  console.log("CR", currentLikes)
   const iconClassName = currentUser?(currentLikes != undefined?(currentLikes.indexOf(listingId) > -1?css.wishlistIcon:css.heartIcon):css.heartIcon):css.hideHeartIcon;
+  console.log("CR2", iconClassName, listingId)
   
   return (
     <span className={iconClassName}
@@ -39,7 +42,7 @@ const SectionLikes = props => {
 	   }}>
       <IconHeart/>
       {
-        iconClassName.includes("heartIcon")?(<span>Add to wishlist</span>):(<span>Remove from wishlist</span>)
+        iconClassName && iconClassName.includes("heartIcon")?(<span>Add to wishlist</span>):(<span>Remove from wishlist</span>)
       }
     </span>     
   );

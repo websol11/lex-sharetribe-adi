@@ -24,7 +24,6 @@ import { findOptionsForSelectFilter } from '../../util/search';
 import { ListingCard, NamedLink } from '../../components';
 import { lazyLoadWithDimensions } from '../../util/contextHelpers';
 
-
 // Thumbnail image for the search "card"
 class ThumbnailImage extends Component {
   render() {
@@ -41,7 +40,6 @@ const DepartmentPageComponent = props => {
 
   const customConfig = config.custom;
   const categoryOptions = findOptionsForSelectFilter('category', customConfig.filters);
-  console.log("EED",categoryOptions)
 
   return (
     <StaticPage
@@ -66,11 +64,11 @@ const DepartmentPageComponent = props => {
               <FormattedMessage id="DepartmentPage.detailsTitle" />
             </h2>
             <div className={css.filteredSearches}>
-              {categoryOptions.map(detail => (
-                <NamedLink name="SearchPage" to={{ search: "?pub_category="+detail.label }} className={css.searchLink}>
+              {categoryOptions.map((detail,i) => (
+                <NamedLink name="SearchPage" to={{ search: "?pub_category="+detail.label }} className={css.searchLink} key={i}>
                   <div className={css.imageWrapper}>
                     <div className={css.aspectWrapper}>
-                      <LazyImage src={"https://ui-avatars.com/api/?name="+detail.label+"&size=648"} alt={detail.label} className={css.searchImage} />
+                      <LazyImage src={detail.image} alt={detail.label} className={css.searchImage} />
                     </div>
                   </div>
                   <div className={css.linkText}>

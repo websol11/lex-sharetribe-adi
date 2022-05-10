@@ -33,6 +33,26 @@
  *         (i.e. pub_<key> or meta_<key>).
  */
 
+import electronics from '../containers/DepartmentPage/images/electronics.jpg';
+import pet_supplies from '../containers/DepartmentPage/images/pet_supplies.jpg';
+import outdoors from '../containers/DepartmentPage/images/outdoors.jpg';
+import antiques from '../containers/DepartmentPage/images/antiques.jpg';
+import artwork from '../containers/DepartmentPage/images/artwork.jpg';
+import automotive from '../containers/DepartmentPage/images/automotive.jpg';
+import crafts from '../containers/DepartmentPage/images/crafts.jpg';
+import travel from '../containers/DepartmentPage/images/travel.jpg';
+import collectibles from '../containers/DepartmentPage/images/collectibles.jpg';
+import industrial from '../containers/DepartmentPage/images/industrial.jpg';
+import business from '../containers/DepartmentPage/images/business.jpg';
+import sports from '../containers/DepartmentPage/images/sports.jpg';
+import books_magazines from '../containers/DepartmentPage/images/books_&_magazines.jpg';
+import computer_tablets from '../containers/DepartmentPage/images/computer_&_tablets.jpg';
+import music_movies_tv from '../containers/DepartmentPage/images/music,_movies_&_tv.jpg';
+import home_garden from '../containers/DepartmentPage/images/home_&_garden.jpg';
+import health_beauty from '../containers/DepartmentPage/images/health_&_beauty.jpg';
+import toy_games from '../containers/DepartmentPage/images/toy_&_games.jpg';
+import kids_babies from '../containers/DepartmentPage/images/kids_&_babies.jpg';
+
 export const filters = [
   {
     id: 'category',
@@ -49,25 +69,25 @@ export const filters = [
       // Note: label is not added through the translation files
       // to make filter customizations a bit easier.
       options: [
-        { key: 'Electronics', label: 'Electronics' },
-        { key: 'Computers & Tablets', label: 'Computers & Tablets' },
-        { key: 'Music, Movies & TV', label: 'Music, Movies & TV' },
-        { key: 'Home & Garden', label: 'Home & Garden' },
-        { key: 'Pet Supplies', label: 'Pet Supplies' },
-        { key: 'Health & Beauty', label: 'Health & Beauty' },
-        { key: 'Sports', label: 'Sports' },
-        { key: 'Outdoors', label: 'Outdoors' },
-        { key: 'Toys & Games', label: 'Toys & Games' },
-        { key: 'Kids & Babies', label: 'Kids & Babies' },
-        { key: 'Automotive', label: 'Automotive' },
-        { key: 'Business', label: 'Business' },
-        { key: 'Industrial', label: 'Industrial' },
-        { key: 'Books & Magazines', label: 'Books & Magazines' },
-        { key: 'Artwork', label: 'Artwork' },
-        { key: 'Antiques', label: 'Antiques' },
-        { key: 'Crafts', label: 'Crafts' },
-        { key: 'Travel', label: 'Travel' },
-        { key: 'Collectibles', label: 'Collectibles' },
+        { key: 'Electronics', label: 'Electronics', image: electronics },
+        { key: 'Computers & Tablets', label: 'Computers & Tablets', image: computer_tablets },
+        { key: 'Music, Movies & TV', label: 'Music, Movies & TV', image: music_movies_tv },
+        { key: 'Home & Garden', label: 'Home & Garden', image: home_garden },
+        { key: 'Pet Supplies', label: 'Pet Supplies', image: pet_supplies },
+        { key: 'Health & Beauty', label: 'Health & Beauty', image: health_beauty },
+        { key: 'Sports', label: 'Sports', image: sports },
+        { key: 'Outdoors', label: 'Outdoors', image: outdoors },
+        { key: 'Toys & Games', label: 'Toys & Games', image: toy_games },
+        { key: 'Kids & Babies', label: 'Kids & Babies', image: kids_babies },
+        { key: 'Automotive', label: 'Automotive', image: automotive },
+        { key: 'Business', label: 'Business', image: business },
+        { key: 'Industrial', label: 'Industrial', image: industrial },
+        { key: 'Books & Magazines', label: 'Books & Magazines', image: books_magazines },
+        { key: 'Artwork', label: 'Artwork', image: artwork },
+        { key: 'Antiques', label: 'Antiques', image: antiques },
+        { key: 'Crafts', label: 'Crafts', image: crafts },
+        { key: 'Travel', label: 'Travel', image: travel },
+        { key: 'Collectibles', label: 'Collectibles', image: collectibles },
       ],
     },
   },

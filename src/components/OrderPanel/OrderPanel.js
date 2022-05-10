@@ -148,15 +148,13 @@ const OrderPanel = props => {
           <h2 className={titleClasses}>{title}</h2>
           {subTitleText ? <div className={css.orderHelp}>{subTitleText}</div> : null}
         </div>
-        <SectionLikes {...rest}/>
+        <SectionLikes {...rest} listingId={listingId} currentUser={currentUser} updateLikesInProgress={updateLikesInProgress}
+         />
         <p className={css.price}>{formatMoney(intl, price)}</p>
         <div className={css.author}>
           <AvatarSmall user={author} className={css.providerAvatar} />
           <FormattedMessage id="OrderPanel.soldBy" values={{ name: authorDisplayName }} />
         </div>
-
-        {/*<SectionAddToCart {...rest}/>*/}
-
         {showBookingDatesForm ? (
           <BookingDatesForm
             className={css.bookingForm}

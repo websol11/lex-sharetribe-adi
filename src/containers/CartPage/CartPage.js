@@ -49,7 +49,7 @@ export const CartPageComponent = props => {
     currentUser,
     intl,
     cartProducts,
-    onUpdateLikes,
+    onUpdateCart,
     updateCartInProgress,
   } = props;
   console.log("CPC:-",cartProducts);
@@ -77,7 +77,7 @@ export const CartPageComponent = props => {
               <FormattedMessage id="CartPage.detailsTitle" />
             </h2>
             {
-              cartProducts?(
+              cartProducts.length?(
               <div className={css.filteredSearches}>
                 {cartProducts.map((detail, i) => (
                   <div key={i} className={css.wishRow}>
@@ -127,7 +127,11 @@ export const CartPageComponent = props => {
                       <div className={css.cartBottom} >
                         <select 
                             className={css.quantityField}
-                            value={detail.quantity}
+                            defaultValue={detail.quantity}
+                            onChange={(e) => {
+                                if (currentUser)
+                                  onUpdateCart(detail.id.uuid, e.target.value, "update");
+                            }}
                         >
                            <option disabled value="">
                             {intl.formatMessage({ id: 'ProductOrderForm.selectQuantityOption' })}
@@ -142,7 +146,7 @@ export const CartPageComponent = props => {
                               <span 
                                 onClick={() => {
                                 if (currentUser) {
-                                  onUpdateLikes(detail.id.uuid);
+                                  onUpdateCart(detail.id.uuid, "", "remove");
                                 }
                                }}>
                                Delete
@@ -151,7 +155,7 @@ export const CartPageComponent = props => {
                               <span
                                 onClick={() => {
                                 if (currentUser) {
-                                  onUpdateLikes(detail.id.uuid);
+                                  onUpdateCart(detail.id.uuid, "", "wishlist");
                                 }
                                }}>
                                Save for later
@@ -164,7 +168,7 @@ export const CartPageComponent = props => {
                         onClick={() => {
                             console.log("Checkout");
                         /*if (currentUser) {
-                          onUpdateLikes(detail.id.uuid);
+                          onUpdateCart(detail.id.uuid);
                         }*/
                        }}>
                        Checkout
@@ -174,7 +178,7 @@ export const CartPageComponent = props => {
                 ))}
               </div>
               ):
-              null
+              (<span>You do not have any products in the cart.</span>)
             }
           </div>
         </LayoutWrapperMain>
@@ -218,7 +222,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  onUpdateLikes: (listingId) => dispatch(updateCart({"id":listingId, "quantity":" ","action":"remove"})),
+  onUpdateCart: (listingId, quantity, action) => dispatch(updateCart({"id":listingId, "quantity":quantity,"action":action})),
 });
 
 const CartPage = compose(

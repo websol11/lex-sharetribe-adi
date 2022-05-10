@@ -133,7 +133,6 @@ export const loadData = () => (dispatch, getState, sdk)  => {
         latestCartProducts.map((product, i)=>{
           let temp = product;
           cartProducts.map((added_product, j)=>{
-            console.log(added_product.id, temp)
             if (added_product.id == product.id.uuid){
               temp["quantity"] = parseInt(added_product.quantity)
             }
@@ -155,11 +154,13 @@ export const loadData = () => (dispatch, getState, sdk)  => {
 export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
   dispatch(updateAddToCartRequest());
 
-  console.log("BEFORE CART UPD", paramsObj);
+  console.log("BEFORE CART PAGE UPD", paramsObj);
   return dispatch(fetchCurrentUser()).then(() => {
     const currentUser = getState().user.currentUser;
     const cartProducts =
       currentUser?.attributes?.profile?.protectedData?.cartLikedProducts;
+    const currentLikes =
+      currentUser?.attributes?.profile?.privateData?.likedListings;
 
     const queryParams = {
       expand: true,
@@ -175,9 +176,10 @@ export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
     let cartLikedProducts = [];
 
     if (cartProducts.length){
-      if (cartProducts.length == 1){
-        dispatch(updateAddToCartError(storableError("You cannot add products more than 10")));
-        return true;
+      if (cartProducts.length == 10){
+        throw new Error(
+          'You cannot add more than 10 products in cart.'
+        );
       }
 
       if (paramsObj["action"] == "add"){
@@ -186,7 +188,7 @@ export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
       }
 
       cartProducts.map((each, i)=>{
-        if (paramsObj["action"] == "remove"){
+        if ((paramsObj["action"] == "remove") || (paramsObj["action"] == "wishlist")) {
           if (each["id"] != paramsObj["id"])
             cartLikedProducts.push(each)
         }
@@ -205,12 +207,22 @@ export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
         cartLikedProducts.push({"id":paramsObj["id"], "quantity":paramsObj["quantity"]});
     }
 
-    console.log("AFTER CART UPD", cartLikedProducts);
+    let updateParams = { protectedData: { cartLikedProducts } };
+    if (paramsObj["action"] == "wishlist"){
+      const ifDislike = !!currentLikes?.includes(paramsObj["id"]);
+      const likedListings = ifDislike
+        ?currentLikes
+        :currentLikes
+        ? [...currentLikes, paramsObj["id"]]
+        : [paramsObj["id"]]
+      updateParams["privateData"] = {likedListings};
+    }
+
+    console.log("AFTER CART UPD", updateParams);
     return sdk.currentUser
-      .updateProfile({ protectedData: { cartLikedProducts } }, queryParams)
+      .updateProfile(updateParams, queryParams)
       .then(response => {
         dispatch(updateAddToCartSuccess(response));
-
         const entities = denormalisedResponseEntities(response);
         if (entities.length !== 1) {
           throw new Error(
@@ -218,9 +230,53 @@ export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
           );
         }
         const currentUser = entities[0];
-
         // Update current user in state.user.currentUser through user.duck.js
         dispatch(currentUserShowSuccess(currentUser));
+
+        // re-update DOM with latest cart items
+        const cartProducts =
+          currentUser?.attributes?.profile?.protectedData?.cartLikedProducts;
+        const cartIds = [];
+        if (cartProducts.length){
+          cartProducts.map((product, i) => {
+            cartIds.push(product["id"]);
+          });
+        }
+        console.log("CARD IDS", cartIds);
+        const apiQueryParams = {
+          page: 1,
+          per_page: 100,
+          ids:cartIds,
+          include: [ 'images',  'currentStock' , 'attributes.protectedData'],
+        };
+        return sdk.listings
+          .query(apiQueryParams)
+          .then(response => {
+            const latestCartProducts = denormalisedResponseEntities(response);
+            console.log("244 UN RES", latestCartProducts);
+            let updatedCartProducts = [];
+            dispatch(addMarketplaceEntities(response));
+            
+            latestCartProducts.map((product, i)=>{
+              let temp = product;
+              cartProducts.map((added_product, j)=>{
+                console.log(added_product.id, temp)
+                if (added_product.id == product.id.uuid){
+                  temp["quantity"] = parseInt(added_product.quantity)
+                }
+              });
+              updatedCartProducts.push(temp);
+            });
+
+            console.log("AFTER RES", updatedCartProducts);
+            dispatch(fetchCurrentUserCartProductsSuccess(updatedCartProducts));
+
+            return response;     
+          })
+          .catch(e => {
+            dispatch(fetchCurrentUserCartProductsError(storableError(e)));          
+          });
+
       })
       .catch(e => {
         dispatch(updateAddToCartError(storableError(e)));
