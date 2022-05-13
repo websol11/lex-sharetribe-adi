@@ -176,18 +176,18 @@ export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
     let cartLikedProducts = [];
 
     if (cartProducts.length){
-      if (cartProducts.length == 10){
-        throw new Error(
-          'You cannot add more than 10 products in cart.'
-        );
-      }
-
       if (paramsObj["action"] == "add"){
+        if (cartProducts.length == 10){
+          throw new Error(
+            'You cannot add more than 10 products in cart.'
+          );
+        }
         if (paramsObj["quantity"])
           cartLikedProducts.push({"id":paramsObj["id"], "quantity":paramsObj["quantity"]})
       }
 
       cartProducts.map((each, i)=>{
+        
         if ((paramsObj["action"] == "remove") || (paramsObj["action"] == "wishlist")) {
           if (each["id"] != paramsObj["id"])
             cartLikedProducts.push(each)
@@ -242,7 +242,7 @@ export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
             cartIds.push(product["id"]);
           });
         }
-        console.log("CARD IDS", cartIds);
+
         const apiQueryParams = {
           page: 1,
           per_page: 100,
@@ -253,14 +253,12 @@ export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
           .query(apiQueryParams)
           .then(response => {
             const latestCartProducts = denormalisedResponseEntities(response);
-            console.log("244 UN RES", latestCartProducts);
             let updatedCartProducts = [];
             dispatch(addMarketplaceEntities(response));
             
             latestCartProducts.map((product, i)=>{
               let temp = product;
               cartProducts.map((added_product, j)=>{
-                console.log(added_product.id, temp)
                 if (added_product.id == product.id.uuid){
                   temp["quantity"] = parseInt(added_product.quantity)
                 }
@@ -268,7 +266,6 @@ export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
               updatedCartProducts.push(temp);
             });
 
-            console.log("AFTER RES", updatedCartProducts);
             dispatch(fetchCurrentUserCartProductsSuccess(updatedCartProducts));
 
             return response;     

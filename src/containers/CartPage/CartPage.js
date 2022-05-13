@@ -106,10 +106,19 @@ export const CartPageComponent = props => {
                           />
                           /Item
                           +
-                          <FormattedMessage
-                            id="CartPage.itemShippingPrice"
-                            values={{ filter: "$" + (detail.attributes.publicData.shippingPriceInSubunitsOneItem/100) + " Shipping"}}
-                          />
+                          {
+                            detail.attributes.publicData.shippingPriceInSubunitsAdditionalItems?(
+                              <FormattedMessage
+                                id="CartPage.itemShippingAdditionalPrice"
+                                values={{ filter: "$" + ((detail.attributes.publicData.shippingPriceInSubunitsOneItem/100) + ((detail.quantity-1) * detail.attributes.publicData.shippingPriceInSubunitsAdditionalItems/100)) + " shipping"}}
+                              />
+                            ):(
+                               <FormattedMessage
+                                id="CartPage.itemShippingPrice"
+                                values={{ filter: "$" + (detail.attributes.publicData.shippingPriceInSubunitsOneItem/100) + " shipping"}}
+                              />
+                            )
+                          }
                       </div>
                       <div className={css.totalPrice}>
                         {detail.attributes.publicData.shippingPriceInSubunitsAdditionalItems?(

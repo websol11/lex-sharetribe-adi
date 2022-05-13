@@ -88,7 +88,7 @@
   align-self: center;
 }
 
-.buttonRemove {
+.buttonRemove, .buttonMoveToCart {
   background: #2ECC71;
   color: #fff;
   padding: 5px 10px;
@@ -98,7 +98,10 @@
     background: #239954;
   }
 }
-
+.buttonMoveToCart {
+  background: blueviolet;
+  margin-right: 10px;
+}
 /*
 @media (--viewportMaxMedium) {
   .wishRow{

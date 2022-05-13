@@ -31,6 +31,11 @@ export const UPDATE_LIKES_REQUEST ='app/ListingPage/UPDATE_LIKES_REQUEST';
 export const UPDATE_LIKES_SUCCESS ='app/ListingPage/UPDATE_LIKES_SUCCESS';
 export const UPDATE_LIKES_ERROR = 'app/ListingPage/UPDATE_LIKES_ERROR';
 
+// FOR ADDTOCART
+export const UPDATE_ADD_TO_CART_REQUEST ='app/CartPage/UPDATE_ADDTOCART_REQUEST';
+export const UPDATE_ADD_TO_CART_SUCCESS ='app/CartPage/UPDATE_ADDTOCART_SUCCESS';
+export const UPDATE_ADD_TO_CART_ERROR = 'app/CartPage/UPDATE_ADDTOCART_ERROR';
+
 // ================ Reducer ================ //
 
 const initialState = {
@@ -68,6 +73,13 @@ const wishlistPageReducer = (state = initialState, action = {}) => {
     case UPDATE_LIKES_ERROR:
       return { ...state, updateLikesInProgress: false, updateLikesError: payload };
 
+    case UPDATE_ADD_TO_CART_REQUEST:
+      return { ...state, updateCartInProgress: true, updateLikesError: null };
+    case UPDATE_ADD_TO_CART_SUCCESS:
+      return { ...state, updateCartInProgress: false };
+    case UPDATE_ADD_TO_CART_ERROR:
+      return { ...state, updateCartInProgress: false, updateLikesError: payload };
+
     default:
       return state;
   }
@@ -102,7 +114,6 @@ const fetchCurrentUserWishlistedProductsError = error => ({
   payload: error,
 });
 
-
 export const updateLikesRequest = params => ({
   type: UPDATE_LIKES_REQUEST,
   payload: { params },
@@ -113,6 +124,20 @@ export const updateLikesSuccess = result => ({
 });
 export const updateLikesError = error => ({
   type: UPDATE_LIKES_ERROR,
+  payload: error,
+  error: true,
+});
+
+export const updateAddToCartRequest = params => ({
+  type: UPDATE_ADD_TO_CART_REQUEST,
+  payload: { params },
+});
+export const updateAddToCartSuccess = result => ({
+  type: UPDATE_ADD_TO_CART_SUCCESS,
+  payload: result.data,
+});
+export const updateAddToCartError = error => ({
+  type: UPDATE_ADD_TO_CART_ERROR,
   payload: error,
   error: true,
 });
@@ -129,7 +154,14 @@ export const loadData = () => (dispatch, getState, sdk)  => {
     const currentUser = getState().user.currentUser;
     const currentLikes =
       currentUser?.attributes?.profile?.privateData?.likedListings;
-      
+    const currentCartProducts =
+      currentUser?.attributes?.profile?.protectedData?.cartLikedProducts;
+    const cartIds = [];
+    if (currentCartProducts.length){
+      currentCartProducts.map((product, i) => {
+        cartIds.push(product["id"]);
+      });
+    }
       const apiQueryParams = {
         page: 1,
         per_page: 100,
@@ -139,8 +171,15 @@ export const loadData = () => (dispatch, getState, sdk)  => {
       return sdk.listings
         .query(apiQueryParams)
         .then(response => {
-          const wishlistProducts = denormalisedResponseEntities(response);
-
+          let wishlistProducts = denormalisedResponseEntities(response);
+          if (wishlistProducts){
+            wishlistProducts = wishlistProducts.filter((element, index)=>{
+              element["cart"] = false;
+              if (cartIds.includes(element.id.uuid))
+                element["cart"] = true;
+              return element;
+            });            
+          }
           dispatch(addMarketplaceEntities(response));
           dispatch(fetchCurrentUserWishlistedProductsSuccess(wishlistProducts));
 
@@ -191,6 +230,7 @@ export const updateLikes = listingId => (dispatch, getState, sdk) => {
         const currentUser = entities[0];
         // Update current user in state.user.currentUser through user.duck.js
         dispatch(currentUserShowSuccess(currentUser));
+
         // get latest wishlisted items
         const apiQueryParams = {
           page: 1,
@@ -198,6 +238,8 @@ export const updateLikes = listingId => (dispatch, getState, sdk) => {
           ids:currentUser?.attributes?.profile?.privateData?.likedListings,
           include: [ 'images' ],
         };
+        dispatch(fetchCurrentUserWishlistedProductsRequest());
+
         return sdk.listings
           .query(apiQueryParams)
           .then(response => {
@@ -212,6 +254,115 @@ export const updateLikes = listingId => (dispatch, getState, sdk) => {
       })
       .catch(e => {
         dispatch(updateLikesError(storableError(e)));
+      });
+  });
+};
+
+
+export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
+  dispatch(updateAddToCartRequest());
+
+  console.log("BEFORE CART PAGE UPD", paramsObj);
+  return dispatch(fetchCurrentUser()).then(() => {
+    const currentUser = getState().user.currentUser;
+    const cartProducts =
+      currentUser?.attributes?.profile?.protectedData?.cartLikedProducts;
+    const currentLikes =
+      currentUser?.attributes?.profile?.privateData?.likedListings;
+
+    const queryParams = {
+      expand: true,
+      include: ['profileImage'],
+      'fields.image': [
+        'variants.square-small',
+        'variants.square-small2x',
+      ],
+    };
+
+    // if listingId already exists in cartProducts, it should be removed from cartProducts
+    // if user has current likes, merge listingId into current likes
+    let cartLikedProducts = [];
+
+    if (cartProducts.length){
+      if (paramsObj["action"] == "add"){
+        if (cartProducts.length == 10){
+          throw new Error(
+            'You cannot add more than 10 products in cart.'
+          );
+        }
+        if (paramsObj["quantity"])
+          cartLikedProducts.push({"id":paramsObj["id"], "quantity":paramsObj["quantity"]})
+      }
+
+      cartProducts.map((each, i)=>{
+        if ((paramsObj["action"] == "remove") || (paramsObj["action"] == "wishlist")) {
+          if (each["id"] != paramsObj["id"])
+            cartLikedProducts.push(each)
+        }
+        else{
+          cartLikedProducts.push(each);
+        }
+      });
+
+    }else{
+      if (paramsObj["quantity"])
+        cartLikedProducts.push({"id":paramsObj["id"], "quantity":paramsObj["quantity"]});
+    }
+
+    let updateParams = { protectedData: { cartLikedProducts } };
+    console.log("AFTER CART UPD", updateParams);
+    return sdk.currentUser
+      .updateProfile(updateParams, queryParams)
+      .then(response => {
+        dispatch(updateAddToCartSuccess(response));
+        const entities = denormalisedResponseEntities(response);
+        if (entities.length !== 1) {
+          throw new Error(
+            'Expected a resource in the sdk.currentUser.updateProfile response'
+          );
+        }
+        const currentUser = entities[0];
+        // Update current user in state.user.currentUser through user.duck.js
+        dispatch(currentUserShowSuccess(currentUser));
+
+        // re-update DOM with latest wishlist items
+        const currentLikes = currentUser?.attributes?.profile?.privateData?.likedListings;
+        const currentCartProducts =
+          currentUser?.attributes?.profile?.protectedData?.cartLikedProducts;
+        const cartIds = [];
+        if (currentCartProducts.length){
+          currentCartProducts.map((product, i) => {
+            cartIds.push(product["id"]);
+          });
+        }
+        const apiQueryParams = {
+          page: 1,
+          per_page: 100,
+          ids:currentLikes,
+          include: [ 'images',  'currentStock' , 'attributes.protectedData'],
+        };
+        return sdk.listings
+        .query(apiQueryParams)
+        .then(response => {
+          let wishlistProducts = denormalisedResponseEntities(response);
+          if (wishlistProducts){
+            wishlistProducts = wishlistProducts.filter((element, index)=>{
+              element["cart"] = false;
+              if (cartIds.includes(element.id.uuid))
+                element["cart"] = true;
+              return element;
+            });            
+          }
+          dispatch(addMarketplaceEntities(response));
+          dispatch(fetchCurrentUserWishlistedProductsSuccess(wishlistProducts));
+          return response;     
+        })
+        .catch(e => {
+          dispatch(fetchCurrentUserWishlistedProductsError(storableError(e)));          
+        });
+      })
+      .catch(e => {
+        dispatch(updateAddToCartError(storableError(e)));
       });
   });
 };

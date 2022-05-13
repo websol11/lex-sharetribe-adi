@@ -159,11 +159,10 @@
 .linkText {
   @apply --marketplaceH2FontStyles;
   color: var(--matterColor);
-  margin-top: 15px;
-  margin-bottom: 0;
+  margin: 5px 0 10px 0;
 
   @media (--viewportMedium) {
-    margin-top: 21px;
+    margin-top: 5px;
   }
 }
 

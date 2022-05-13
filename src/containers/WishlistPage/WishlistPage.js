@@ -24,7 +24,7 @@ import { lazyLoadWithDimensions } from '../../util/contextHelpers';
 import { propTypes } from '../../util/types';
 
 import { fetchCurrentUserWishlistedProducts } from '../../ducks/user.duck';
-import { updateLikes } from './WishlistPage.duck';
+import { updateLikes, updateCart } from './WishlistPage.duck';
 
 import { types as sdkTypes } from '../../util/sdkLoader';
 import { withRouter } from 'react-router-dom';
@@ -48,8 +48,10 @@ export const WishlistPageComponent = props => {
     wishlistProducts,
     fetchCurrentUserWishlistedProductsError,
     onUpdateLikes,
+    onUpdateCart,
     updateLikesInProgress,
   } = props;
+  console.log("WP",wishlistProducts)
   return (
     <StaticPage
       title="Block Lunch Wishlist"
@@ -97,6 +99,20 @@ export const WishlistPageComponent = props => {
                       />
                     </div>
                     <div className={css.wishCol}>
+                      <span className={css.buttonMoveToCart}
+                        onClick={() => {
+                        if (currentUser) {
+                          if (detail.cart)
+                            onUpdateCart(detail.id.uuid, "", "remove");
+                          else
+                            onUpdateCart(detail.id.uuid, '1', "add");
+                        }
+                       }}>
+                       {
+                        detail.cart?"Remove from cart":"Move to cart"
+                       }
+                      </span>
+
                       <span className={css.buttonRemove}
                         onClick={() => {
                         if (currentUser) {
@@ -165,6 +181,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   onUpdateLikes: (listingId) => dispatch(updateLikes(listingId)),
+  onUpdateCart: (listingId, quantity, action) => dispatch(updateCart({"id":listingId, "quantity":quantity,"action":action})),
 });
 
 const WishlistPage = compose(

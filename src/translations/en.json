@@ -1095,5 +1095,6 @@
   "CartPage.itemBasePrice": "{filter}",
   "CartPage.itemShippingPrice": "{filter}",
   "CartPage.itemTotalPrice": "{filter}",
-  "CartPage.itemTitle": "{filter}"
+  "CartPage.itemTitle": "{filter}",
+  "CartPage.itemShippingAdditionalPrice": "{filter}"
 }
