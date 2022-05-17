@@ -337,6 +337,7 @@ export const sendEnquiry = (listingId, message) => (dispatch, getState, sdk) => 
     processAlias: config.transactionProcessAlias,
     params: { listingId },
   };
+  console.log("SEND ENQ", bodyParams);
   return sdk.transactions
     .initiate(bodyParams)
     .then(response => {

@@ -68,6 +68,7 @@ const renderForm = formRenderProps => {
   // Otherwise continue with the default handleSubmit function.
   const handleFormSubmit = e => {
     const { quantity, deliveryMethod } = values || {};
+    console.log(values, quantity, deliveryMethod);
     if (!quantity || quantity < 1) {
       e.preventDefault();
       // Blur event will show validator message
@@ -79,6 +80,7 @@ const renderForm = formRenderProps => {
       formApi.blur('deliveryMethod');
       formApi.focus('deliveryMethod');
     } else {
+      console.log("HERE0", e);
       handleSubmit(e);
     }
   };

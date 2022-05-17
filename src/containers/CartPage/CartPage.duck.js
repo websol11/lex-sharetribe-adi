@@ -114,7 +114,6 @@ export const loadData = () => (dispatch, getState, sdk)  => {
         cartIds.push(product["id"]);
       });
     }
-    console.log("CARD IDS", cartIds);
 
     const apiQueryParams = {
       page: 1,
@@ -126,7 +125,6 @@ export const loadData = () => (dispatch, getState, sdk)  => {
       .query(apiQueryParams)
       .then(response => {
         const latestCartProducts = denormalisedResponseEntities(response);
-        console.log("UN RES", latestCartProducts);
         let updatedCartProducts = [];
         dispatch(addMarketplaceEntities(response));
         
@@ -139,10 +137,7 @@ export const loadData = () => (dispatch, getState, sdk)  => {
           });
           updatedCartProducts.push(temp);
         });
-
-        console.log("AFTER RES", updatedCartProducts);
         dispatch(fetchCurrentUserCartProductsSuccess(updatedCartProducts));
-
         return response;     
       })
       .catch(e => {
@@ -153,8 +148,6 @@ export const loadData = () => (dispatch, getState, sdk)  => {
 
 export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
   dispatch(updateAddToCartRequest());
-
-  console.log("BEFORE CART PAGE UPD", paramsObj);
   return dispatch(fetchCurrentUser()).then(() => {
     const currentUser = getState().user.currentUser;
     const cartProducts =
@@ -218,7 +211,6 @@ export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
       updateParams["privateData"] = {likedListings};
     }
 
-    console.log("AFTER CART UPD", updateParams);
     return sdk.currentUser
       .updateProfile(updateParams, queryParams)
       .then(response => {

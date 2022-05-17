@@ -261,8 +261,6 @@ export const updateLikes = listingId => (dispatch, getState, sdk) => {
 
 export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
   dispatch(updateAddToCartRequest());
-
-  console.log("BEFORE CART PAGE UPD", paramsObj);
   return dispatch(fetchCurrentUser()).then(() => {
     const currentUser = getState().user.currentUser;
     const cartProducts =
@@ -310,7 +308,7 @@ export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
     }
 
     let updateParams = { protectedData: { cartLikedProducts } };
-    console.log("AFTER CART UPD", updateParams);
+
     return sdk.currentUser
       .updateProfile(updateParams, queryParams)
       .then(response => {

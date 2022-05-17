@@ -168,6 +168,7 @@ export const TransactionPageComponent = props => {
   // Customer can create a booking, if the tx is in "enquiry" state.
   const handleSubmitOrderRequest = values => {
     const { bookingDates, quantity: quantityRaw, ...otherOrderData } = values;
+    console.log("HSOR", values);
     const bookingDatesMaybe = bookingDates
       ? {
           bookingDates: {

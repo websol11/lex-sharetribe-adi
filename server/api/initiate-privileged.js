@@ -5,7 +5,7 @@ module.exports = (req, res) => {
   const { isSpeculative, orderData, bodyParams, queryParams } = req.body;
 
   const listingId = bodyParams && bodyParams.params ? bodyParams.params.listingId : null;
-
+  console.log("IN SERVER", listingId, orderData, bodyParams.params);
   const sdk = getSdk(req, res);
   let lineItems = null;
 
@@ -14,6 +14,7 @@ module.exports = (req, res) => {
     .then(listingResponse => {
       const listing = listingResponse.data.data;
       lineItems = transactionLineItems(listing, { ...orderData, ...bodyParams.params });
+      console.log("LINE SERVER", lineItems);
 
       return getTrustedSdk(req);
     })
@@ -28,6 +29,7 @@ module.exports = (req, res) => {
           lineItems,
         },
       };
+      console.log("TRUSETED SKD", body);
 
       if (isSpeculative) {
         return trustedSdk.transactions.initiateSpeculative(body, queryParams);

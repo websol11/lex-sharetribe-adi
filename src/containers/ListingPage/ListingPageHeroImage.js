@@ -350,6 +350,7 @@ export class ListingPageComponent extends Component {
     const { formattedPrice, priceTitle } = priceData(price, intl);
 
     const handleOrderSubmit = values => {
+      console.log("HOS", values);
       const isCurrentlyClosed = currentListing.attributes.state === LISTING_STATE_CLOSED;
       if (isOwnListing || isCurrentlyClosed) {
         window.scrollTo(0, 0);

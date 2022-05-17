@@ -172,18 +172,22 @@ export const initiateOrder = (orderParams, transactionId) => (dispatch, getState
   const isPrivilegedTransition = isPrivileged(transition);
 
   const { deliveryMethod, quantity, bookingDates, ...otherOrderParams } = orderParams;
-  const quantityMaybe = quantity ? { stockReservationQuantity: quantity } : {};
+  console.log("OPS",orderParams);
+  let quantityMaybe = quantity ? { stockReservationQuantity: quantity+5 } : {};
   const bookingParamsMaybe = bookingDates || {};
 
   // Parameters only for client app's server
   const orderData = {
-    deliveryMethod,
+    deliveryMethod:'shipping', quantity:'1',
+  };
+
+  const bookingData = {
+    deliveryMethod:'shipping', quantity:'1',
   };
 
   // Parameters for Flex API
   const transitionParams = {
     ...quantityMaybe,
-    ...bookingParamsMaybe,
     ...otherOrderParams,
   };
 
@@ -212,6 +216,7 @@ export const initiateOrder = (orderParams, transactionId) => (dispatch, getState
   };
 
   const handleError = e => {
+    console.log("HAD ERR",e);
     dispatch(initiateOrderError(storableError(e)));
     const transactionIdMaybe = transactionId ? { transactionId: transactionId.uuid } : {};
     log.error(e, 'initiate-order-failed', {
@@ -225,22 +230,26 @@ export const initiateOrder = (orderParams, transactionId) => (dispatch, getState
   };
 
   if (isTransition && isPrivilegedTransition) {
+    console.log("IN IF 228")
     // transition privileged
     return transitionPrivileged({ isSpeculative: false, orderData, bodyParams, queryParams })
       .then(handleSucces)
       .catch(handleError);
   } else if (isTransition) {
+    console.log("IN IF 234")
     // transition non-privileged
     return sdk.transactions
       .transition(bodyParams, queryParams)
       .then(handleSucces)
       .catch(handleError);
   } else if (isPrivilegedTransition) {
+    console.log("IN IF 242")
     // initiate privileged
-    return initiatePrivileged({ isSpeculative: false, orderData, bodyParams, queryParams })
+    return initiatePrivileged({ isSpeculative: false, orderData, bodyParams, queryParams, bookingData })
       .then(handleSucces)
       .catch(handleError);
   } else {
+    console.log("IN IF 247")
     // initiate non-privileged
     return sdk.transactions
       .initiate(bodyParams, queryParams)
@@ -311,7 +320,7 @@ export const sendMessage = params => (dispatch, getState, sdk) => {
  */
 export const speculateTransaction = (orderParams, transactionId) => (dispatch, getState, sdk) => {
   dispatch(speculateTransactionRequest());
-
+  console.log("SPT", orderParams)
   // If we already have a transaction ID, we should transition, not
   // initiate.
   const isTransition = !!transactionId;
@@ -321,18 +330,17 @@ export const speculateTransaction = (orderParams, transactionId) => (dispatch, g
   const isPrivilegedTransition = isPrivileged(transition);
 
   const { deliveryMethod, quantity, bookingDates, ...otherOrderParams } = orderParams;
-  const quantityMaybe = quantity ? { stockReservationQuantity: quantity } : {};
+  const quantityMaybe = quantity ? { stockReservationQuantity: quantity+6 } : {};
   const bookingParamsMaybe = bookingDates || {};
 
   // Parameters only for client app's server
   const orderData = {
-    deliveryMethod,
+    deliveryMethod:'shipping', quantity:'1',
   };
 
   // Parameters for Flex API
   const transitionParams = {
     ...quantityMaybe,
-    ...bookingParamsMaybe,
     ...otherOrderParams,
     cardToken: 'CheckoutPage_speculative_card_token',
   };
@@ -364,33 +372,39 @@ export const speculateTransaction = (orderParams, transactionId) => (dispatch, g
   };
 
   const handleError = e => {
+    console.log("IN HANDLE ERR", e);
     log.error(e, 'speculate-transaction-failed', {
       listingId: transitionParams.listingId.uuid,
       ...quantityMaybe,
-      ...bookingParamsMaybe,
       ...orderData,
     });
     return dispatch(speculateTransactionError(storableError(e)));
   };
-
+  let bookingData = {
+    deliveryMethod:'shipping', quantity:'1',
+  };
   if (isTransition && isPrivilegedTransition) {
+    console.log("IN 382");
     // transition privileged
     return transitionPrivileged({ isSpeculative: true, orderData, bodyParams, queryParams })
       .then(handleSuccess)
       .catch(handleError);
   } else if (isTransition) {
     // transition non-privileged
+    console.log("IN 38/");
     return sdk.transactions
       .transitionSpeculative(bodyParams, queryParams)
       .then(handleSuccess)
       .catch(handleError);
   } else if (isPrivilegedTransition) {
     // initiate privileged
-    return initiatePrivileged({ isSpeculative: true, orderData, bodyParams, queryParams })
+    console.log("IN 396");
+    return initiatePrivileged({ isSpeculative: true, orderData, bodyParams, queryParams, bookingData  })
       .then(handleSuccess)
       .catch(handleError);
   } else {
     // initiate non-privileged
+    console.log("IN 402");
     return sdk.transactions
       .initiateSpeculative(bodyParams, queryParams)
       .then(handleSuccess)

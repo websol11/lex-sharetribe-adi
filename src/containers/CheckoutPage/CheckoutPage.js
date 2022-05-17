@@ -102,7 +102,10 @@ export class CheckoutPageComponent extends Component {
       enquiredTransaction,
       fetchSpeculatedTransaction,
       history,
+      orderData
     } = this.props;
+
+    console.log("LID", this.props, orderData, listing);
     // Browser's back navigation should not rewrite data in session store.
     // Action is 'POP' on both history.back() and page refresh cases.
     // Action is 'PUSH' when user has directed through a link
@@ -111,48 +114,53 @@ export class CheckoutPageComponent extends Component {
       history.action === 'PUSH' || history.action === 'REPLACE';
 
     const hasDataInProps =
-      !!(bookingData && bookingDates && listing) && hasNavigatedThroughLink;
+      !!(listing) && hasNavigatedThroughLink;
+    console.info("HDIP", hasDataInProps);
     if (hasDataInProps) {
       // Store data only if data is passed through props and user has navigated through a link.
+      
+      console.log("LID HERE",listing,this.props.listing, STORAGE_KEY);
       storeData(
-        bookingData,
-        bookingDates,
+        orderData,
         listing,
         enquiredTransaction,
-        STORAGE_KEY
+        STORAGE_KEY,
       );
     }
 
     // NOTE: stored data can be empty if user has already successfully completed transaction.
+    
     const pageData = hasDataInProps
-      ? { bookingData, bookingDates, listing, enquiredTransaction }
+      ? { orderData, listing, enquiredTransaction }
       : storedData(STORAGE_KEY);
-
-    const hasData =
+    pageData.bookingData = orderData;
+    console.log("PD", pageData)
+    const hasData   =
       pageData &&
       pageData.listing &&
       pageData.listing.id &&
-      pageData.bookingData &&
-      pageData.bookingDates &&
-      pageData.bookingDates.bookingStart &&
-      pageData.bookingDates.bookingEnd;
+      orderData &&
+      orderData.quantity;
 
+    console.info("HAS PAGE DATA",  hasData);
     if (hasData) {
       const listingId = pageData.listing.id;
-      const { bookingStart, bookingEnd } = pageData.bookingDates;
-
+      const quantity = orderData.quantity
       // Convert picked date to date that will be converted on the API as
       // a noon of correct year-month-date combo in UTC
+      /*const { bookingStart, bookingEnd } = pageData.bookingDates;
       const bookingStartForAPI = dateFromLocalToAPI(bookingStart);
-      const bookingEndForAPI = dateFromLocalToAPI(bookingEnd);
+      const bookingEndForAPI = dateFromLocalToAPI(bookingEnd);*/
 
       // Fetch speculated transaction for showing price in booking breakdown
       // NOTE: if unit type is line-item/units, quantity needs to be added.
       // The way to pass it to checkout page is through pageData.bookingData
       fetchSpeculatedTransaction({
         listingId,
-        bookingStart: bookingStartForAPI,
-        bookingEnd: bookingEndForAPI,
+        quantity,
+        bookingData:orderData
+/*        bookingStart: bookingStartForAPI,
+        bookingEnd: bookingEndForAPI,*/
       });
     }
 
@@ -175,6 +183,7 @@ export class CheckoutPageComponent extends Component {
       dispatch,
       onInitiateOrder,
       onSendMessage,
+      orderData
     } = this.props;
 
     // Create order aka transaction
@@ -182,8 +191,7 @@ export class CheckoutPageComponent extends Component {
     // The way to pass it to checkout page is through pageData.bookingData
     const requestParams = {
       listingId: this.state.pageData.listing.id,
-      bookingStart: speculatedTransaction.booking.attributes.start,
-      bookingEnd: speculatedTransaction.booking.attributes.end,
+      orderData: orderData
     };
 
     const enquiredTransaction = this.state.pageData.enquiredTransaction;
@@ -269,9 +277,12 @@ export class CheckoutPageComponent extends Component {
       bookingDates.bookingStart &&
       bookingDates.bookingEnd
     );
-    const hasRequiredData = hasListingAndAuthor && hasBookingDates;
+    //const hasRequiredData = hasListingAndAuthor && hasBookingDates;
+    //const canShowPage = hasRequiredData && !isOwnListing;
+    const hasRequiredData = hasListingAndAuthor;
     const canShowPage = hasRequiredData && !isOwnListing;
     const shouldRedirect = !isLoading && !canShowPage;
+    console.log("IN CHECKOUT PAGR", !isOwnListing, shouldRedirect,hasListingAndAuthor)
 
     // Redirect back to ListingPage if data is missing.
     // Redirection must happen before any data format error is thrown (e.g. wrong currency)
@@ -293,7 +304,7 @@ export class CheckoutPageComponent extends Component {
       { id: 'CheckoutPage.title' },
       { listingTitle }
     );
-
+    
     const firstImage =
       currentListing.images && currentListing.images.length > 0
         ? currentListing.images[0]
@@ -417,15 +428,15 @@ export class CheckoutPageComponent extends Component {
       </div>
     );
 
-    const unitType = config.bookingUnitType;
+    /*const unitType = config.bookingUnitType;
     const isNightly = unitType === LINE_ITEM_NIGHT;
     const isDaily = unitType === LINE_ITEM_DAY;
-
     const unitTranslationKey = isNightly
       ? 'CheckoutPage.perNight'
       : isDaily
       ? 'CheckoutPage.perDay'
-      : 'CheckoutPage.perUnit';
+      : 'CheckoutPage.perUnit';*/
+    const unitTranslationKey = 'CheckoutPage.perUnit';
 
     const price = currentListing.attributes.price;
     const formattedPrice = formatMoney(intl, price);
@@ -510,7 +521,7 @@ export class CheckoutPageComponent extends Component {
               rootClassName={css.rootForImage}
               alt={listingTitle}
               image={firstImage}
-              variants={['landscape-crop', 'landscape-crop2x']}
+              variants={['listing-card','landscape-crop', 'landscape-crop2x']}
             />
           </div>
           <div className={classNames(css.avatarWrapper, css.avatarMobile)}>
@@ -541,7 +552,7 @@ export class CheckoutPageComponent extends Component {
                 rootClassName={css.rootForImage}
                 alt={listingTitle}
                 image={firstImage}
-                variants={['landscape-crop', 'landscape-crop2x']}
+                variants={['listing-card','landscape-crop', 'landscape-crop2x']}
               />
             </div>
             <div className={css.avatarWrapper}>
@@ -568,6 +579,7 @@ CheckoutPageComponent.defaultProps = {
   speculatedTransaction: null,
   enquiredTransaction: null,
   currentUser: null,
+  orderData: {}
 };
 
 CheckoutPageComponent.propTypes = {
@@ -591,6 +603,7 @@ CheckoutPageComponent.propTypes = {
   }).isRequired,
   sendOrderRequest: func.isRequired,
   onCreateStripePaymentToken: func.isRequired,
+  orderData: object,
 
   // from connect
   dispatch: func.isRequired,
@@ -614,6 +627,7 @@ const mapStateToProps = state => {
     speculatedTransaction,
     enquiredTransaction,
     initiateOrderError,
+    orderData,
   } = state.CheckoutPage;
   const { currentUser } = state.user;
 
@@ -628,6 +642,7 @@ const mapStateToProps = state => {
     enquiredTransaction,
     listing,
     initiateOrderError,
+    orderData,
   };
 };
 

@@ -72,6 +72,8 @@ export const storeData = (orderData, listing, transaction, storageKey) => {
       storedAt: new Date(),
     };
 
+    console.log("SDA:", storeData)
+
     const replacer = function(k, v) {
       if (this[k] instanceof Date) {
         return { date: v, _serializedType: 'SerializableDate' };

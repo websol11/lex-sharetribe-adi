@@ -106,8 +106,8 @@ export class ListingPageComponent extends Component {
       onInitializeCardPaymentData,
     } = this.props;
     const listingId = new UUID(params.id);
-    console.log("PARP", params.id, listingId);
     const listing = getListing(listingId);
+    console.log("PARP", params.id, listing);
 
     const { bookingDates, quantity: quantityRaw, deliveryMethod, ...otherOrderData } = values;
     const bookingDatesMaybe = bookingDates
@@ -130,12 +130,13 @@ export class ListingPageComponent extends Component {
       confirmPaymentError: null,
     };
 
+    console.log("PARP VALUES", initialValues);
     const saveToSessionStorage = !this.props.currentUser;
 
     const routes = routeConfiguration();
     // Customize checkout page state with current listing and selected orderData
     const { setInitialValues } = findRouteByRouteName('CheckoutPage', routes);
-
+    console.log("SIV", setInitialValues)
     callSetInitialValues(setInitialValues, initialValues, saveToSessionStorage);
 
     // Clear previous Stripe errors from store if there is any
@@ -357,6 +358,7 @@ export class ListingPageComponent extends Component {
       if (isOwnListing || isCurrentlyClosed) {
         window.scrollTo(0, 0);
       } else {
+        console.log("HERE IN HOS", values)
         this.handleSubmit(values);
       }
     };
