@@ -103,8 +103,7 @@ export const CartPageComponent = props => {
                           <FormattedMessage
                             id="CartPage.itemBasePrice"
                             values={{ filter: "$" + (detail.attributes.price.amount/100)}}
-                          />
-                          /Item
+                          />/item
                           +
                           {
                             detail.attributes.publicData.shippingPriceInSubunitsAdditionalItems?(

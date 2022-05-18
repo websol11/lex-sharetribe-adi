@@ -157,7 +157,7 @@ export const loadData = () => (dispatch, getState, sdk)  => {
     const currentCartProducts =
       currentUser?.attributes?.profile?.protectedData?.cartLikedProducts;
     const cartIds = [];
-    if (currentCartProducts.length){
+    if (currentCartProducts){
       currentCartProducts.map((product, i) => {
         cartIds.push(product["id"]);
       });
@@ -281,7 +281,7 @@ export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
     // if user has current likes, merge listingId into current likes
     let cartLikedProducts = [];
 
-    if (cartProducts.length){
+    if (cartProducts){
       if (paramsObj["action"] == "add"){
         if (cartProducts.length == 10){
           throw new Error(

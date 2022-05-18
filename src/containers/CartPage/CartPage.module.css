@@ -131,11 +131,11 @@
 
 }
 
-.shippingPrice span{
-  margin: 0 7px;
+.shippingPrice{
+  
+  font-size: 17px;
 }
 .shippingPrice span:first-child {
-  font-size: 21px;
   margin-left: 0;
 }
 

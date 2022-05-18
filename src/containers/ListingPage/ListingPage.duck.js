@@ -466,7 +466,7 @@ export const updateCart = (paramsObj) => (dispatch, getState, sdk) => {
     // if user has current likes, merge listingId into current likes
     let cartLikedProducts = [];
 
-    if (cartProducts.length){
+    if (cartProducts){
       if (cartProducts.length == 10){
         throw new Error(
           'You cannot add products more than 10'
