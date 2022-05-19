@@ -14,6 +14,7 @@ import {
   MenuContent,
   MenuItem,
   NamedLink,
+  NotificationBadge,
 } from '../../../components';
 
 import TopbarSearchForm from '../TopbarSearchForm/TopbarSearchForm';
@@ -45,7 +46,11 @@ const TopbarDesktop = props => {
   const isAuthenticatedOrJustHydrated = isAuthenticated || !mounted;
 
   const classes = classNames(rootClassName || css.root, className);
-
+  const cartProductsCount =
+      currentUser?.attributes?.profile?.protectedData?.cartLikedProducts?.length;
+  const wishlistProductsCount =
+      currentUser?.attributes?.profile?.privateData?.likedListings?.length;
+  
   const search = (
     <TopbarSearchForm
       className={css.searchLink}
@@ -57,7 +62,14 @@ const TopbarDesktop = props => {
   );
 
   const notificationDot = notificationCount > 0 ? <div className={css.notificationDot} /> : null;
-
+  const cartCountBadge =
+    cartProductsCount > 0 ? (
+      <NotificationBadge className={css.notificationBadge} count={cartProductsCount} />
+    ) : null;
+  const wishlistCountBadge =
+    wishlistProductsCount > 0 ? (
+      <NotificationBadge className={css.notificationWishlistBadge} count={wishlistProductsCount} />
+    ) : null;
   const inboxLink = authenticatedOnClientSide ? (
     <NamedLink
       className={css.inboxLink}
@@ -99,6 +111,7 @@ const TopbarDesktop = props => {
           >
             <span className={css.menuItemBorder} />
             <FormattedMessage id="TopbarDesktop.wishlistLink" />
+            {wishlistCountBadge}
           </NamedLink>
         </MenuItem>
         <MenuItem key="ProfileSettingsPage">
@@ -159,7 +172,9 @@ const TopbarDesktop = props => {
     <NamedLink name="CartPage" className={css.shoppingCartLink}>
       <span className={css.shoppingCart}>
         <FormattedMessage id="TopbarDesktop.shoppingCart" />
+        
       </span>
+      {cartCountBadge}
     </NamedLink>
   );
 

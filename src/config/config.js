@@ -59,7 +59,7 @@ const transactionProcessAlias = 'flex-product-default-process/release-1';
 // Note 2: Translations will use different translation keys for night, day or unit
 //         depending on the value chosen.
 const lineItemUnitType = 'line-item/units';
-
+const bookingUnitType = 'line-item/units';
 // Listing management type. Currently only 'stock' is supported.
 //
 // With the default 'stock', availability and bookings are not used, and

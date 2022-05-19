@@ -52,7 +52,7 @@ exports.transactionLineItems = (listing, orderData) => {
   const { bookingStart, bookingEnd } = orderData || {};
   const shouldCalculateQuantityFromDates =
     bookingStart && bookingEnd && ['line-item/day', 'line-item/night'].includes(lineItemUnitType);
-
+  console.log("SCQF", shouldCalculateQuantityFromDates, orderData)
   // Throw error if there is no quantity information given
   const hasQuantityInformation =
     hasStockReservationQuantity || hasQuantity || shouldCalculateQuantityFromDates;

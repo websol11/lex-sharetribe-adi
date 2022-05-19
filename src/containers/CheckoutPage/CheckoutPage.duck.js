@@ -171,7 +171,11 @@ export const initiateOrder = (orderParams, transactionId) => (dispatch, getState
     : TRANSITION_REQUEST_PAYMENT;
   const isPrivilegedTransition = isPrivileged(transition);
 
-  const { deliveryMethod, quantity, bookingDates, ...otherOrderParams } = orderParams;
+  const { deliveryMethod, bookingDates, ...otherOrderParams } = orderParams;
+  orderParams['orderData'] = {
+    deliveryMethod:'shipping', quantity:'1',
+  };
+  let quantity = 1;
   console.log("OPS",orderParams);
   let quantityMaybe = quantity ? { stockReservationQuantity: quantity+5 } : {};
   const bookingParamsMaybe = bookingDates || {};

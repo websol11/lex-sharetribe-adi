@@ -52,7 +52,6 @@ export const CartPageComponent = props => {
     onUpdateCart,
     updateCartInProgress,
   } = props;
-  console.log("CPC:-",cartProducts);
 
   const quantityRequiredMsg = intl.formatMessage({ id: 'ProductOrderForm.quantityRequired' });
   return (

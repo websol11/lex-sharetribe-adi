@@ -333,3 +333,7 @@
     }
   }
 }
+
+.notificationBadge{
+  top: -12px;
+}
