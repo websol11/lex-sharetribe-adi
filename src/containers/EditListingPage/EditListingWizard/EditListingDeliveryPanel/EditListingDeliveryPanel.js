@@ -37,10 +37,10 @@ class EditListingDeliveryPanel extends Component {
     // Only render current search if full place object is available in the URL params
     // TODO bounds are missing - those need to be queried directly from Google Places
     const locationFieldsPresent = publicData?.location?.address && geolocation;
-    const location = publicData?.location ? publicData.location : {};
-    const handlingTime = publicData?.handlingTime ? publicData.handlingTime : {};
-    const zipcode = publicData?.zipcode ? publicData.zipcode : {};
-    const return_policy = publicData?.return_policy ? publicData.return_policy : {};
+    const location = publicData?.location ? publicData.location : "";
+    const handlingTime = publicData?.handlingTime ? publicData.handlingTime : "";
+    const zipcode = publicData?.zipcode ? publicData.zipcode : "";
+    const return_policy = publicData?.return_policy ? publicData.return_policy : "";
     //const shippingPriceInSubunitsOneItem = publicData?.shippingPriceInSubunitsOneItem ? publicData.shippingPriceInSubunitsOneItem : {};
     const { address, building } = location;
     const {

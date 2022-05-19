@@ -26,6 +26,9 @@ import {
   FieldCheckbox,
 } from '../../../../components';
 
+import CustomFieldEnum from '../CustomFieldEnum';
+import { findConfigForSelectFilter } from '../../../../util/search';
+
 // Import modules from this directory
 import css from './EditListingDeliveryForm.module.css';
 
@@ -50,6 +53,7 @@ export const EditListingDeliveryFormComponent = props => (
         updateInProgress,
         fetchErrors,
         values,
+        filterConfig,
       } = formRenderProps;
 
       // This is a bug fix for Final Form.
@@ -69,7 +73,7 @@ export const EditListingDeliveryFormComponent = props => (
       const shippingEnabled = values.deliveryOptions?.includes('shipping');
       const pickupEnabled = values.deliveryOptions?.includes('pickup');
 
-      const titleRequiredMessage = intl.formatMessage({ id: 'EditListingDeliveryForm.address' });
+      const addressMessage = intl.formatMessage({ id: 'EditListingDeliveryForm.address' });
       const handlingTimeRequiredMessage = intl.formatMessage({ id: 'EditListingDeliveryForm.handlingTime' });
       const returnPolicyMessage = intl.formatMessage({ id: 'EditListingDeliveryForm.handlingTime' });
       
@@ -125,13 +129,22 @@ export const EditListingDeliveryFormComponent = props => (
       );
 
       const locationValidator = numberAtLeast(
-        intl.formatMessage({ id: 'EditListingDeliveryForm.locationIsRequired' }),
+        intl.formatMessage({ id: 'EditListingDeliveryForm.locationNumberIsRequired' }),
         0
       );
 
       const handlingTimeValidator = numberAtLeast(
-        intl.formatMessage({ id: 'EditListingDeliveryForm.handlingTimeIsRequired' }),
+        intl.formatMessage({ id: 'EditListingDeliveryForm.handlingTimeNumericIsRequired' }),
         0
+      );
+
+      const returnConfig = findConfigForSelectFilter('return', filterConfig);
+      const returnSchemaType = returnConfig ? returnConfig.schemaType : null;
+      const returns = returnConfig && returnConfig.options ? returnConfig.options : [];
+      const returnRequired = required(
+        intl.formatMessage({
+          id: 'EditListingDetailsForm.returnRequired',
+        })
       );
 
       return (
@@ -155,9 +168,9 @@ export const EditListingDeliveryFormComponent = props => (
               autoFocus={autoFocus}
               name="zipcode"
               id="zipcode"
-              label={titleRequiredMessage}
+              label={addressMessage}
               placeholder={addressPlaceholderMessage}
-              type="number"
+              type="textarea"
               validate={locationValidator}
             />
             <FieldTextInput
@@ -166,7 +179,7 @@ export const EditListingDeliveryFormComponent = props => (
               id="handlingTime"
               label={handlingTimeRequiredMessage}
               placeholder={handlingTimePlaceholderMessage}
-              type="number"
+              type="textarea"
               validate={handlingTimeValidator}
             />
           </div>
@@ -193,6 +206,21 @@ export const EditListingDeliveryFormComponent = props => (
               key={'oneItemValidation'}
             />
 
+          <CustomFieldEnum
+            id="return_policy"
+            name="return_policy"
+            options={returns}
+            label={intl.formatMessage({
+                id: 'EditListingDeliveryForm.returnPolicyMessage',
+              })}
+            placeholder={intl.formatMessage({
+                id: 'EditListingDeliveryForm.returnPolicyPlaceholder',
+              })}
+            validate={returnRequired}
+            schemaType={returnSchemaType}
+          />
+
+          {/*
             <FieldTextInput
               id="return_policy"
               name="return_policy"
@@ -204,7 +232,7 @@ export const EditListingDeliveryFormComponent = props => (
               placeholder={intl.formatMessage({
                 id: 'EditListingDeliveryForm.returnPolicyPlaceholderMessage',
               })}
-            />
+            /> */}
           </div>
 
 
@@ -226,6 +254,7 @@ export const EditListingDeliveryFormComponent = props => (
 EditListingDeliveryFormComponent.defaultProps = {
   selectedPlace: null,
   fetchErrors: null,
+  filterConfig: config.custom.filters,
 };
 
 EditListingDeliveryFormComponent.propTypes = {
@@ -241,6 +270,7 @@ EditListingDeliveryFormComponent.propTypes = {
     showListingsError: propTypes.error,
     updateListingError: propTypes.error,
   }),
+  filterConfig: propTypes.filterConfig,
 };
 
 export default compose(injectIntl)(EditListingDeliveryFormComponent);

@@ -145,6 +145,15 @@ export const filters = [
   {
     id: 'brand',
     label: 'Brand',
+    type: 'KeywordFilter',
+    group: 'primary',
+    queryParamNames: ['pub_brand'],
+    config: {},
+  },
+/*
+  {
+    id: 'brand',
+    label: 'Brand',
     type: 'SelectMultipleFilter',
     group: 'primary',
     queryParamNames: ['pub_brand'],
@@ -173,6 +182,7 @@ export const filters = [
       ],
     },
   },
+  */
   {
     id: 'price',
     label: 'Price',
@@ -256,6 +266,20 @@ export const filters = [
       options: [
         { key: 'new', label: 'New' },
         { key: 'old', label: 'Old' },
+      ],
+    },
+  },
+  {
+    id: 'return',
+    label: 'Product return policy',
+    type: 'SelectSingleFilter',
+    group: 'secondary',
+    queryParamNames: ['pub_return'],
+    config: {
+      schemaType: 'enum',
+      options: [
+        { key: 'no_returns', label: 'No returns' },
+        { key: '30_day_returns', label: '30-day return policy' },
       ],
     },
   },
@@ -346,5 +370,5 @@ export const sortConfig = {
 export const listing = {
   // These should be listing details from public data with schema type: enum
   // SectionDetailsMaybe component shows these on listing page.
-  enumFieldDetails: [ 'brand', 'category', 'condition'],
+  enumFieldDetails: [ 'category', 'condition', 'return'],
 };

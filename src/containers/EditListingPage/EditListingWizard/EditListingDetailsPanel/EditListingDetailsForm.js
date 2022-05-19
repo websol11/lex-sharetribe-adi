@@ -207,14 +207,22 @@ const EditListingDetailsFormComponent = props => (
           />
 
 
-          <CustomFieldEnum
+          <FieldTextInput
+            id="brand"
+            name="brand"
+            className={css.brand}
+            type="textarea"
+            label={brandLabel}
+            placeholder={brandPlaceholder}
+          />
+          { /* <CustomFieldEnum
             id="brand"
             name="brand"
             options={brands}
             label={brandLabel}
             placeholder={brandPlaceholder}
             schemaType={brandSchemaType}
-          />
+          /> */}
           <FieldTextInput
             id="asin"
             name="asin"
