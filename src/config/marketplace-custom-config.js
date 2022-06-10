@@ -260,7 +260,7 @@ export const filters = [
     label: 'Condition',
     type: 'SelectSingleFilter',
     group: 'secondary',
-    queryParamNames: ['pub_condition'],
+    //queryParamNames: ['pub_condition'],
     config: {
       schemaType: 'enum',
       options: [
@@ -274,7 +274,7 @@ export const filters = [
     label: 'Product return policy',
     type: 'SelectSingleFilter',
     group: 'secondary',
-    queryParamNames: ['pub_return'],
+    //queryParamNames: ['pub_return'],
     config: {
       schemaType: 'enum',
       options: [

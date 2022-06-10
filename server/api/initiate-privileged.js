@@ -29,7 +29,7 @@ module.exports = (req, res) => {
           lineItems,
         },
       };
-      console.log("TRUSETED SKD", body);
+      console.log("TRUSETED SKD", body, isSpeculative);
 
       if (isSpeculative) {
         return trustedSdk.transactions.initiateSpeculative(body, queryParams);

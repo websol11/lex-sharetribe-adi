@@ -34,6 +34,7 @@ router.use(
 
 // Deserialize Transit body string to JS data
 router.use((req, res, next) => {
+  console.log("REQ", req.body, req.url);
   if (req.get('Content-Type') === 'application/transit+json' && typeof req.body === 'string') {
     try {
       req.body = deserialize(req.body);

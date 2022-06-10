@@ -42,6 +42,7 @@ const deserialize = str => {
 
 const post = (path, body) => {
   const url = `${apiBaseUrl()}${path}`;
+  console.log("POST BODY", body, url);
   const options = {
     method: 'POST',
     credentials: 'include',
@@ -76,6 +77,7 @@ const post = (path, body) => {
 // See `server/api/transaction-line-items.js` to see what data should
 // be sent in the body.
 export const transactionLineItems = body => {
+  console.log("IN TLI", body)
   return post('/api/transaction-line-items', body);
 };
 

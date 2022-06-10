@@ -219,7 +219,7 @@ export const InboxPageComponent = props => {
   } = props;
   const { tab } = params;
   const ensuredCurrentUser = ensureCurrentUser(currentUser);
-
+  console.log("PROPT", props);
   const validTab = tab === 'orders' || tab === 'sales';
   if (!validTab) {
     return <NotFoundPage />;
