@@ -45,7 +45,9 @@ import {
   fetchTransactionLineItems,
 } from './TransactionPage.duck';
 import css from './TransactionPage.module.css';
+import NowPaymentsApi from '@nowpaymentsio/nowpayments-api-js'
 
+const npApi = new NowPaymentsApi({ apiKey: 'A7M40XV-CG1448Z-KVVED3G-NW3V0TK' }) // your api key
 const PROVIDER = 'provider';
 const CUSTOMER = 'customer';
 

@@ -86,6 +86,7 @@ const renderForm = formRenderProps => {
   };
 
   const breakdownData = {};
+  console.log("LINE ",lineItems)
   const showBreakdown =
     breakdownData && lineItems && !fetchLineItemsInProgress && !fetchLineItemsError;
   const breakdown = showBreakdown ? (

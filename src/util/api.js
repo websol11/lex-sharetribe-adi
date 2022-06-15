@@ -91,10 +91,6 @@ export const transactionLineItems = body => {
 // sent in the body.
 export const initiatePrivileged = body => {
   console.log("IP BODY", body);
-  body.orderData.deliveryMethod = "shipping";
-  body.orderData.quantity = 1;
-  body.bookingData.deliveryMethod = "shipping";
-  body.bookingData.quantity = 1;
   return post('/api/initiate-privileged', body);
 };
 
@@ -108,8 +104,6 @@ export const initiatePrivileged = body => {
 // be sent in the body.
 export const transitionPrivileged = body => {
   console.log("TP BODY", body);
-  body.orderData.deliveryMethod = "shipping";
-  body.orderData.quantity = 1;
   return post('/api/transition-privileged', body);
 };
 

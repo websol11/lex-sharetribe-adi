@@ -38,6 +38,7 @@ import {
 } from '../../util/transaction';
 import {
   AvatarMedium,
+  AspectRatioWrapper,
   Button,
   BookingBreakdown,
   Logo,
@@ -65,6 +66,19 @@ import { storeData, storedData, clearData } from './CheckoutPageSessionHelpers';
 import css from './CheckoutPage.module.css';
 
 const STORAGE_KEY = 'CheckoutPage';
+
+const checkIsPaymentExpired = existingTransaction => {
+  return txIsPaymentExpired(existingTransaction)
+    ? true
+    : txIsPaymentPending(existingTransaction)
+    ? minutesBetween(existingTransaction.attributes.lastTransitionedAt, new Date()) >= 15
+    : false;
+};
+
+const getFormattedTotalPrice = (transaction, intl) => {
+  const totalPrice = transaction.attributes.payinTotal;
+  return formatMoney(intl, totalPrice);
+};
 
 // Convert the picked date to moment that will represent the same time of day in UTC time zone.
 const bookingDatesMaybe = bookingDates => {
@@ -121,7 +135,6 @@ export class CheckoutPageComponent extends Component {
       listing,
       transaction,
       fetchSpeculatedTransaction,
-      enquiredTransaction,
       history,
     } = this.props;
 
@@ -143,7 +156,6 @@ export class CheckoutPageComponent extends Component {
       storeData(
         orderData,
         listing,
-        enquiredTransaction,
         STORAGE_KEY,
       );
     }
@@ -151,19 +163,22 @@ export class CheckoutPageComponent extends Component {
     // NOTE: stored data can be empty if user has already successfully completed transaction.
     
     const pageData = hasDataInProps
-      ? { orderData, listing, enquiredTransaction }
+      ? { orderData, listing }
       : storedData(STORAGE_KEY);
-    console.log("PD", pageData)
+    const tx = pageData ? pageData.transaction : null;
+    console.log("PD", pageData, tx)
+
     // If transaction has passed payment-pending state, speculated tx is not needed.
     const shouldFetchSpeculatedTransaction =
       pageData &&
       pageData.listing &&
       pageData.listing.id &&
       pageData.orderData;
+    
     if (shouldFetchSpeculatedTransaction) {
       const listingId = pageData.listing.id;
-      const transactionId = null;
-
+      const transactionId = tx ? tx.id : null;
+      
       // Fetch speculated transaction for showing price in order breakdown
       // NOTE: if unit type is line-item/units, quantity needs to be added.
       // The way to pass it to checkout page is through pageData.orderData
@@ -241,10 +256,8 @@ export class CheckoutPageComponent extends Component {
       orderData: orderData
     };
 
-    const enquiredTransaction = this.state.pageData.enquiredTransaction;
-    const transactionIdMaybe = enquiredTransaction
-      ? enquiredTransaction.id
-      : null;
+    console.log("PDA",this.state.pageData)
+    const transactionIdMaybe = null;
 
     onInitiateOrder(requestParams, transactionIdMaybe).then(params => {
       console.log('Params', params);
@@ -301,13 +314,7 @@ export class CheckoutPageComponent extends Component {
 
     const isLoading = !this.state.dataLoaded || speculateTransactionInProgress;
 
-    const { listing,transaction, bookingDates, enquiredTransaction } = this.state.pageData;
-    // const currentTransaction = ensureTransaction(
-    //   speculatedTransaction,
-    //   {},
-    //   null
-    // );
-    // const currentBooking = ensureBooking(currentTransaction.booking);
+    const { listing,transaction, orderData } = this.state.pageData;
     const existingTransaction = ensureTransaction(transaction);
     const speculatedTransaction = ensureTransaction(speculatedTransactionMaybe, {}, null);
     const currentListing = ensureListing(listing);
@@ -321,13 +328,6 @@ export class CheckoutPageComponent extends Component {
       currentAuthor.id.uuid === currentUser.id.uuid;
 
     const hasListingAndAuthor = !!(currentListing.id && currentAuthor.id);
-    const hasBookingDates = !!(
-      bookingDates &&
-      bookingDates.bookingStart &&
-      bookingDates.bookingEnd
-    );
-    //const hasRequiredData = hasListingAndAuthor && hasBookingDates;
-    //const canShowPage = hasRequiredData && !isOwnListing;
     const hasRequiredData = !!(currentListing.id && currentAuthor.id);//hasListingAndAuthor;
     const canShowPage = hasRequiredData && !isOwnListing;
     const shouldRedirect = !isLoading && !canShowPage;
@@ -349,6 +349,7 @@ export class CheckoutPageComponent extends Component {
 
       // Show breakdown only when (speculated?) transaction is loaded
     // (i.e. have an id and lineItems)
+    console.log("BRX", existingTransaction, speculatedTransaction)
     const tx = existingTransaction.booking ? existingTransaction : speculatedTransaction;
     const txBookingMaybe = tx.booking?.id
       ? { booking: ensureBooking(tx.booking), dateType: DATE_TYPE_DATE }
@@ -365,6 +366,7 @@ export class CheckoutPageComponent extends Component {
         />
       ) : null;
 
+    const isPaymentExpired = checkIsPaymentExpired(existingTransaction);
     const listingTitle = currentListing.attributes.title;
     const title = intl.formatMessage(
       { id: 'CheckoutPage.title' },
@@ -424,7 +426,10 @@ export class CheckoutPageComponent extends Component {
     const formattedPrice = formatMoney(intl, price);
     const detailsSubTitle = `${formattedPrice} ${intl.formatMessage({ id: unitTranslationKey })}`;
 
-    const showInitialMessageInput = !enquiredTransaction;
+    /*const showInitialMessageInput = true;*/
+    const showInitialMessageInput = !(
+      existingTransaction && existingTransaction.attributes.lastTransition === TRANSITION_ENQUIRE
+    );
 
     const pageProps = { title, scrollingDisabled };
 
@@ -518,31 +523,40 @@ export class CheckoutPageComponent extends Component {
               </div>
             </div>
 
+            <div className={css.priceBreakdownContainer}>
+              {breakdown}
+            </div>
+
             <section className={css.paymentContainer}>
               {bookingForm}
             </section>
           </div>
 
           <div className={css.detailsContainerDesktop}>
-            <div className={css.detailsAspectWrapper}>
+            <AspectRatioWrapper
+              width={aspectWidth}
+              height={aspectHeight}
+              className={css.detailsAspectWrapper}
+            >
               <ResponsiveImage
                 rootClassName={css.rootForImage}
                 alt={listingTitle}
                 image={firstImage}
-                variants={['listing-card','landscape-crop', 'landscape-crop2x']}
+                variants={variants}
               />
-            </div>
+            </AspectRatioWrapper>
             <div className={css.avatarWrapper}>
               <AvatarMedium user={currentAuthor} disableProfileLink />
             </div>
             <div className={css.detailsHeadings}>
               <h2 className={css.detailsTitle}>{listingTitle}</h2>
+              <p className={css.detailsSubtitle}>{detailsSubTitle}</p>
             </div>
+            
             <h2 className={css.orderBreakdownTitle}>
               <FormattedMessage id="CheckoutPage.orderBreakdown" />
             </h2>
             {breakdown}
-            
           </div>
         </div>
       </Page>
@@ -557,7 +571,6 @@ CheckoutPageComponent.defaultProps = {
   bookingDates: null,
   speculateTransactionError: null,
   speculatedTransaction: null,
-  enquiredTransaction: null,
   currentUser: null,
   orderData: {}
 };
@@ -574,7 +587,6 @@ CheckoutPageComponent.propTypes = {
   speculateTransactionInProgress: bool.isRequired,
   speculateTransactionError: propTypes.error,
   speculatedTransaction: propTypes.transaction,
-  enquiredTransaction: propTypes.transaction,
   initiateOrderError: propTypes.error,
   currentUser: propTypes.currentUser,
   params: shape({
@@ -605,7 +617,6 @@ const mapStateToProps = state => {
     speculateTransactionInProgress,
     speculateTransactionError,
     speculatedTransaction,
-    enquiredTransaction,
     initiateOrderError,
     transaction,
     orderData,
@@ -620,7 +631,6 @@ const mapStateToProps = state => {
     speculateTransactionInProgress,
     speculateTransactionError,
     speculatedTransaction,
-    enquiredTransaction,
     listing,
     initiateOrderError,
     transaction,

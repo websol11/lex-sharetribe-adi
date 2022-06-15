@@ -126,7 +126,7 @@ const EstimatedCustomerBreakdownMaybe = props => {
     hasLineItems && hasRequiredBookingData
       ? estimatedCustomerTransaction(lineItems, startDate, endDate)
       : null;
-
+  console.log("HERE IN ESBM", tx);
   return tx ? (
     <OrderBreakdown
       className={css.receipt}

@@ -171,22 +171,19 @@ export const initiateOrder = (orderParams, transactionId) => (dispatch, getState
     : TRANSITION_REQUEST_PAYMENT;
   const isPrivilegedTransition = isPrivileged(transition);
 
-  const { deliveryMethod, bookingDates, ...otherOrderParams } = orderParams;
-  orderParams['orderData'] = {
-    deliveryMethod:'shipping', quantity:'1',
-  };
-  let quantity = 1;
-  console.log("OPS",orderParams);
-  let quantityMaybe = quantity ? { stockReservationQuantity: quantity+5 } : {};
+  const { deliveryMethod, bookingDates, orderData, ...otherOrderParams } = orderParams;
+
+  let quantity = orderData['quantity'];
+  let quantityMaybe = quantity ? { stockReservationQuantity: quantity } : {};
   const bookingParamsMaybe = bookingDates || {};
 
   // Parameters only for client app's server
-  const orderData = {
+  /*const orderData = {
     deliveryMethod:'shipping', quantity:'1',
   };
-
+*/
   const bookingData = {
-    deliveryMethod:'shipping', quantity:'1',
+    deliveryMethod:orderData['quantity'], quantity:orderData['quantity'],
   };
 
   // Parameters for Flex API
@@ -195,6 +192,7 @@ export const initiateOrder = (orderParams, transactionId) => (dispatch, getState
     ...otherOrderParams,
   };
 
+  console.log("ORD DA", isTransition, orderData, bookingData, transitionParams);
   const bodyParams = isTransition
     ? {
         id: transactionId,
@@ -333,15 +331,17 @@ export const speculateTransaction = (orderParams, transactionId) => (dispatch, g
     : TRANSITION_REQUEST_PAYMENT;
   const isPrivilegedTransition = isPrivileged(transition);
 
-  const { deliveryMethod, quantity, bookingDates, ...otherOrderParams } = orderParams;
-  const quantityMaybe = quantity ? { stockReservationQuantity: quantity+6 } : {};
+  const { deliveryMethod, quantity, bookingData, bookingDates, ...otherOrderParams } = orderParams;
+  console.log("HERE IN 353", quantity, orderParams)
+  const quantityMaybe = quantity ? { stockReservationQuantity: quantity } : {};
   const bookingParamsMaybe = bookingDates || {};
 
   // Parameters only for client app's server
   const orderData = {
-    deliveryMethod:'shipping', quantity:'1',
+    deliveryMethod:deliveryMethod, quantity:quantity,
   };
 
+  console.log("JERE in 347", orderData, bookingData);
   // Parameters for Flex API
   const transitionParams = {
     ...quantityMaybe,
@@ -383,9 +383,6 @@ export const speculateTransaction = (orderParams, transactionId) => (dispatch, g
       ...orderData,
     });
     return dispatch(speculateTransactionError(storableError(e)));
-  };
-  let bookingData = {
-    deliveryMethod:'shipping', quantity:'1',
   };
   if (isTransition && isPrivilegedTransition) {
     console.log("IN 382");
